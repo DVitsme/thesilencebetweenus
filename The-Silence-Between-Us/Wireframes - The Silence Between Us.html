@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wireframes — The Silence Between Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Kalam:wght@300;400;700&family=Architects+Daughter&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#23211d;
+    --ink-soft:#55524a;
+    --paper:#f5f3ec;
+    --card:#fbfaf5;
+    --muted:#9a968c;
+    --line:#c8c4b8;
+    --line-soft:#ded9cc;
+    --accent:#ffd23f;        /* highlighter */
+    --accent-ink:#6b5600;
+    --blue:#cfe0ef;          /* faint "secure / interactive" tint */
+    --blue-ink:#2f5d86;
+    --radius-sketch:255px 14px 225px 16px/16px 225px 14px 255px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Kalam',cursive;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* faint grid paper */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:linear-gradient(var(--line-soft) 1px,transparent 1px),linear-gradient(90deg,var(--line-soft) 1px,transparent 1px);
+    background-size:28px 28px;opacity:.35;
+  }
+
+  /* ---------- Toolbar ---------- */
+  .toolbar{
+    position:sticky;top:0;z-index:50;
+    display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+    padding:12px 22px;
+    background:rgba(245,243,236,.94);
+    backdrop-filter:blur(6px);
+    border-bottom:2px solid var(--ink);
+  }
+  .brand{display:flex;flex-direction:column;line-height:1;}
+  .brand .k{font-family:'Caveat';font-weight:700;font-size:24px;}
+  .brand .s{font-family:'Kalam';font-size:11px;color:var(--muted);letter-spacing:.5px;}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;flex:1;}
+  .tab{
+    font-family:'Kalam';font-size:14px;font-weight:700;
+    background:var(--card);color:var(--ink-soft);
+    border:2px solid var(--ink);border-radius:var(--radius-sketch);
+    padding:7px 14px;cursor:pointer;transition:transform .08s, background .15s;
+  }
+  .tab:nth-child(even){border-radius:14px 225px 16px 255px/225px 16px 255px 14px;}
+  .tab:hover{transform:translateY(-1px) rotate(-.4deg);}
+  .tab.active{background:var(--accent);color:var(--accent-ink);box-shadow:2px 2px 0 var(--ink);}
+  .tweaks{display:flex;gap:8px;align-items:center;}
+  .tgl{
+    font-family:'Kalam';font-size:12px;font-weight:700;color:var(--ink-soft);
+    background:var(--card);border:2px dashed var(--line);border-radius:10px;
+    padding:6px 11px;cursor:pointer;display:flex;align-items:center;gap:7px;user-select:none;
+  }
+  .tgl .dot{width:11px;height:11px;border:2px solid var(--ink);border-radius:50%;background:transparent;}
+  .tgl.on .dot{background:var(--accent);}
+  .tgl.on{border-style:solid;border-color:var(--ink);}
+
+  /* ---------- Board layout ---------- */
+  main{position:relative;z-index:1;padding:34px 20px 120px;}
+  .board{display:none;}
+  .board.active{display:block;opacity:1;}
+  @media (prefers-reduced-motion: no-preference){
+    .board.active{animation:fade .25s ease both;}
+  }
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .board-head{max-width:1180px;margin:0 auto 22px;display:flex;gap:16px;align-items:flex-start;}
+  .board-head .num{
+    font-family:'Caveat';font-weight:700;font-size:46px;line-height:.8;
+    background:var(--accent);border:2px solid var(--ink);border-radius:var(--radius-sketch);
+    padding:10px 16px;box-shadow:3px 3px 0 var(--ink);white-space:nowrap;
+  }
+  .board-head h2{font-family:'Caveat';font-weight:700;font-size:32px;margin:0 0 2px;}
+  .board-head p{margin:0;font-size:14.5px;color:var(--ink-soft);max-width:760px;}
+
+  /* ---------- Browser frame ---------- */
+  .browser{
+    max-width:1180px;margin:0 auto;
+    background:var(--card);border:2.5px solid var(--ink);
+    border-radius:16px;overflow:hidden;box-shadow:6px 7px 0 rgba(35,33,29,.16);
+  }
+  .browser + .browser{margin-top:40px;}
+  .chrome{
+    display:flex;align-items:center;gap:8px;padding:9px 14px;
+    border-bottom:2px solid var(--ink);background:var(--paper);
+  }
+  .chrome .dots{display:flex;gap:6px;}
+  .chrome .dots i{width:11px;height:11px;border:2px solid var(--ink);border-radius:50%;display:block;}
+  .chrome .url{
+    flex:1;background:var(--card);border:2px solid var(--line);border-radius:8px;
+    font-family:'Kalam';font-size:12px;color:var(--muted);padding:4px 12px;text-align:center;
+  }
+  .chrome .tag{font-size:11px;color:var(--muted);font-weight:700;}
+  .screen{padding:0;}
+
+  /* ---------- Wireframe primitives ---------- */
+  .ph{
+    position:relative;border:2px solid var(--ink);border-radius:6px;overflow:hidden;
+    background:
+      repeating-linear-gradient(45deg, transparent, transparent 9px, rgba(35,33,29,.07) 9px, rgba(35,33,29,.07) 11px);
+    display:flex;align-items:center;justify-content:center;color:var(--ink-soft);
+    font-family:'Architects Daughter';font-size:12px;letter-spacing:.5px;text-align:center;padding:8px;
+  }
+  .ph .x{position:absolute;inset:0;}
+  .ph .x::before,.ph .x::after{content:"";position:absolute;inset:0;border-top:2px solid rgba(35,33,29,.18);}
+  .ph .x::before{transform:rotate(0);top:50%;display:none;}
+  .ph span{position:relative;z-index:1;background:var(--card);padding:3px 8px;border:1.5px solid var(--line);border-radius:5px;}
+  .avatar{border-radius:50%;}
+  .bars{display:flex;flex-direction:column;gap:7px;}
+  .bar{height:9px;background:var(--line);border-radius:5px;}
+  .bar.sm{height:8px;}
+  .bar.dark{background:var(--ink-soft);}
+  .lbl{
+    font-family:'Architects Daughter';font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--muted);font-weight:400;
+  }
+  .h-fake{font-family:'Caveat';font-weight:700;line-height:1.02;color:var(--ink);}
+  .btn{
+    display:inline-flex;align-items:center;gap:7px;font-family:'Kalam';font-weight:700;font-size:14px;
+    border:2px solid var(--ink);border-radius:var(--radius-sketch);padding:8px 16px;background:var(--card);color:var(--ink);
+    cursor:default;white-space:nowrap;
+  }
+  .btn.primary{background:var(--accent);box-shadow:2px 2px 0 var(--ink);color:var(--accent-ink);}
+  .btn.ghost{background:transparent;border-style:dashed;color:var(--ink-soft);}
+  .btn.block{display:flex;width:100%;justify-content:center;}
+  .chip{
+    font-family:'Kalam';font-weight:700;font-size:12px;border:2px solid var(--ink);border-radius:20px;
+    padding:4px 11px;background:var(--card);display:inline-flex;align-items:center;gap:6px;
+  }
+  .chip.on{background:var(--accent);color:var(--accent-ink);}
+  .field{
+    border:2px solid var(--line);border-radius:8px;background:var(--card);padding:9px 12px;
+    font-family:'Architects Daughter';font-size:12px;color:var(--muted);
+  }
+  .secure{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--blue-ink);
+    background:var(--blue);border:2px solid var(--blue-ink);border-radius:8px;padding:5px 10px;font-weight:700;}
+
+  /* annotation notes */
+  .note{
+    position:relative;font-family:'Caveat';font-weight:600;font-size:17px;color:var(--accent-ink);
+    background:#fff7d6;border:2px solid var(--accent);border-radius:var(--radius-sketch);
+    padding:8px 13px;margin:14px 0;display:flex;gap:8px;align-items:flex-start;line-height:1.15;
+  }
+  .note::before{content:"✎";font-size:16px;flex:none;}
+  body.no-notes .note{display:none;}
+  body.no-sketch :is(.tab,.btn,.ph,.note,.board-head .num,.chip){border-radius:8px !important;}
+  body.no-sketch .tab{box-shadow:none;}
+
+  /* section helpers inside screens */
+  .sec{padding:30px 40px;border-bottom:1.5px dashed var(--line-soft);}
+  .sec:last-child{border-bottom:0;}
+  .sec.tint{background:var(--paper);}
+  .sec.dark{background:#26241f;color:#f1efe7;}
+  .sec.dark .lbl{color:#b7b2a4;}
+  .sec.dark .h-fake{color:#fff;}
+  .sec.dark .bar{background:#4a473f;}
+  .sec.accentband{background:var(--accent);}
+  .row{display:flex;gap:24px;}
+  .col{flex:1;min-width:0;}
+  .center{text-align:center;}
+  .stack{display:flex;flex-direction:column;}
+  .between{display:flex;justify-content:space-between;align-items:center;gap:16px;}
+  .wrap{display:flex;flex-wrap:wrap;gap:10px;}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .card-wf{border:2px solid var(--ink);border-radius:10px;background:var(--card);padding:16px;}
+  .card-wf.soft{border:2px dashed var(--line);}
+  .stat .big{font-family:'Caveat';font-weight:700;font-size:34px;line-height:.9;}
+  .stat .cap{font-size:12px;color:var(--ink-soft);}
+  .logo-pill{height:38px;border:2px dashed var(--line);border-radius:7px;display:flex;align-items:center;justify-content:center;
+    font-family:'Architects Daughter';font-size:10.5px;color:var(--muted);text-align:center;padding:0 6px;background:var(--card);}
+  .navmock{display:flex;align-items:center;gap:18px;padding:16px 40px;border-bottom:2px solid var(--ink);background:var(--card);}
+  .navmock .nm-link{font-size:13px;color:var(--ink-soft);font-weight:700;}
+  .price{font-family:'Caveat';font-weight:700;font-size:30px;}
+  .step-ind{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .step-ind .s{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--muted);}
+  .step-ind .s .n{width:22px;height:22px;border:2px solid var(--line);border-radius:50%;display:grid;place-items:center;font-size:11px;}
+  .step-ind .s.cur{color:var(--ink);}
+  .step-ind .s.cur .n{background:var(--accent);border-color:var(--ink);color:var(--accent-ink);}
+  .step-ind .s.done .n{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .arrowto{color:var(--line);font-weight:700;}
+  .tick{width:18px;height:18px;border:2px solid var(--ink);border-radius:5px;display:grid;place-items:center;font-size:11px;background:var(--accent);flex:none;}
+  ul.benefits{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;}
+  ul.benefits li{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:var(--ink-soft);}
+  .pull{font-family:'Caveat';font-weight:700;font-size:30px;line-height:1.05;color:var(--ink);}
+  .footwf{background:#26241f;color:#cfccc2;padding:26px 40px;font-size:12.5px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+
+  @media(max-width:740px){
+    .row,.grid3,.grid4,.grid2{flex-direction:column;grid-template-columns:1fr;}
+    .sec{padding:22px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand">
+    <span class="k">Wireframes</span>
+    <span class="s">The Silence Between Us · donation rebuild</span>
+  </div>
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-go="a">A · Long Scroll</button>
+    <button class="tab" data-go="b">B · Sticky Give</button>
+    <button class="tab" data-go="c">C · Editorial</button>
+    <button class="tab" data-go="give">Give / Checkout</button>
+    <button class="tab" data-go="wall">Supporters Wall</button>
+    <button class="tab" data-go="ty">Thank You</button>
+  </nav>
+  <div class="tweaks">
+    <button class="tgl on" id="t-notes"><span class="dot"></span>Annotations</button>
+    <button class="tgl on" id="t-sketch"><span class="dot"></span>Hand-drawn</button>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ BOARD A — LONG SCROLL ============ -->
+<section class="board active" data-board="a">
+  <div class="board-head">
+    <div class="num">A</div>
+    <div>
+      <h2>The Long Scroll — cinematic single page</h2>
+      <p>One continuous page. Lead with the film, drop a trust signal immediately, then walk the skeptic down through story → tiers → filmmaker → proof → ask. Every section ends in a way that earns the next scroll. Best when the trailer/stills do heavy lifting.</p>
+    </div>
+  </div>
+
+  <div class="browser">
+    <div class="chrome"><div class="dots"><i></i><i></i><i></i></div><div class="url">thesilencebetweenus.film</div><span class="tag">desktop · landing</span></div>
+    <div class="screen">
+
+      <!-- sticky nav -->
+      <div class="navmock">
+        <div class="h-fake" style="font-size:20px;">The Silence Between Us</div>
+        <span class="nm-link">The Film</span><span class="nm-link">Support</span><span class="nm-link">Supporters</span>
+        <div style="flex:1"></div>
+        <span class="btn ghost">Watch trailer</span>
+        <span class="btn primary">Contribute ▸</span>
+      </div>
+
+      <!-- hero -->
+      <div class="sec" style="padding:0;border:0;">
+        <div class="ph" style="height:330px;border-radius:0;border-left:0;border-right:0;border-top:0;">
+          <span>FULL-BLEED FILM STILL or muted trailer loop</span>
+        </div>
+        <div class="sec" style="border:0;">
+          <div class="lbl">A film by Kevin Cameron · Take 3 Media</div>
+          <div class="h-fake" style="font-size:54px;margin:6px 0 8px;">The Silence Between Us</div>
+          <div style="max-width:620px;font-size:16px;color:var(--ink-soft);">The anxiety and depression teenagers carry in silence — and the teacher who helps them be seen, heard, and understood.</div>
+          <div class="wrap" style="margin-top:18px;">
+            <span class="btn primary">Make a contribution ▸</span>
+            <span class="btn">▶ Watch the trailer</span>
+          </div>
+        </div>
+      </div>
+      <div class="note">Above the fold = title + one promise + the ask. Nothing else competes.</div>
+
+      <!-- proof strip -->
+      <div class="sec tint">
+        <div class="grid4">
+          <div class="stat"><div class="big">Prime</div><div class="cap">Last feature streaming on Amazon today</div></div>
+          <div class="stat"><div class="big">9–10</div><div class="cap">City premiere tour, US &amp; Canada</div></div>
+          <div class="stat"><div class="big">400+</div><div class="cap">At the sold-out Toronto premiere</div></div>
+          <div class="stat"><div class="big">500+</div><div class="cap">Films produced for brands &amp; nonprofits</div></div>
+        </div>
+      </div>
+      <div class="note">Trust signal lands BEFORE the long read — skeptic gets a reason to keep going.</div>
+
+      <!-- the film -->
+      <div class="sec">
+        <div class="row">
+          <div class="col">
+            <div class="lbl">The Film</div>
+            <div class="h-fake" style="font-size:30px;margin:4px 0 12px;">A story our young people need told</div>
+            <div class="bars"><div class="bar"></div><div class="bar"></div><div class="bar" style="width:90%"></div><div class="bar" style="width:75%"></div></div>
+            <div style="height:14px"></div>
+            <div class="bars"><div class="bar"></div><div class="bar" style="width:80%"></div></div>
+          </div>
+          <div class="col"><div class="ph" style="height:240px;"><span>STILL — classroom / teacher moment</span></div></div>
+        </div>
+      </div>
+
+      <!-- tiers -->
+      <div class="sec tint">
+        <div class="center"><div class="lbl">Choose your part</div><div class="h-fake" style="font-size:30px;margin:4px 0 18px;">Become a Founding Supporter</div></div>
+        <div class="grid3">
+          <div class="card-wf" style="border-color:var(--ink);box-shadow:3px 3px 0 var(--ink);">
+            <div class="between"><b>Supporter</b><span class="chip on">Popular</span></div>
+            <div class="price">$175</div>
+            <ul class="benefits">
+              <li><span class="tick">✓</span>On-screen "Supporter" credit</li>
+              <li><span class="tick">✓</span>Virtual meet &amp; greet w/ director</li>
+              <li><span class="tick">✓</span>Founding Supporters webpage listing</li>
+              <li><span class="tick">✓</span>Quarterly production updates</li>
+              <li><span class="tick">✓</span>First look at the trailer</li>
+            </ul>
+            <div style="height:12px"></div><span class="btn primary block">Choose Supporter</span>
+          </div>
+          <div class="card-wf">
+            <div class="between"><b>Partner</b></div>
+            <div class="price">$XXX</div>
+            <div class="lbl" style="margin:8px 0">Everything in Supporter, plus</div>
+            <div class="bars"><div class="bar"></div><div class="bar" style="width:85%"></div><div class="bar" style="width:70%"></div></div>
+            <div style="height:12px"></div><span class="btn block">Choose Partner</span>
+          </div>
+          <div class="card-wf">
+            <div class="between"><b>Patron</b></div>
+            <div class="price">$X,XXX</div>
+            <div class="lbl" style="margin:8px 0">Everything in Partner, plus</div>
+            <div class="bars"><div class="bar"></div><div class="bar" style="width:85%"></div><div class="bar" style="width:70%"></div></div>
+            <div style="height:12px"></div><span class="btn block">Choose Patron</span>
+          </div>
+        </div>
+        <div class="card-wf soft between" style="margin-top:16px;">
+          <div><b>Give any amount</b> <span style="color:var(--muted);font-size:13px;">— every dollar helps this story get made.</span></div>
+          <div class="wrap"><span class="field">$ ____</span><span class="btn">Contribute ▸</span></div>
+        </div>
+      </div>
+      <div class="note">Tiers + a free "any amount" lane so nobody bounces on price.</div>
+
+      <!-- filmmaker -->
+      <div class="sec">
+        <div class="row">
+          <div class="col" style="flex:0 0 200px;"><div class="ph avatar" style="width:180px;height:180px;border-radius:50%;"><span>KEVIN CAMERON</span></div></div>
+          <div class="col">
+            <div class="lbl">Meet the filmmaker</div>
+            <div class="h-fake" style="font-size:30px;margin:4px 0 10px;">This story is in careful hands.</div>
+            <div class="bars"><div class="bar"></div><div class="bar"></div><div class="bar" style="width:88%"></div></div>
+            <div class="wrap" style="margin-top:12px;"><span class="chip">▶ For His Name's Sake · on Amazon Prime</span><span class="chip">Former educator</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- proof / logos + testimonials -->
+      <div class="sec dark">
+        <div class="center"><div class="lbl">Trusted to tell their stories</div></div>
+        <div style="height:14px"></div>
+        <div class="lbl" style="margin-bottom:8px;">Mental health &amp; community</div>
+        <div class="grid3" style="gap:12px;"><div class="logo-pill">Murtis Taylor</div><div class="logo-pill">ADAMHS Cuyahoga</div><div class="logo-pill">Cleveland Peacemakers</div></div>
+        <div style="height:14px"></div>
+        <div class="lbl" style="margin-bottom:8px;">Education &amp; faith</div>
+        <div class="grid3" style="gap:12px;"><div class="logo-pill">Cleveland Metro Schools</div><div class="logo-pill">Oakwood University</div><div class="logo-pill">SDA Conferences</div></div>
+        <div style="height:22px"></div>
+        <div class="grid2">
+          <div class="card-wf" style="background:#302e28;border-color:#4a473f;">
+            <div class="pull" style="color:#fff;">“___________ ___ ______ ___ ____.”</div>
+            <div class="lbl" style="margin-top:10px;">— Endorser name, title</div>
+          </div>
+          <div class="card-wf" style="background:#302e28;border-color:#4a473f;">
+            <div class="pull" style="color:#fff;">“___________ ___ ______ ___ ____.”</div>
+            <div class="lbl" style="margin-top:10px;">— Endorser name, title</div>
+          </div>
+        </div>
+      </div>
+      <div class="note">Logo wall LEADS with mental-health orgs — the closest proof to this exact story.</div>
+
+      <!-- final CTA -->
+      <div class="sec accentband center">
+        <div class="h-fake" style="font-size:38px;">Help this story be told.</div>
+        <div style="color:var(--accent-ink);font-size:15px;margin:6px 0 16px;">Join the Founding Supporters. Secure checkout, instant credit.</div>
+        <span class="btn" style="background:#26241f;color:#fff;border-color:#26241f;">Make a contribution ▸</span>
+      </div>
+
+      <!-- footer -->
+      <div class="footwf">
+        <div><b>The Silence Between Us</b><br/>Take 3 Media · creative production</div>
+        <div>Donations administered by<br/>KC Films &amp; Media</div>
+        <div><span class="secure">🔒 Secure payments via Stripe</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOARD B — STICKY GIVE ============ -->
+<section class="board" data-board="b">
+  <div class="board-head">
+    <div class="num">B</div>
+    <div>
+      <h2>Trust-First Split — the ask never leaves the screen</h2>
+      <p>Two columns. The left tells the story and stacks proof; the right is a sticky give-card pinned in view the whole scroll. The skeptic reads as much as they need, and the moment they're convinced the button is right there — no scrolling back. Highest-conversion layout.</p>
+    </div>
+  </div>
+
+  <div class="browser">
+    <div class="chrome"><div class="dots"><i></i><i></i><i></i></div><div class="url">thesilencebetweenus.film/support</div><span class="tag">desktop · landing + give</span></div>
+    <div class="screen">
+      <div class="navmock">
+        <div class="h-fake" style="font-size:20px;">The Silence Between Us</div>
+        <div style="flex:1"></div>
+        <span class="nm-link">The Film</span><span class="nm-link">Supporters</span><span class="secure">🔒 Stripe secured</span>
+      </div>
+
+      <div class="sec" style="padding:0;">
+        <div class="row" style="gap:0;align-items:stretch;">
+
+          <!-- LEFT scroll content -->
+          <div class="col" style="flex:1.5;padding:34px 34px 40px;">
+            <div class="lbl">A film by Kevin Cameron</div>
+            <div class="h-fake" style="font-size:44px;margin:6px 0 10px;">The story our teenagers can't say out loud.</div>
+            <div style="font-size:15px;color:var(--ink-soft);max-width:560px;">Anxiety, depression, isolation — and the teacher who helps them be seen. Here's why it's worth making, and who's making it.</div>
+
+            <div class="ph" style="height:220px;margin:22px 0;"><span>FILM STILL / trailer poster</span></div>
+
+            <!-- proof bar -->
+            <div class="grid2" style="gap:12px;">
+              <div class="card-wf soft"><div class="stat"><div class="big">Prime</div><div class="cap">Last feature on Amazon today</div></div></div>
+              <div class="card-wf soft"><div class="stat"><div class="big">400+</div><div class="cap">Sold-out Toronto premiere</div></div></div>
+              <div class="card-wf soft"><div class="stat"><div class="big">9–10</div><div class="cap">City premiere tour</div></div></div>
+              <div class="card-wf soft"><div class="stat"><div class="big">500+</div><div class="cap">Films produced</div></div></div>
+            </div>
+
+            <div style="height:24px"></div>
+            <div class="lbl">Meet the filmmaker</div>
+            <div class="row" style="margin-top:8px;">
+              <div class="ph avatar" style="width:88px;height:88px;flex:none;"><span>KC</span></div>
+              <div class="col">
+                <div class="h-fake" style="font-size:24px;">This story is in careful hands.</div>
+                <div class="bars" style="margin-top:8px;"><div class="bar"></div><div class="bar" style="width:80%"></div></div>
+              </div>
+            </div>
+
+            <div style="height:24px"></div>
+            <div class="lbl">Trusted to tell their stories</div>
+            <div class="wrap" style="margin-top:10px;">
+              <div class="logo-pill" style="flex:1;min-width:120px;">Murtis Taylor</div>
+              <div class="logo-pill" style="flex:1;min-width:120px;">ADAMHS Cuyahoga</div>
+              <div class="logo-pill" style="flex:1;min-width:120px;">Peacemakers Alliance</div>
+              <div class="logo-pill" style="flex:1;min-width:120px;">Cleveland Metro Schools</div>
+              <div class="logo-pill" style="flex:1;min-width:120px;">Oakwood University</div>
+              <div class="logo-pill" style="flex:1;min-width:120px;">+ brand partners</div>
+            </div>
+
+            <div style="height:22px"></div>
+            <div class="card-wf"><div class="pull">“__________ _____ ___ ______.”</div><div class="lbl" style="margin-top:8px;">— Endorser, mental-health partner</div></div>
+          </div>
+
+          <!-- RIGHT sticky give card -->
+          <div class="col" style="flex:1;border-left:2px solid var(--ink);background:var(--paper);padding:0;">
+            <div style="position:sticky;top:0;padding:28px 26px;">
+              <div class="card-wf" style="box-shadow:4px 4px 0 var(--ink);">
+                <div class="lbl">Become a Founding Supporter</div>
+                <div class="h-fake" style="font-size:24px;margin:2px 0 14px;">Choose your contribution</div>
+                <div class="stack" style="gap:9px;">
+                  <div class="chip on" style="justify-content:space-between;width:100%;border-radius:10px;padding:10px 12px;"><span>● Supporter</span><b>$175</b></div>
+                  <div class="chip" style="justify-content:space-between;width:100%;border-radius:10px;padding:10px 12px;"><span>○ Partner</span><b>$XXX</b></div>
+                  <div class="chip" style="justify-content:space-between;width:100%;border-radius:10px;padding:10px 12px;"><span>○ Patron</span><b>$X,XXX</b></div>
+                  <div class="chip" style="justify-content:space-between;width:100%;border-radius:10px;padding:10px 12px;"><span>○ Any amount</span><span class="field" style="padding:3px 8px;">$ ___</span></div>
+                </div>
+                <div style="height:14px"></div>
+                <div class="stack" style="gap:8px;">
+                  <div class="field">Full name</div>
+                  <div class="field">List my name in credits as…</div>
+                  <div class="field">Email</div>
+                  <div class="field" style="display:flex;justify-content:space-between;">Card details <span>•••• 4242</span></div>
+                </div>
+                <div style="height:12px"></div>
+                <span class="btn primary block">Contribute $175 ▸</span>
+                <div class="center" style="margin-top:10px;"><span class="secure">🔒 Secured by Stripe</span></div>
+                <div class="lbl" style="margin-top:12px;">Included with Supporter</div>
+                <ul class="benefits" style="margin-top:6px;">
+                  <li><span class="tick">✓</span>On-screen credit</li>
+                  <li><span class="tick">✓</span>Virtual meet &amp; greet</li>
+                  <li><span class="tick">✓</span>Supporters wall listing</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="note">The give-card is <b>sticky</b> — pins as the left column scrolls. Tier selection updates the button amount live. On mobile it collapses to a sticky bottom bar.</div>
+</section>
+
+<!-- ============ BOARD C — EDITORIAL ============ -->
+<section class="board" data-board="c">
+  <div class="board-head">
+    <div class="num">C</div>
+    <div>
+      <h2>Story-Driven Editorial — feel it before you fund it</h2>
+      <p>Quiet, magazine-style. Big restrained type, lots of air, the teens are the emotional center and Kevin is the credibility. The ask comes <em>after</em> the reader is moved — a dedicated "Support" step rather than an in-your-face card. Best for an audience that distrusts a hard sell.</p>
+    </div>
+  </div>
+
+  <div class="browser">
+    <div class="chrome"><div class="dots"><i></i><i></i><i></i></div><div class="url">thesilencebetweenus.film</div><span class="tag">desktop · editorial landing</span></div>
+    <div class="screen">
+      <div class="navmock" style="justify-content:center;border-bottom:1.5px dashed var(--line);">
+        <div class="h-fake" style="font-size:18px;letter-spacing:1px;">THE SILENCE BETWEEN US</div>
+      </div>
+
+      <!-- quiet hero -->
+      <div class="sec center" style="padding:70px 40px 50px;">
+        <div class="lbl">A feature film · in production</div>
+        <div class="h-fake" style="font-size:52px;max-width:780px;margin:14px auto 0;line-height:1.04;">Some battles a teenager fights are completely silent.</div>
+        <div style="max-width:520px;margin:16px auto 0;color:var(--ink-soft);font-size:16px;">The Silence Between Us gives that silence a voice — and you can help tell it.</div>
+        <div style="margin-top:22px;"><span class="btn primary">Support the film ▸</span> &nbsp; <span style="color:var(--muted);font-size:13px;">↓ read the story first</span></div>
+      </div>
+
+      <!-- full bleed still -->
+      <div class="ph" style="height:300px;border-radius:0;border-left:0;border-right:0;"><span>FULL-BLEED CINEMATIC STILL</span></div>
+
+      <!-- narrow editorial column: the teens -->
+      <div class="sec" style="padding:46px 40px;">
+        <div style="max-width:620px;margin:0 auto;">
+          <div class="lbl center" style="margin-bottom:18px;">The ones it's for</div>
+          <div class="pull center" style="font-size:34px;margin-bottom:22px;">“___ ______ ____ ___ ___ _____ ____ __ ____, ___ ____ ____.”</div>
+          <div class="bars"><div class="bar"></div><div class="bar"></div><div class="bar" style="width:92%"></div><div class="bar" style="width:80%"></div></div>
+          <div style="height:14px"></div>
+          <div class="bars"><div class="bar"></div><div class="bar" style="width:88%"></div></div>
+        </div>
+      </div>
+
+      <!-- the teacher / split -->
+      <div class="sec tint" style="padding:0;">
+        <div class="row" style="gap:0;align-items:stretch;">
+          <div class="col"><div class="ph" style="height:100%;min-height:280px;border:0;border-right:2px solid var(--ink);"><span>STILL — the teacher</span></div></div>
+          <div class="col" style="padding:40px;">
+            <div class="lbl">A guiding light</div>
+            <div class="h-fake" style="font-size:30px;margin:6px 0 12px;">One teacher decides to really see them.</div>
+            <div class="bars"><div class="bar"></div><div class="bar"></div><div class="bar" style="width:78%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- filmmaker ~50/50 -->
+      <div class="sec" style="padding:46px 40px;">
+        <div class="row" style="align-items:center;">
+          <div class="col">
+            <div class="lbl">The filmmaker</div>
+            <div class="h-fake" style="font-size:30px;margin:6px 0 12px;">This story is in careful hands.</div>
+            <div class="bars"><div class="bar"></div><div class="bar" style="width:90%"></div><div class="bar" style="width:75%"></div></div>
+            <div class="wrap" style="margin-top:14px;"><span class="chip">▶ For His Name's Sake · Amazon Prime</span><span class="chip">Former educator</span></div>
+          </div>
+          <div class="col" style="flex:0 0 240px;"><div class="ph" style="height:240px;"><span>KEVIN CAMERON — portrait</span></div></div>
+        </div>
+      </div>
+
+      <!-- proof, understated -->
+      <div class="sec tint center">
+        <div class="lbl">Why you can trust this</div>
+        <div class="grid4" style="margin-top:16px;">
+          <div class="stat"><div class="big">Prime</div><div class="cap">streaming feature</div></div>
+          <div class="stat"><div class="big">400+</div><div class="cap">Toronto premiere</div></div>
+          <div class="stat"><div class="big">9–10</div><div class="cap">city tour</div></div>
+          <div class="stat"><div class="big">500+</div><div class="cap">films produced</div></div>
+        </div>
+        <div class="wrap" style="justify-content:center;margin-top:22px;">
+          <div class="logo-pill">Murtis Taylor</div><div class="logo-pill">ADAMHS Cuyahoga</div><div class="logo-pill">Peacemakers</div>
+          <div class="logo-pill">Cleveland Schools</div><div class="logo-pill">Oakwood Univ.</div>
+        </div>
+      </div>
+
+      <!-- tiers as quiet table -->
+      <div class="sec" style="padding:46px 40px;">
+        <div class="center"><div class="lbl">Support the film</div><div class="h-fake" style="font-size:30px;margin:6px 0 20px;">Three ways to become a Founding Supporter</div></div>
+        <div class="stack" style="gap:0;border:2px solid var(--ink);border-radius:10px;overflow:hidden;max-width:720px;margin:0 auto;">
+          <div class="between" style="padding:16px 20px;border-bottom:1.5px dashed var(--line);"><div><b>Supporter</b> <span style="color:var(--muted);font-size:13px;">· credit, meet &amp; greet, wall listing</span></div><div class="wrap"><span class="price" style="font-size:24px;">$175</span><span class="btn">Choose ▸</span></div></div>
+          <div class="between" style="padding:16px 20px;border-bottom:1.5px dashed var(--line);"><div><b>Partner</b> <span style="color:var(--muted);font-size:13px;">· everything in Supporter +…</span></div><div class="wrap"><span class="price" style="font-size:24px;">$XXX</span><span class="btn">Choose ▸</span></div></div>
+          <div class="between" style="padding:16px 20px;border-bottom:1.5px dashed var(--line);"><div><b>Patron</b> <span style="color:var(--muted);font-size:13px;">· everything in Partner +…</span></div><div class="wrap"><span class="price" style="font-size:24px;">$X,XXX</span><span class="btn">Choose ▸</span></div></div>
+          <div class="between" style="padding:16px 20px;background:var(--paper);"><div><b>Give any amount</b></div><div class="wrap"><span class="field">$ ____</span><span class="btn primary">Contribute ▸</span></div></div>
+        </div>
+      </div>
+
+      <div class="footwf">
+        <div><b>The Silence Between Us</b><br/>Take 3 Media</div>
+        <div>Donations administered by KC Films &amp; Media</div>
+        <div><span class="secure">🔒 Secure payments via Stripe</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="note">The ask is deferred to a dedicated step — pressure-free. "Support the film" links carry the chosen tier into the Give / Checkout page.</div>
+</section>
+
+<!-- ============ GIVE / CHECKOUT ============ -->
+<section class="board" data-board="give">
+  <div class="board-head">
+    <div class="num">$</div>
+    <div>
+      <h2>Give / Checkout — the Stripe step</h2>
+      <p>Shared across all three directions. Two panes: a locked-in order summary (so they always see what they're getting) and a short Stripe form. Every trust signal that matters at the moment of payment lives here.</p>
+    </div>
+  </div>
+
+  <div class="browser">
+    <div class="chrome"><div class="dots"><i></i><i></i><i></i></div><div class="url">thesilencebetweenus.film/give</div><span class="tag">checkout</span></div>
+    <div class="screen">
+      <div class="sec" style="border-bottom:2px solid var(--ink);">
+        <div class="step-ind">
+          <div class="s done"><span class="n">✓</span>Choose tier</div><span class="arrowto">→</span>
+          <div class="s cur"><span class="n">2</span>Your details &amp; payment</div><span class="arrowto">→</span>
+          <div class="s"><span class="n">3</span>Done</div>
+        </div>
+      </div>
+
+      <div class="row" style="gap:0;align-items:stretch;">
+        <!-- order summary -->
+        <div class="col" style="flex:1;background:var(--paper);padding:34px;border-right:2px solid var(--ink);">
+          <div class="lbl">Your contribution</div>
+          <div class="card-wf" style="margin-top:12px;">
+            <div class="between"><b style="font-size:18px;">Tier 1 · Supporter</b><span class="price" style="font-size:26px;">$175</span></div>
+            <div class="between" style="margin-top:6px;"><span style="color:var(--muted);font-size:13px;">Change tier or amount</span><span class="field" style="padding:3px 8px;">edit ✎</span></div>
+            <hr style="border:0;border-top:1.5px dashed var(--line);margin:14px 0;" />
+            <div class="lbl">What you'll receive</div>
+            <ul class="benefits" style="margin-top:8px;">
+              <li><span class="tick">✓</span>On-screen "Supporter" credit</li>
+              <li><span class="tick">✓</span>Virtual meet &amp; greet with director &amp; cast</li>
+              <li><span class="tick">✓</span>Founding Supporters webpage listing</li>
+              <li><span class="tick">✓</span>Quarterly production updates</li>
+              <li><span class="tick">✓</span>First look at the trailer</li>
+            </ul>
+          </div>
+          <div class="wrap" style="margin-top:16px;">
+            <span class="secure">🔒 Stripe</span><span class="secure" style="background:#e7f0e3;color:#3a6b39;border-color:#3a6b39;">↩ Refundable before production</span>
+          </div>
+          <div class="note">Order recap stays visible so the value never drops out of sight while they type card details.</div>
+        </div>
+
+        <!-- form -->
+        <div class="col" style="flex:1.1;padding:34px;">
+          <div class="lbl">Your details</div>
+          <div class="stack" style="gap:11px;margin-top:10px;">
+            <div><div class="lbl" style="margin-bottom:4px;">Full name</div><div class="field">Jane Doe</div></div>
+            <div><div class="lbl" style="margin-bottom:4px;">How your name appears in credits</div><div class="field">e.g. The Doe Family</div></div>
+            <div><div class="lbl" style="margin-bottom:4px;">Email (receipt &amp; updates)</div><div class="field">jane@email.com</div></div>
+          </div>
+          <div style="height:18px"></div>
+          <div class="lbl">Payment · <span style="color:var(--blue-ink);">Stripe</span></div>
+          <div class="stack" style="gap:11px;margin-top:10px;">
+            <div class="field between">Card number <span>•••• •••• •••• ____</span></div>
+            <div class="row" style="gap:11px;"><div class="field col">MM / YY</div><div class="field col">CVC</div><div class="field col">ZIP</div></div>
+          </div>
+          <div style="height:10px"></div>
+          <label class="lbl" style="display:flex;gap:8px;align-items:center;"><span class="tick" style="background:var(--card);">✓</span> Make this a monthly gift (optional)</label>
+          <div style="height:18px"></div>
+          <span class="btn primary block" style="font-size:16px;padding:13px;">Pay $175 securely ▸</span>
+          <div class="center" style="margin-top:12px;color:var(--muted);font-size:12px;">Administered by KC Films &amp; Media · Take 3 Media production</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SUPPORTERS WALL ============ -->
+<section class="board" data-board="wall">
+  <div class="board-head">
+    <div class="num">★</div>
+    <div>
+      <h2>Founding Supporters Wall — the benefit, made visible</h2>
+      <p>This page does double duty: it's the permanent reward supporters were promised <em>and</em> it's the strongest social proof on the whole site. A skeptic who lands here sees real names and counts. The "Add your name" card converts browsers into supporters.</p>
+    </div>
+  </div>
+
+  <div class="browser">
+    <div class="chrome"><div class="dots"><i></i><i></i><i></i></div><div class="url">thesilencebetweenus.film/supporters</div><span class="tag">supporters wall</span></div>
+    <div class="screen">
+      <div class="sec center" style="border-bottom:2px solid var(--ink);">
+        <div class="lbl">Permanent recognition</div>
+        <div class="h-fake" style="font-size:40px;margin:6px 0 6px;">Our Founding Supporters</div>
+        <div style="color:var(--ink-soft);">The people making The Silence Between Us possible.</div>
+        <div class="wrap" style="justify-content:center;margin-top:16px;">
+          <span class="chip on">All</span><span class="chip">Patron</span><span class="chip">Partner</span><span class="chip">Supporter</span>
+          <span class="field" style="min-width:180px;">🔍 Search a name…</span>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="between" style="margin-bottom:14px;">
+          <div class="lbl">128 supporters · $— raised</div>
+          <span class="btn primary">+ Add your name</span>
+        </div>
+        <div class="grid4">
+          <div class="card-wf soft between"><span>The Doe Family</span><span class="chip on" style="font-size:10px;padding:2px 7px;">Patron</span></div>
+          <div class="card-wf soft between"><span>M. Johnson</span><span class="chip" style="font-size:10px;padding:2px 7px;">Partner</span></div>
+          <div class="card-wf soft between"><span>Grace Chapel</span><span class="chip" style="font-size:10px;padding:2px 7px;">Supporter</span></div>
+          <div class="card-wf soft between"><span>A. Rivera</span><span class="chip" style="font-size:10px;padding:2px 7px;">Supporter</span></div>
+          <div class="card-wf soft between"><span>Name ______</span><span class="chip" style="font-size:10px;padding:2px 7px;">Partner</span></div>
+          <div class="card-wf soft between"><span>Name ______</span><span class="chip" style="font-size:10px;padding:2px 7px;">Supporter</span></div>
+          <div class="card-wf soft between"><span>Name ______</span><span class="chip on" style="font-size:10px;padding:2px 7px;">Patron</span></div>
+          <div class="card-wf soft between"><span>Name ______</span><span class="chip" style="font-size:10px;padding:2px 7px;">Supporter</span></div>
+          <div class="card-wf soft between"><span>Name ______</span><span class="chip" style="font-size:10px;padding:2px 7px;">Supporter</span></div>
+          <div class="card-wf soft between"><span>Name ______</span><span class="chip" style="font-size:10px;padding:2px 7px;">Partner</span></div>
+          <div class="card-wf soft between"><span>Name ______</span><span class="chip" style="font-size:10px;padding:2px 7px;">Supporter</span></div>
+          <!-- add-your-name CTA tile -->
+          <div class="card-wf center" style="border-style:solid;background:var(--accent);box-shadow:3px 3px 0 var(--ink);">
+            <div class="h-fake" style="font-size:20px;color:var(--accent-ink);">Your name here</div>
+            <div style="font-size:12px;color:var(--accent-ink);">Join from $175 →</div>
+          </div>
+        </div>
+        <div class="center" style="margin-top:18px;"><span class="btn ghost">Load more supporters</span></div>
+      </div>
+      <div class="note">Real names + a live count is the single most persuasive thing on the site. Link to it from every page's nav.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THANK YOU ============ -->
+<section class="board" data-board="ty">
+  <div class="board-head">
+    <div class="num">✓</div>
+    <div>
+      <h2>Thank You — confirmation that delivers the benefits</h2>
+      <p>The post-payment moment. Confirm warmly, restate exactly what they unlocked and when it arrives, and turn their goodwill into reach with a share prompt. Receipt + calendar-style "what's next" reduce buyer's remorse.</p>
+    </div>
+  </div>
+
+  <div class="browser">
+    <div class="chrome"><div class="dots"><i></i><i></i><i></i></div><div class="url">thesilencebetweenus.film/thank-you</div><span class="tag">confirmation</span></div>
+    <div class="screen">
+      <div class="sec center" style="border-bottom:2px solid var(--ink);padding:46px 40px;">
+        <div class="tick" style="width:54px;height:54px;border-radius:50%;font-size:26px;margin:0 auto 14px;">✓</div>
+        <div class="h-fake" style="font-size:42px;">You're a Founding Supporter.</div>
+        <div style="color:var(--ink-soft);max-width:480px;margin:8px auto 0;">Thank you for helping tell this story. A receipt is on its way to your email.</div>
+        <div class="wrap" style="justify-content:center;margin-top:18px;">
+          <span class="chip">Receipt #SBU-0042</span><span class="chip">Supporter · $175</span><span class="secure">🔒 Paid via Stripe</span>
+        </div>
+      </div>
+
+      <div class="row" style="gap:0;align-items:stretch;">
+        <div class="col" style="padding:34px;border-right:2px solid var(--ink);">
+          <div class="lbl">What happens next</div>
+          <ul class="benefits" style="margin-top:14px;gap:14px;">
+            <li><span class="tick">✓</span><div><b>Now</b> — Your name is added to the Founding Supporters wall. <span style="color:var(--blue-ink);">View it ▸</span></div></li>
+            <li><span class="tick">✓</span><div><b>This week</b> — We email to schedule your virtual meet &amp; greet.</div></li>
+            <li><span class="tick">✓</span><div><b>Each quarter</b> — Production updates land in your inbox.</div></li>
+            <li><span class="tick">✓</span><div><b>Before release</b> — Your first look at the trailer.</div></li>
+            <li><span class="tick">✓</span><div><b>In the film</b> — Your on-screen "Supporter" credit.</div></li>
+          </ul>
+        </div>
+        <div class="col" style="padding:34px;background:var(--paper);">
+          <div class="lbl">Multiply your impact</div>
+          <div class="h-fake" style="font-size:24px;margin:6px 0 12px;">Help one more person hear about it.</div>
+          <div class="stack" style="gap:10px;">
+            <span class="btn block">↗ Share with a friend</span>
+            <span class="btn block">f  Share on Facebook</span>
+            <span class="btn block">▶ Send them the trailer</span>
+          </div>
+          <hr style="border:0;border-top:1.5px dashed var(--line);margin:18px 0;" />
+          <div class="card-wf soft">
+            <div class="lbl">Felt led to do more?</div>
+            <div style="font-size:14px;color:var(--ink-soft);margin:6px 0 10px;">Become a Partner or Patron for added benefits.</div>
+            <span class="btn primary">Upgrade my support ▸</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="note">Delivers on the "permanent recognition" promise instantly (name added now) — closes the trust loop the skeptic worried about.</div>
+</section>
+
+</main>
+
+<script>
+  // tabs
+  const tabs = document.getElementById('tabs');
+  const boards = document.querySelectorAll('.board');
+  tabs.addEventListener('click', e=>{
+    const btn = e.target.closest('.tab'); if(!btn) return;
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    const go = btn.dataset.go;
+    boards.forEach(b=>b.classList.toggle('active', b.dataset.board===go));
+    window.scrollTo({top:0,behavior:'instant'});
+  });
+  // tweaks
+  const tn = document.getElementById('t-notes'), ts = document.getElementById('t-sketch');
+  tn.addEventListener('click',()=>{tn.classList.toggle('on');document.body.classList.toggle('no-notes',!tn.classList.contains('on'));});
+  ts.addEventListener('click',()=>{ts.classList.toggle('on');document.body.classList.toggle('no-sketch',!ts.classList.contains('on'));});
+</script>
+</body>
+</html>

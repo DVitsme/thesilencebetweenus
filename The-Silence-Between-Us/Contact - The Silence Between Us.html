@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact — The Silence Between Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f7f3ea;
+    --ink:#2c2620;
+    --ink-soft:#5e564a;
+    --muted:#9a8c6f;
+    --line:#e3dccb;
+    --line-soft:#ece5d6;
+    --tint:#f1ebdd;
+    --gold:#f3c33b;
+    --gold-deep:#b98a14;
+    --dark:#211d17;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Newsreader',serif;-webkit-font-smoothing:antialiased;font-size:18px;line-height:1.6;}
+  a{color:inherit;}
+
+  .ey{font-style:italic;font-size:16px;color:var(--muted);letter-spacing:.2px;}
+
+  /* masthead */
+  .mast{display:flex;justify-content:center;align-items:center;padding:24px;border-bottom:1px solid var(--line);}
+  .mast .logo{font-weight:500;font-size:15px;letter-spacing:3px;text-transform:uppercase;}
+
+  /* hero */
+  .hero{text-align:center;padding:70px 28px 18px;}
+  .hero h1{font-weight:400;font-size:56px;line-height:1.04;letter-spacing:-.5px;margin:14px auto 0;max-width:680px;}
+  .hero .lede{font-size:20px;line-height:1.55;color:var(--ink-soft);max-width:540px;margin:18px auto 0;}
+
+  /* divider rule with gold diamond */
+  .rule{display:flex;align-items:center;gap:14px;max-width:1000px;margin:46px auto 0;padding:0 28px;}
+  .rule::before,.rule::after{content:"";flex:1;height:1px;background:var(--line);}
+  .rule .d{width:7px;height:7px;background:var(--gold);transform:rotate(45deg);}
+
+  .shell{max-width:1000px;margin:0 auto;padding:54px 28px 60px;}
+  .grid{display:grid;grid-template-columns:1.25fr 1fr;gap:58px;align-items:start;}
+
+  /* form */
+  .lbl{font-style:italic;color:var(--muted);font-size:16px;display:block;margin-bottom:7px;}
+  .field{width:100%;background:#fff;border:1px solid var(--line);border-radius:5px;padding:13px 15px;
+    font-family:'Newsreader',serif;font-size:17px;color:var(--ink);}
+  .field::placeholder{color:#bcae93;font-style:italic;}
+  .field:focus{outline:none;border-color:var(--gold-deep);box-shadow:0 0 0 3px rgba(243,195,59,.22);}
+  textarea.field{min-height:140px;resize:vertical;line-height:1.5;}
+  .frow{margin-bottom:20px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+
+  /* inquiry chips */
+  .chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:2px;}
+  .ichip{font-style:italic;font-size:15px;color:var(--ink-soft);background:#fff;border:1px solid var(--line);
+    border-radius:30px;padding:8px 16px;cursor:pointer;user-select:none;transition:all .14s;}
+  .ichip:hover{border-color:var(--muted);}
+  .ichip.on{background:var(--gold);border-color:var(--ink);color:var(--ink);}
+
+  .btn{font-style:italic;font-size:17px;color:var(--ink);border:1px solid var(--ink);border-radius:30px;
+    padding:13px 28px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;background:var(--gold);
+    cursor:pointer;transition:background .15s,color .15s;font-family:'Newsreader',serif;}
+  .btn:hover{background:var(--gold-deep);color:#fff;border-color:var(--gold-deep);}
+  .privacy{font-style:italic;color:var(--muted);font-size:14px;margin-top:14px;}
+
+  /* aside */
+  .aside h2{font-weight:400;font-size:27px;letter-spacing:-.2px;margin:0 0 6px;}
+  .aside .sub{font-size:16px;color:var(--ink-soft);margin:0 0 26px;}
+  .contact-item{padding:18px 0;border-top:1px solid var(--line);}
+  .contact-item:last-of-type{border-bottom:1px solid var(--line);}
+  .contact-item .k{font-style:italic;color:var(--muted);font-size:15px;}
+  .contact-item .v{font-size:18px;margin-top:3px;}
+  .contact-item .v a{text-decoration:none;border-bottom:1px solid var(--muted);}
+  .socials{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap;}
+  .soc{font-style:italic;font-size:15px;color:var(--ink-soft);border:1px solid var(--line);border-radius:30px;
+    padding:7px 16px;text-decoration:none;background:#fff;transition:all .14s;}
+  .soc:hover{border-color:var(--muted);}
+  .admin{margin-top:26px;background:var(--tint);border-radius:6px;padding:18px 20px;font-size:15px;color:var(--ink-soft);font-style:italic;line-height:1.5;}
+
+  .foot{background:var(--dark);color:#c9bfa9;padding:34px 28px;font-style:italic;}
+  .foot .wrap{max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:14px;}
+  .foot a{text-decoration:none;border-bottom:1px solid #5a5142;}
+
+  @media(max-width:760px){
+    .hero h1{font-size:40px;}
+    .grid{grid-template-columns:1fr;gap:40px;}
+    .twocol{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="mast"><span class="logo">The Silence Between Us</span></div>
+
+  <div class="hero">
+    <div class="ey">We'd love to hear from you</div>
+    <h1>Start a conversation.</h1>
+    <p class="lede">Questions about the film, becoming a Partner or Patron, press, or partnering with us — write a few words and we'll get back to you personally.</p>
+  </div>
+
+  <div class="rule"><span class="d"></span></div>
+
+  <div class="shell">
+    <div class="grid">
+
+      <!-- form -->
+      <form class="formcol" onsubmit="return false;">
+        <div class="frow">
+          <span class="lbl">What's this about?</span>
+          <div class="chips" id="chips">
+            <span class="ichip on">General inquiry</span>
+            <span class="ichip">Partner / Patron interest</span>
+            <span class="ichip">Press &amp; media</span>
+            <span class="ichip">Partnership</span>
+          </div>
+        </div>
+
+        <div class="twocol">
+          <div class="frow">
+            <label class="lbl" for="first">First name</label>
+            <input class="field" id="first" type="text" placeholder="Your first name" />
+          </div>
+          <div class="frow">
+            <label class="lbl" for="last">Last name</label>
+            <input class="field" id="last" type="text" placeholder="Your last name" />
+          </div>
+        </div>
+
+        <div class="frow">
+          <label class="lbl" for="email">Email</label>
+          <input class="field" id="email" type="email" placeholder="you@email.com" />
+        </div>
+
+        <div class="frow">
+          <label class="lbl" for="msg">Your message</label>
+          <textarea class="field" id="msg" placeholder="Tell us how we can help…"></textarea>
+        </div>
+
+        <button class="btn" type="submit">Send message →</button>
+        <div class="privacy">We read every note and reply ourselves. Your details are never shared.</div>
+      </form>
+
+      <!-- aside -->
+      <aside class="aside">
+        <h2>Other ways to reach us</h2>
+        <p class="sub">Prefer to write directly? We're a small team and we answer personally.</p>
+
+        <div class="contact-item">
+          <div class="k">Email</div>
+          <div class="v"><a href="mailto:kevin@kcfilmsmedia.com">kevin@kcfilmsmedia.com</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="k">Phone</div>
+          <div class="v"><a href="tel:+12163084427">216&#8209;308&#8209;4427</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="k">Production</div>
+          <div class="v">Take 3 Media · Cleveland, Ohio</div>
+        </div>
+
+        <div class="socials">
+          <a class="soc" href="#">Facebook</a>
+          <a class="soc" href="#">Instagram</a>
+          <a class="soc" href="#">YouTube</a>
+        </div>
+
+        <div class="admin">Donations and contributions for this film are administered by KC Films &amp; Media, the parent company of Take 3 Media.</div>
+      </aside>
+
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="wrap">
+      <span>The Silence Between Us · Take 3 Media</span>
+      <span>Donations administered by KC Films &amp; Media</span>
+      <span>Questions? <a href="mailto:kevin@kcfilmsmedia.com">kevin@kcfilmsmedia.com</a></span>
+    </div>
+  </div>
+
+  <script>
+    const chips = document.getElementById('chips');
+    chips.addEventListener('click', e=>{
+      const c = e.target.closest('.ichip'); if(!c) return;
+      chips.querySelectorAll('.ichip').forEach(x=>x.classList.remove('on'));
+      c.classList.add('on');
+    });
+  </script>
+
+</body>
+</html>

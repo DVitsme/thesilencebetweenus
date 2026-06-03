@@ -21,22 +21,18 @@ foundation mirrored from `digitaldog-site-starter` (new-york shadcn + Shadcn Stu
 `pnpm build`, `opennextjs-cloudflare build`, and `pnpm preview` (workerd) all pass.
 
 **Built so far:**
-- `/` (`app/page.tsx`) — the real **warm-literary designed home page**, built from the design handoff
-  in `The-Silence-Between-Us/handoff/` (Newsreader font, brand tokens in `app/globals.css`). Composed
-  from `components/site/home/*` (hero → film still → story w/ drop cap → pull quote → teacher split →
-  filmmaker → dark proof band → endorsements → tiers → gold final CTA). **Hero 30 was deleted.**
-  Placeholders remain: imagery (`<Placeholder>`), endorsements (`TODO(endorsements)`), Partner/Patron
-  prices (illustrative — only **$175** confirmed), `<SupportButton>` → hosted Checkout w/ `TODO(checkout)` fallback.
-- `app/layout.tsx` — real chrome now: `<SiteHeader>` (sticky nav + Support CTA), `<SiteFooter>`
-  (**988** line), Newsreader, metadata/OG (`components/site/*`). No longer the scaffold.
-- `/faq` (`app/faq/page.tsx`) — provisional FAQ (Accordion); now inherits the warm theme + chrome. (Minor: it has its own `<main>` nested in the layout's — fix when reworked.)
+- `/` (`app/page.tsx`) — landing. Renders the **Hero 30** Shadcn Studio block
+  (`components/shadcn-studio/blocks/hero-section-30/`). ⚠️ Still the block's **placeholder freelancer
+  copy** (headline "Connecting You to the Right Talent", email-capture CTA, fake testimonial marquee,
+  "5,000+ clients" stats) — needs our hero copy + a "Become a Supporter" CTA.
+- `/faq` (`app/faq/page.tsx`) — provisional FAQ (our copy from `docs/copy/secondary-pages.md`, grouped, Accordion).
 
-**Not built yet:** `/about` (the next milestone — see `The-Silence-Between-Us/handoff/07-ABOUT-PAGE-NEXT.md`;
-**do NOT build until the human says go**), `/portfolio`, `/supporters`, `/contact`, `/thank-you`,
-`/support/canceled`, `/legal/{terms,privacy,contributions}`, `not-found.tsx`/`error.tsx`/`global-error.tsx`,
-and api routes `/api/{checkout,webhooks/stripe,contact}`. Designed mockups for each live in
-`The-Silence-Between-Us/` (route map: `handoff/06-ROUTE-AND-LINK-MAP.md`); page copy drafts in `docs/copy/`.
-**Design system** (warm-literary): `The-Silence-Between-Us/handoff/01-DESIGN-SYSTEM.md`.
+**Not built yet (copy already written in `docs/copy/`):** the real `app/layout.tsx` — it is STILL the
+`create-next-app` scaffold, so **nothing wraps pages yet** (need header w/ logo + Support CTA, footer
+w/ nav + legal + **988** line, site metadata/OG). Also: the landing sections below the hero, `/contact`,
+`/portfolio`, `/thank-you`, `/support/canceled`, `/legal/{terms,privacy,contributions}`,
+`not-found.tsx`/`error.tsx`/`global-error.tsx`, and api routes `/api/{checkout,webhooks/stripe,contact}`.
+Build order + per-route detail in `docs/ia-and-architecture.md`.
 
 **Locked decisions:** Stripe **Checkout (hosted), one-time** (tiers + custom amount); fulfillment via
 **webhook** `checkout.session.completed` (not the redirect; Workers → `constructEventAsync`). **Resend**

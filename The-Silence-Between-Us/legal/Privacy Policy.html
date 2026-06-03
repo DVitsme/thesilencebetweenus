@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Privacy Policy — The Silence Between Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f7f3ea;--ink:#2c2620;--ink-soft:#5e564a;--muted:#9a8c6f;
+    --line:#e3dccb;--line-soft:#ece5d6;--tint:#f1ebdd;--gold:#f3c33b;--gold-deep:#b98a14;--dark:#211d17;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper);color:var(--ink);font-family:'Newsreader',serif;-webkit-font-smoothing:antialiased;font-size:18px;line-height:1.65;}
+  a{color:inherit;}
+
+  .mast{display:flex;justify-content:center;align-items:center;padding:24px;border-bottom:1px solid var(--line);}
+  .mast .logo{font-weight:500;font-size:15px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;}
+
+  .head{text-align:center;padding:58px 28px 30px;}
+  .head .ey{font-style:italic;font-size:16px;color:var(--muted);letter-spacing:.2px;}
+  .head h1{font-weight:400;font-size:50px;line-height:1.06;letter-spacing:-.5px;margin:12px 0 0;}
+  .head .meta{font-style:italic;color:var(--muted);font-size:15px;margin-top:12px;}
+
+  .lnav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:24px;}
+  .lnav a{font-style:italic;font-size:15px;color:var(--ink-soft);text-decoration:none;border:1px solid var(--line);
+    background:#fff;border-radius:30px;padding:7px 18px;transition:all .14s;}
+  .lnav a:hover{border-color:var(--muted);}
+  .lnav a.cur{background:var(--gold);border-color:var(--ink);color:var(--ink);}
+
+  .rule{display:flex;align-items:center;gap:14px;max-width:1000px;margin:34px auto 0;padding:0 28px;}
+  .rule::before,.rule::after{content:"";flex:1;height:1px;background:var(--line);}
+  .rule .d{width:7px;height:7px;background:var(--gold);transform:rotate(45deg);}
+
+  .shell{max-width:1000px;margin:0 auto;padding:46px 28px 64px;}
+  .grid{display:grid;grid-template-columns:230px 1fr;gap:54px;align-items:start;}
+
+  .toc{position:sticky;top:30px;}
+  .toc .lbl{font-style:italic;color:var(--muted);font-size:15px;margin-bottom:12px;display:block;}
+  .toc ol{list-style:none;margin:0;padding:0;counter-reset:t;}
+  .toc li{counter-increment:t;margin:0 0 9px;}
+  .toc a{text-decoration:none;font-size:15.5px;color:var(--ink-soft);display:flex;gap:9px;line-height:1.35;}
+  .toc a::before{content:counter(t,decimal-leading-zero);font-style:italic;color:var(--gold-deep);flex:none;}
+  .toc a:hover{color:var(--ink);}
+
+  .doc{counter-reset:sec;max-width:680px;}
+  .editor-note{background:var(--tint);border-radius:6px;padding:16px 20px;font-style:italic;font-size:15px;color:var(--ink-soft);line-height:1.5;margin-bottom:38px;}
+  .doc .intro{font-size:19px;line-height:1.7;color:var(--ink-soft);margin:0 0 34px;}
+  .doc section{padding:6px 0 8px;margin-bottom:18px;}
+  .doc h2{counter-increment:sec;font-weight:400;font-size:26px;letter-spacing:-.2px;margin:0 0 12px;display:flex;gap:12px;align-items:baseline;}
+  .doc h2::before{content:counter(sec,decimal-leading-zero);font-style:italic;font-size:17px;color:var(--gold-deep);flex:none;}
+  .doc p{margin:0 0 14px;color:var(--ink);}
+  .doc ul{margin:0 0 14px;padding-left:0;list-style:none;}
+  .doc ul li{position:relative;padding-left:22px;margin-bottom:8px;color:var(--ink);}
+  .doc ul li::before{content:"";position:absolute;left:3px;top:11px;width:6px;height:6px;background:var(--gold);transform:rotate(45deg);}
+  .doc a.inline{border-bottom:1px solid var(--muted);text-decoration:none;font-style:italic;}
+  .doc .small{font-size:15px;color:var(--muted);font-style:italic;}
+
+  .foot{background:var(--dark);color:#c9bfa9;padding:34px 28px;font-style:italic;}
+  .foot .wrap{max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:14px;}
+  .foot a{text-decoration:none;border-bottom:1px solid #5a5142;}
+
+  @media(max-width:780px){
+    .head h1{font-size:38px;}
+    .grid{grid-template-columns:1fr;gap:30px;}
+    .toc{position:static;}
+    .toc ol{columns:2;}
+  }
+</style>
+</head>
+<body>
+
+  <a class="mast" href="#" style="color:inherit;"><span class="logo">The Silence Between Us</span></a>
+
+  <div class="head">
+    <div class="ey">Legal</div>
+    <h1>Privacy Policy</h1>
+    <div class="meta">Last updated: June 3, 2026</div>
+    <nav class="lnav">
+      <a href="Terms of Use.html">Terms of Use</a>
+      <a class="cur" href="Privacy Policy.html">Privacy Policy</a>
+      <a href="Contribution Terms.html">Contribution Terms</a>
+    </nav>
+  </div>
+
+  <div class="rule"><span class="d"></span></div>
+
+  <div class="shell">
+    <div class="grid">
+
+      <aside class="toc">
+        <span class="lbl">On this page</span>
+        <ol>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#collect">Information we collect</a></li>
+          <li><a href="#use">How we use information</a></li>
+          <li><a href="#payments">Payment processing</a></li>
+          <li><a href="#sharing">Sharing &amp; disclosure</a></li>
+          <li><a href="#cookies">Cookies &amp; analytics</a></li>
+          <li><a href="#retention">Data retention</a></li>
+          <li><a href="#rights">Your choices &amp; rights</a></li>
+          <li><a href="#children">Children’s privacy</a></li>
+          <li><a href="#security">Security</a></li>
+          <li><a href="#changes">Changes to this policy</a></li>
+          <li><a href="#contact">Contact us</a></li>
+        </ol>
+      </aside>
+
+      <div class="doc">
+        <div class="editor-note">Draft for review. This document is a plain-language starting point for The Silence Between Us and should be reviewed by qualified legal counsel before publication.</div>
+        <p class="intro">Your trust matters to us. This Privacy Policy explains what information we collect when you visit the Site for <em>The Silence Between Us</em> or make a contribution, how we use it, and the choices you have.</p>
+
+        <section id="overview">
+          <h2>Overview</h2>
+          <p>We collect only the information we need to process your contribution, deliver supporter benefits, and respond to your messages. We do not sell your personal information.</p>
+        </section>
+
+        <section id="collect">
+          <h2>Information we collect</h2>
+          <ul>
+            <li><strong>Contact details</strong> — your name and email address;</li>
+            <li><strong>Credit preference</strong> — the name you wish to appear in the film’s credits or on the Founding Supporters page;</li>
+            <li><strong>Contribution details</strong> — the tier or amount you choose;</li>
+            <li><strong>Messages</strong> — anything you send us through the contact form;</li>
+            <li><strong>Technical data</strong> — basic, non-identifying analytics such as device and browser type.</li>
+          </ul>
+          <p class="small">Payment card numbers are entered directly with our payment processor and are never stored on our servers.</p>
+        </section>
+
+        <section id="use">
+          <h2>How we use information</h2>
+          <ul>
+            <li>To process and acknowledge your contribution;</li>
+            <li>To deliver the benefits associated with your tier (such as credits, updates, and meet &amp; greet scheduling);</li>
+            <li>To send production updates you have opted into;</li>
+            <li>To respond to inquiries and provide support;</li>
+            <li>To maintain the security and integrity of the Site.</li>
+          </ul>
+        </section>
+
+        <section id="payments">
+          <h2>Payment processing</h2>
+          <p>Payments are processed securely by Stripe, Inc. When you pay, your card details are transmitted directly to Stripe and handled under their security standards and privacy policy. We receive confirmation of payment and limited details (such as the last four digits of your card) but not your full card number.</p>
+        </section>
+
+        <section id="sharing">
+          <h2>Sharing &amp; disclosure</h2>
+          <p>We share information only as needed to operate the project — for example, with our payment processor (Stripe) and email service providers — or where required by law. The name you choose for credits or the Founding Supporters page may be displayed publicly, as described when you contribute.</p>
+        </section>
+
+        <section id="cookies">
+          <h2>Cookies &amp; analytics</h2>
+          <p>The Site may use essential cookies and privacy-conscious analytics to understand how the Site is used and to improve it. You can control cookies through your browser settings.</p>
+        </section>
+
+        <section id="retention">
+          <h2>Data retention</h2>
+          <p>We keep contribution records for as long as necessary to fulfill benefits, meet legal and accounting obligations, and maintain accurate records of support for the film. We retain other information only as long as needed for the purposes described here.</p>
+        </section>
+
+        <section id="rights">
+          <h2>Your choices &amp; rights</h2>
+          <p>You may request access to, correction of, or deletion of your personal information, and you may unsubscribe from production updates at any time. To make a request, email us at the address below. We will respond consistent with applicable law.</p>
+        </section>
+
+        <section id="children">
+          <h2>Children’s privacy</h2>
+          <p>The Site is intended for adults who wish to support the film. It is not directed to children, and we do not knowingly collect personal information from children under 13.</p>
+        </section>
+
+        <section id="security">
+          <h2>Security</h2>
+          <p>We use reasonable administrative and technical safeguards to protect your information. However, no method of transmission or storage is completely secure, and we cannot guarantee absolute security.</p>
+        </section>
+
+        <section id="changes">
+          <h2>Changes to this policy</h2>
+          <p>We may update this Privacy Policy from time to time. The “Last updated” date above reflects the most recent revision. Material changes will be reflected on this page.</p>
+        </section>
+
+        <section id="contact">
+          <h2>Contact us</h2>
+          <p>Questions or requests about your privacy? Email <a class="inline" href="mailto:kevin@kcfilmsmedia.com">kevin@kcfilmsmedia.com</a> or use our <a class="inline" href="../Contact - The Silence Between Us.html">contact page</a>.</p>
+        </section>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="wrap">
+      <span>The Silence Between Us · Take 3 Media</span>
+      <span>Donations administered by KC Films &amp; Media</span>
+      <span>Questions? <a href="mailto:kevin@kcfilmsmedia.com">kevin@kcfilmsmedia.com</a></span>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,6 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema.json",
-  "style": "base-nova",
+  "style": "new-york",
   "rsc": true,
   "tsx": true,
   "tailwind": {
@@ -11,7 +11,6 @@
     "prefix": ""
   },
   "iconLibrary": "lucide",
-  "rtl": false,
   "aliases": {
     "components": "@/components",
     "utils": "@/lib/utils",
@@ -19,7 +18,15 @@
     "lib": "@/lib",
     "hooks": "@/hooks"
   },
-  "menuColor": "default",
-  "menuAccent": "subtle",
-  "registries": {}
+  "registries": {
+    "@shadcnblocks": {
+      "url": "https://shadcnblocks.com/r/{name}",
+      "headers": {
+        "Authorization": "Bearer ${SHADCNBLOCKS_API_KEY}"
+      }
+    },
+    "@shadcn-studio": "https://shadcnstudio.com/r/components/new-york-v4/{name}.json?email=${EMAIL}&license_key=${LICENSE_KEY}",
+    "@ss-blocks": "https://shadcnstudio.com/r/blocks/new-york-v4/{name}.json?email=${EMAIL}&license_key=${LICENSE_KEY}",
+    "@ss-components": "https://shadcnstudio.com/r/components/new-york-v4/{name}.json?email=${EMAIL}&license_key=${LICENSE_KEY}"
+  }
 }

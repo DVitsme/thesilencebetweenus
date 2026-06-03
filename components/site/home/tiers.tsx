@@ -1,0 +1,55 @@
+import { Eyebrow, SectionHeading } from "../primitives";
+import { SupportButton } from "../support-button";
+import { TIERS } from "@/content/tiers";
+
+export function Tiers() {
+  return (
+    <section id="support" className="bg-tint py-[72px]">
+      <div className="mx-auto max-w-[1120px] px-[34px]">
+        <div className="text-center">
+          <Eyebrow>Be part of it</Eyebrow>
+          <SectionHeading>Become a Founding Supporter.</SectionHeading>
+          <p className="text-ink-soft mx-auto mt-2 max-w-[540px] font-serif text-[19px]">
+            You&apos;re not donating — you&apos;re producing. Choose your part, or give any amount.
+          </p>
+        </div>
+
+        <div className="border-ink bg-card-paper mx-auto mt-8 max-w-[760px] overflow-hidden rounded-[12px] border">
+          {TIERS.map((t) => (
+            <div
+              key={t.id}
+              className={`border-line grid grid-cols-[1fr_auto_auto] items-center gap-5 border-b px-6 py-5.5 last:border-b-0 ${t.popular ? "bg-[#fffdf4]" : ""} ${t.id === "custom" ? "bg-paper" : ""}`}
+            >
+              <div>
+                <div className="flex flex-wrap items-center gap-2.5 font-serif text-[23px]">
+                  {t.name}
+                  {t.popular && (
+                    <span className="border-line bg-tint text-gold-deep rounded-full border px-2.5 py-0.5 font-serif text-[12.5px] italic">
+                      Most popular
+                    </span>
+                  )}
+                </div>
+                <div className="text-muted-warm mt-1 font-serif text-[14.5px] italic">{t.blurb}</div>
+              </div>
+              <div className="text-right font-serif text-[27px] whitespace-nowrap">{t.amountLabel}</div>
+              <SupportButton
+                tier={t.id}
+                amount={t.amount ? t.amount * 100 : undefined}
+                className={
+                  t.popular ? "" : "border-ink hover:bg-ink hover:text-paper bg-transparent text-ink"
+                }
+              >
+                {t.id === "custom" ? "Contribute →" : "Choose →"}
+              </SupportButton>
+            </div>
+          ))}
+        </div>
+
+        <p className="text-muted-warm mt-4.5 text-center font-serif text-[15px] italic">
+          Secure checkout via Stripe · administered by KC Films &amp; Media. Partner &amp; Patron
+          pricing illustrative.
+        </p>
+      </div>
+    </section>
+  );
+}

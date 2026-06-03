@@ -1,0 +1,19 @@
+# Vendored shadcn-studio / shadcnblocks blocks for this site.
+#
+# Add one (auto-appends here + fetches via the shadcn CLI):
+#   pnpm vendor:blocks -- only @ss-blocks/<id>
+#   pnpm vendor:blocks -- only @shadcn-studio/<id>
+# Search a registry:
+#   pnpm vendor:blocks:search @ss-blocks <query>
+#   pnpm vendor:blocks:search @shadcnblocks <query>
+# Re-pull everything listed below:
+#   pnpm vendor:blocks
+#
+# Registries (see components.json): @shadcnblocks · @shadcn-studio · @ss-blocks · @ss-components
+
+blocks:
+  # Home page is hand-built from the design handoff — no blocks vendored.
+  - id: _placeholder
+    registry: "@ss-blocks"
+    skip: true
+    note: "keeps manifest non-empty; vendor with: pnpm vendor:blocks -- only @ss-blocks/<id>"

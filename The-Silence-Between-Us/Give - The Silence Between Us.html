@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Become a Founding Supporter — The Silence Between Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f7f3ea;--ink:#2c2620;--ink-soft:#5e564a;--muted:#9a8c6f;
+    --line:#e3dccb;--line-soft:#ece5d6;--tint:#f1ebdd;--gold:#f3c33b;--gold-deep:#b98a14;--dark:#211d17;
+    --green:#5a7d4f;--green-bg:#e9efe3;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper);color:var(--ink);font-family:'Newsreader',serif;-webkit-font-smoothing:antialiased;font-size:18px;line-height:1.6;}
+  a{color:inherit;}
+  em{font-style:italic;}
+  .ey{font-style:italic;font-size:16px;color:var(--muted);letter-spacing:.2px;}
+
+  /* masthead */
+  .mast{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:15px 28px;border-bottom:1px solid var(--line);background:var(--paper);}
+  .mast .logo{font-weight:500;font-size:14px;letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;white-space:nowrap;}
+  .mast .secure-top{display:inline-flex;align-items:center;gap:8px;font-style:italic;font-size:14.5px;color:var(--ink-soft);}
+  .mast .secure-top .lock{width:13px;height:13px;border:1.5px solid var(--ink-soft);border-radius:3px;border-bottom-width:6px;position:relative;}
+  .mast .secure-top .lock::before{content:"";position:absolute;left:50%;top:-5px;transform:translateX(-50%);width:8px;height:7px;border:1.5px solid var(--ink-soft);border-bottom:none;border-radius:8px 8px 0 0;}
+
+  /* header */
+  .head{text-align:center;padding:50px 28px 8px;}
+  .head h1{font-weight:400;font-size:46px;line-height:1.07;letter-spacing:-.5px;margin:12px auto 0;max-width:620px;}
+  .head .lede{font-size:19px;color:var(--ink-soft);max-width:540px;margin:14px auto 0;}
+
+  /* layout */
+  .shell{max-width:1080px;margin:0 auto;padding:40px 28px 70px;}
+  .grid{display:grid;grid-template-columns:1.5fr 1fr;gap:46px;align-items:start;}
+
+  .block{margin-bottom:38px;}
+  .block .step{display:flex;align-items:baseline;gap:11px;margin-bottom:18px;}
+  .block .step .n{font-style:italic;font-size:16px;color:var(--gold-deep);}
+  .block .step h2{font-weight:400;font-size:26px;letter-spacing:-.2px;margin:0;}
+
+  /* tier options */
+  .tiers{display:flex;flex-direction:column;gap:12px;}
+  .tier{display:grid;grid-template-columns:26px 1fr auto;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);
+    border-radius:8px;padding:18px 20px;cursor:pointer;transition:border-color .14s,box-shadow .14s,background .14s;position:relative;}
+  .tier:hover{border-color:var(--muted);}
+  .tier.sel{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink);background:#fffdf6;}
+  .tier .radio{width:20px;height:20px;border:1.5px solid var(--muted);border-radius:50%;position:relative;margin-top:3px;}
+  .tier.sel .radio{border-color:var(--ink);}
+  .tier.sel .radio::after{content:"";position:absolute;inset:3px;background:var(--gold);border-radius:50%;border:1px solid var(--ink);}
+  .tier .nm{font-size:21px;}
+  .tier .nm .tag{font-style:italic;font-size:13px;color:var(--gold-deep);background:var(--tint);border:1px solid var(--line);border-radius:30px;padding:2px 11px;margin-left:8px;vertical-align:middle;}
+  .tier .ds{font-style:italic;font-size:14.5px;color:var(--muted);margin-top:2px;}
+  .tier .pr{font-size:26px;text-align:right;white-space:nowrap;}
+  .tier .pr small{font-style:italic;font-size:13px;color:var(--muted);display:block;line-height:1;}
+  /* any amount row */
+  .tier.any .amtwrap{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:6px;background:#fff;padding:4px 12px;}
+  .tier.any .amtwrap .cur{font-size:20px;color:var(--muted);}
+  .tier.any input{border:none;outline:none;background:transparent;font-family:'Newsreader',serif;font-size:22px;width:84px;color:var(--ink);}
+  .tier.any.sel .amtwrap{border-color:var(--ink);}
+
+  /* form fields */
+  .frow{margin-bottom:18px;}
+  .lbl{font-style:italic;color:var(--muted);font-size:15.5px;display:block;margin-bottom:7px;}
+  .lbl .hint{color:var(--muted);opacity:.8;}
+  .field{width:100%;background:#fff;border:1px solid var(--line);border-radius:6px;padding:13px 15px;font-family:'Newsreader',serif;font-size:17px;color:var(--ink);}
+  .field::placeholder{color:#bcae93;font-style:italic;}
+  .field:focus{outline:none;border-color:var(--gold-deep);box-shadow:0 0 0 3px rgba(243,195,59,.22);}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .threecol{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:16px;}
+
+  /* stripe card mock */
+  .cardbox{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+  .cardbox .crow{display:flex;align-items:center;gap:12px;padding:14px 15px;border-bottom:1px solid var(--line-soft);}
+  .cardbox .crow:last-child{border-bottom:none;}
+  .cardbox .crow .ico{font-style:italic;font-size:13px;color:var(--muted);white-space:nowrap;}
+  .cardbox .ph-input{flex:1;font-family:'Newsreader',serif;font-size:16px;color:#bcae93;font-style:italic;}
+  .cardbox .brands{display:flex;gap:5px;}
+  .cardbox .brands i{width:30px;height:20px;border:1px solid var(--line);border-radius:3px;display:inline-block;background:var(--tint);}
+  .stripe-row{display:flex;align-items:center;justify-content:flex-end;gap:7px;margin-top:10px;font-style:italic;font-size:14px;color:var(--muted);}
+  .stripe-row b{font-weight:500;color:var(--ink-soft);font-style:normal;}
+
+  /* monthly toggle */
+  .toggle{display:flex;align-items:center;gap:13px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:15px 18px;cursor:pointer;margin-top:6px;}
+  .toggle .sw{width:44px;height:25px;border-radius:30px;background:var(--line);border:1px solid var(--muted);position:relative;flex:none;transition:background .16s;}
+  .toggle .sw::after{content:"";position:absolute;top:2px;left:2px;width:19px;height:19px;border-radius:50%;background:#fff;border:1px solid var(--muted);transition:left .16s;}
+  .toggle.on .sw{background:var(--gold);border-color:var(--gold-deep);}
+  .toggle.on .sw::after{left:21px;border-color:var(--gold-deep);}
+  .toggle .tx{font-size:16px;}
+  .toggle .tx em{font-style:italic;color:var(--muted);font-size:14.5px;display:block;}
+
+  /* pay button */
+  .pay{width:100%;font-family:'Newsreader',serif;font-style:italic;font-size:20px;color:var(--ink);background:var(--gold);
+    border:1px solid var(--ink);border-radius:30px;padding:16px;cursor:pointer;transition:background .15s,color .15s;margin-top:6px;}
+  .pay:hover{background:var(--gold-deep);color:#fff;border-color:var(--gold-deep);}
+  .finehint{font-style:italic;font-size:13.5px;color:var(--muted);text-align:center;margin-top:13px;line-height:1.5;}
+  .finehint a{border-bottom:1px solid var(--line);text-decoration:none;}
+
+  /* ORDER SUMMARY (sticky) */
+  .summary{position:sticky;top:24px;}
+  .sumcard{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  .sumcard .top{background:var(--dark);color:#efe9da;padding:22px 24px;}
+  .sumcard .top .lbl{color:#b9ad93;margin-bottom:4px;}
+  .sumcard .top .row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;}
+  .sumcard .top .tname{font-size:24px;color:#fff;}
+  .sumcard .top .tamt{font-size:30px;color:#fff;white-space:nowrap;}
+  .sumcard .top .freq{font-style:italic;font-size:14px;color:#b9ad93;margin-top:2px;}
+  .sumcard .body{padding:22px 24px;}
+  .sumcard .body .lbl{margin-bottom:12px;}
+  ul.benefits{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;}
+  ul.benefits li{display:flex;gap:11px;align-items:flex-start;font-size:16px;color:var(--ink);line-height:1.45;}
+  ul.benefits li .ck{width:19px;height:19px;flex:none;border:1px solid var(--ink);border-radius:50%;background:var(--gold);display:grid;place-items:center;margin-top:2px;}
+  ul.benefits li .ck::after{content:"";width:8px;height:4px;border-left:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(-45deg) translateY(-1px);}
+  ul.benefits li.muted{color:var(--muted);font-style:italic;}
+  ul.benefits li.muted .ck{background:#fff;border-color:var(--line);}
+  ul.benefits li.muted .ck::after{border-color:var(--muted);}
+  .trustrow{display:flex;flex-direction:column;gap:9px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft);}
+  .trust{display:flex;align-items:center;gap:10px;font-style:italic;font-size:14.5px;color:var(--ink-soft);}
+  .trust .badge{width:24px;height:24px;border-radius:50%;background:var(--green-bg);border:1px solid var(--green);flex:none;display:grid;place-items:center;color:var(--green);font-style:normal;font-size:12px;}
+  .trust .badge.g{background:var(--tint);border-color:var(--gold-deep);color:var(--gold-deep);}
+
+  .note{background:var(--tint);border-radius:10px;padding:20px 22px;margin-top:18px;font-style:italic;font-size:16px;line-height:1.5;color:var(--ink-soft);}
+  .note .sig{color:var(--muted);font-size:14.5px;margin-top:8px;}
+
+  .foot{background:var(--dark);color:#c9bfa9;padding:30px 28px;font-style:italic;}
+  .foot .wrap{max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:14px;}
+  .foot a{text-decoration:none;border-bottom:1px solid #5a5142;}
+
+  @media(max-width:880px){
+    .head h1{font-size:36px;}
+    .grid{grid-template-columns:1fr;gap:34px;}
+    .summary{position:static;}
+    .summary{order:-1;}
+  }
+  @media(max-width:520px){ .threecol{grid-template-columns:1fr 1fr;} .tier{grid-template-columns:24px 1fr;} .tier .pr{grid-column:2;text-align:left;} }
+</style>
+</head>
+<body>
+
+  <header class="mast">
+    <a class="logo" href="#">The Silence Between Us</a>
+    <span class="secure-top"><span class="lock"></span> Secure checkout · powered by Stripe</span>
+  </header>
+
+  <div class="head">
+    <div class="ey">Be part of the film</div>
+    <h1>Become a Founding Supporter.</h1>
+    <p class="lede">You're not donating — you're producing. Choose your part below; it takes about a minute.</p>
+  </div>
+
+  <div class="shell">
+    <div class="grid">
+
+      <!-- LEFT: the form -->
+      <div class="formcol">
+
+        <!-- 1. choose contribution -->
+        <div class="block">
+          <div class="step"><span class="n">01</span><h2>Choose your contribution</h2></div>
+          <div class="tiers" id="tiers">
+            <div class="tier sel" data-tier="supporter" data-amt="175">
+              <div class="radio"></div>
+              <div><div class="nm">Supporter <span class="tag">Most popular</span></div><div class="ds">On-screen credit · meet &amp; greet · wall listing</div></div>
+              <div class="pr">$175</div>
+            </div>
+            <div class="tier" data-tier="partner" data-amt="500">
+              <div class="radio"></div>
+              <div><div class="nm">Partner</div><div class="ds">Everything in Supporter, plus premiere access</div></div>
+              <div class="pr">$500</div>
+            </div>
+            <div class="tier" data-tier="patron" data-amt="1500">
+              <div class="radio"></div>
+              <div><div class="nm">Patron</div><div class="ds">Everything in Partner, plus a producer credit</div></div>
+              <div class="pr">$1,500</div>
+            </div>
+            <div class="tier any" data-tier="any" data-amt="0">
+              <div class="radio"></div>
+              <div><div class="nm">Give any amount</div><div class="ds">Every dollar helps this story get made</div></div>
+              <div class="pr"><div class="amtwrap"><span class="cur">$</span><input id="anyAmt" type="text" inputmode="numeric" placeholder="100" /></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. your details -->
+        <div class="block">
+          <div class="step"><span class="n">02</span><h2>Your details</h2></div>
+          <div class="twocol">
+            <div class="frow"><label class="lbl" for="first">First name</label><input class="field" id="first" type="text" placeholder="Your first name" /></div>
+            <div class="frow"><label class="lbl" for="last">Last name</label><input class="field" id="last" type="text" placeholder="Your last name" /></div>
+          </div>
+          <div class="frow">
+            <label class="lbl" for="credit">How your name appears in the credits <span class="hint">— this is the name we'll list</span></label>
+            <input class="field" id="credit" type="text" placeholder="e.g. The Cameron Family" />
+          </div>
+          <div class="frow">
+            <label class="lbl" for="email">Email <span class="hint">— for your receipt &amp; production updates</span></label>
+            <input class="field" id="email" type="email" placeholder="you@email.com" />
+          </div>
+        </div>
+
+        <!-- 3. payment -->
+        <div class="block">
+          <div class="step"><span class="n">03</span><h2>Payment</h2></div>
+          <div class="cardbox">
+            <div class="crow"><span class="ph-input">Card number</span><span class="brands"><i></i><i></i><i></i><i></i></span></div>
+            <div class="crow" style="padding:0;">
+              <div class="crow" style="flex:1;border-right:1px solid var(--line-soft);"><span class="ph-input">MM / YY</span></div>
+              <div class="crow" style="flex:1;border-right:1px solid var(--line-soft);"><span class="ph-input">CVC</span></div>
+              <div class="crow" style="flex:1;"><span class="ph-input">ZIP</span></div>
+            </div>
+          </div>
+          <div class="stripe-row"><span class="lock" style="width:11px;height:11px;border:1.5px solid var(--muted);border-radius:2px;border-bottom-width:5px;position:relative;display:inline-block;"></span> Encrypted &amp; processed by <b>Stripe</b>. We never see your full card number.</div>
+
+          <div class="toggle" id="monthly">
+            <div class="sw"></div>
+            <div class="tx">Make this a monthly gift <em>Spread your support across the production — cancel anytime.</em></div>
+          </div>
+        </div>
+
+        <button class="pay" id="payBtn">Contribute $175 securely →</button>
+        <div class="finehint">By contributing you agree to our <a href="legal/Contribution Terms.html">Contribution Terms</a>. Administered by KC Films &amp; Media. A receipt is emailed instantly.</div>
+      </div>
+
+      <!-- RIGHT: order summary -->
+      <aside class="summary">
+        <div class="sumcard">
+          <div class="top">
+            <div class="lbl">Your contribution</div>
+            <div class="row"><span class="tname" id="sumName">Supporter</span><span class="tamt" id="sumAmt">$175</span></div>
+            <div class="freq" id="sumFreq">One-time contribution</div>
+          </div>
+          <div class="body">
+            <div class="lbl">What you'll receive</div>
+            <ul class="benefits" id="benefits">
+              <li><span class="ck"></span>On-screen “Supporter” credit in the film</li>
+              <li><span class="ck"></span>Virtual meet &amp; greet with the director &amp; cast</li>
+              <li><span class="ck"></span>A permanent listing on the Founding Supporters page</li>
+              <li><span class="ck"></span>Quarterly production updates from set</li>
+              <li><span class="ck"></span>First look at the trailer, before public release</li>
+            </ul>
+            <div class="trustrow">
+              <div class="trust"><span class="badge g">★</span> Your name joins the Founding Supporters wall</div>
+              <div class="trust"><span class="badge">↩</span> Refundable within 14 days if made in error</div>
+              <div class="trust"><span class="badge">🔒</span> Secured &amp; encrypted by Stripe</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="note">
+          “Good work like this only happens when we participate — with more than words. When you back this film, you join the family behind it.”
+          <div class="sig">— Kevin Cameron, writer &amp; director</div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="wrap">
+      <span>The Silence Between Us · Take 3 Media</span>
+      <span>Donations administered by KC Films &amp; Media</span>
+      <span>Questions? <a href="Contact - The Silence Between Us.html">Contact us</a></span>
+    </div>
+  </div>
+
+  <script>
+    const benefitSets = {
+      supporter: [
+        ['On-screen “Supporter” credit in the film', 1],
+        ['Virtual meet &amp; greet with the director &amp; cast', 1],
+        ['A permanent listing on the Founding Supporters page', 1],
+        ['Quarterly production updates from set', 1],
+        ['First look at the trailer, before public release', 1],
+      ],
+      partner: [
+        ['Everything in Supporter, plus —', 1],
+        ['Two tickets to a premiere-tour screening', 1],
+        ['Your name in the film’s “Special Thanks”', 1],
+        ['A behind-the-scenes set update reel', 1],
+      ],
+      patron: [
+        ['Everything in Partner, plus —', 1],
+        ['An associate producer credit on the film', 1],
+        ['An invitation to a private cast &amp; crew screening', 1],
+        ['A personal call with Kevin about the project', 1],
+      ],
+      any: [
+        ['Our heartfelt thanks — every dollar helps', 1],
+        ['A listing on the Founding Supporters page', 1],
+        ['Quarterly production updates from set', 1],
+        ['Unlock full Supporter benefits at $175', 0],
+      ],
+    };
+    const names = { supporter:'Supporter', partner:'Partner', patron:'Patron', any:'Your gift' };
+
+    const tiers = document.getElementById('tiers');
+    const anyInput = document.getElementById('anyAmt');
+    const sumName = document.getElementById('sumName');
+    const sumAmt = document.getElementById('sumAmt');
+    const sumFreq = document.getElementById('sumFreq');
+    const benefits = document.getElementById('benefits');
+    const payBtn = document.getElementById('payBtn');
+    const monthly = document.getElementById('monthly');
+
+    let current = 'supporter';
+    let isMonthly = false;
+
+    function fmt(n){ return '$' + Number(n).toLocaleString('en-US'); }
+
+    function currentAmount(){
+      if(current === 'any'){
+        const v = parseInt((anyInput.value||'').replace(/[^0-9]/g,''),10);
+        return isNaN(v) ? 0 : v;
+      }
+      return parseInt(tiers.querySelector('.tier.sel').dataset.amt,10);
+    }
+
+    function render(){
+      const amt = currentAmount();
+      sumName.textContent = names[current];
+      sumAmt.textContent = amt > 0 ? fmt(amt) : '—';
+      sumFreq.textContent = isMonthly ? 'Monthly contribution · cancel anytime' : 'One-time contribution';
+
+      benefits.innerHTML = benefitSets[current].map(([t,on])=>
+        `<li class="${on? '' : 'muted'}"><span class="ck"></span>${t}</li>`).join('');
+
+      const freqTxt = isMonthly ? '/mo' : '';
+      payBtn.textContent = amt > 0
+        ? `Contribute ${fmt(amt)}${freqTxt} securely →`
+        : 'Enter an amount to continue';
+      payBtn.style.opacity = amt > 0 ? '1' : '.55';
+    }
+
+    tiers.addEventListener('click', e=>{
+      const t = e.target.closest('.tier'); if(!t) return;
+      tiers.querySelectorAll('.tier').forEach(x=>x.classList.remove('sel'));
+      t.classList.add('sel');
+      current = t.dataset.tier;
+      if(current === 'any') setTimeout(()=>anyInput.focus(), 40);
+      render();
+    });
+    anyInput.addEventListener('input', ()=>{
+      // selecting the field implies the "any" tier
+      if(current !== 'any'){
+        tiers.querySelectorAll('.tier').forEach(x=>x.classList.remove('sel'));
+        tiers.querySelector('.tier.any').classList.add('sel');
+        current = 'any';
+      }
+      render();
+    });
+    monthly.addEventListener('click', ()=>{
+      isMonthly = !isMonthly;
+      monthly.classList.toggle('on', isMonthly);
+      render();
+    });
+
+    render();
+  </script>
+
+</body>
+</html>

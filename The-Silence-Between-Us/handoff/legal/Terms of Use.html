@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Terms of Use — The Silence Between Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f7f3ea;--ink:#2c2620;--ink-soft:#5e564a;--muted:#9a8c6f;
+    --line:#e3dccb;--line-soft:#ece5d6;--tint:#f1ebdd;--gold:#f3c33b;--gold-deep:#b98a14;--dark:#211d17;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper);color:var(--ink);font-family:'Newsreader',serif;-webkit-font-smoothing:antialiased;font-size:18px;line-height:1.65;}
+  a{color:inherit;}
+
+  .mast{display:flex;justify-content:center;align-items:center;padding:24px;border-bottom:1px solid var(--line);}
+  .mast .logo{font-weight:500;font-size:15px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;}
+
+  .head{text-align:center;padding:58px 28px 30px;}
+  .head .ey{font-style:italic;font-size:16px;color:var(--muted);letter-spacing:.2px;}
+  .head h1{font-weight:400;font-size:50px;line-height:1.06;letter-spacing:-.5px;margin:12px 0 0;}
+  .head .meta{font-style:italic;color:var(--muted);font-size:15px;margin-top:12px;}
+
+  /* legal sub-nav */
+  .lnav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:24px;}
+  .lnav a{font-style:italic;font-size:15px;color:var(--ink-soft);text-decoration:none;border:1px solid var(--line);
+    background:#fff;border-radius:30px;padding:7px 18px;transition:all .14s;}
+  .lnav a:hover{border-color:var(--muted);}
+  .lnav a.cur{background:var(--gold);border-color:var(--ink);color:var(--ink);}
+
+  .rule{display:flex;align-items:center;gap:14px;max-width:1000px;margin:34px auto 0;padding:0 28px;}
+  .rule::before,.rule::after{content:"";flex:1;height:1px;background:var(--line);}
+  .rule .d{width:7px;height:7px;background:var(--gold);transform:rotate(45deg);}
+
+  .shell{max-width:1000px;margin:0 auto;padding:46px 28px 64px;}
+  .grid{display:grid;grid-template-columns:230px 1fr;gap:54px;align-items:start;}
+
+  /* TOC */
+  .toc{position:sticky;top:30px;}
+  .toc .lbl{font-style:italic;color:var(--muted);font-size:15px;margin-bottom:12px;display:block;}
+  .toc ol{list-style:none;margin:0;padding:0;counter-reset:t;}
+  .toc li{counter-increment:t;margin:0 0 9px;}
+  .toc a{text-decoration:none;font-size:15.5px;color:var(--ink-soft);display:flex;gap:9px;line-height:1.35;}
+  .toc a::before{content:counter(t,decimal-leading-zero);font-style:italic;color:var(--gold-deep);flex:none;}
+  .toc a:hover{color:var(--ink);}
+
+  /* document */
+  .doc{counter-reset:sec;max-width:680px;}
+  .editor-note{background:var(--tint);border-radius:6px;padding:16px 20px;font-style:italic;font-size:15px;color:var(--ink-soft);line-height:1.5;margin-bottom:38px;}
+  .doc .intro{font-size:19px;line-height:1.7;color:var(--ink-soft);margin:0 0 34px;}
+  .doc section{padding:6px 0 8px;margin-bottom:18px;}
+  .doc h2{counter-increment:sec;font-weight:400;font-size:26px;letter-spacing:-.2px;margin:0 0 12px;display:flex;gap:12px;align-items:baseline;}
+  .doc h2::before{content:counter(sec,decimal-leading-zero);font-style:italic;font-size:17px;color:var(--gold-deep);flex:none;}
+  .doc p{margin:0 0 14px;color:var(--ink);}
+  .doc ul{margin:0 0 14px;padding-left:0;list-style:none;}
+  .doc ul li{position:relative;padding-left:22px;margin-bottom:8px;color:var(--ink);}
+  .doc ul li::before{content:"";position:absolute;left:3px;top:11px;width:6px;height:6px;background:var(--gold);transform:rotate(45deg);}
+  .doc a.inline{border-bottom:1px solid var(--muted);text-decoration:none;font-style:italic;}
+  .doc .small{font-size:15px;color:var(--muted);font-style:italic;}
+
+  .foot{background:var(--dark);color:#c9bfa9;padding:34px 28px;font-style:italic;}
+  .foot .wrap{max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:14px;}
+  .foot a{text-decoration:none;border-bottom:1px solid #5a5142;}
+
+  @media(max-width:780px){
+    .head h1{font-size:38px;}
+    .grid{grid-template-columns:1fr;gap:30px;}
+    .toc{position:static;}
+    .toc ol{columns:2;}
+  }
+</style>
+</head>
+<body>
+
+  <a class="mast" href="#" style="color:inherit;"><span class="logo">The Silence Between Us</span></a>
+
+  <div class="head">
+    <div class="ey">Legal</div>
+    <h1>Terms of Use</h1>
+    <div class="meta">Last updated: June 3, 2026</div>
+    <nav class="lnav">
+      <a class="cur" href="Terms of Use.html">Terms of Use</a>
+      <a href="Privacy Policy.html">Privacy Policy</a>
+      <a href="Contribution Terms.html">Contribution Terms</a>
+    </nav>
+  </div>
+
+  <div class="rule"><span class="d"></span></div>
+
+  <div class="shell">
+    <div class="grid">
+
+      <aside class="toc">
+        <span class="lbl">On this page</span>
+        <ol>
+          <li><a href="#acceptance">Acceptance of these terms</a></li>
+          <li><a href="#about">Who we are</a></li>
+          <li><a href="#use">Permitted use of the site</a></li>
+          <li><a href="#ip">Intellectual property</a></li>
+          <li><a href="#contrib">Contributions &amp; payments</a></li>
+          <li><a href="#submissions">Your submissions</a></li>
+          <li><a href="#thirdparty">Third-party services</a></li>
+          <li><a href="#disclaimers">Disclaimers</a></li>
+          <li><a href="#liability">Limitation of liability</a></li>
+          <li><a href="#changes">Changes to these terms</a></li>
+          <li><a href="#law">Governing law</a></li>
+          <li><a href="#contact">Contact us</a></li>
+        </ol>
+      </aside>
+
+      <div class="doc">
+        <div class="editor-note">Draft for review. This document is a plain-language starting point for The Silence Between Us and should be reviewed by qualified legal counsel before publication.</div>
+        <p class="intro">Welcome. These Terms of Use govern your access to and use of the website for <em>The Silence Between Us</em> (the “Site”), including any pages where you make a financial contribution to the film. Please read them carefully.</p>
+
+        <section id="acceptance">
+          <h2>Acceptance of these terms</h2>
+          <p>By accessing or using the Site, you agree to be bound by these Terms of Use and by our <a class="inline" href="Privacy Policy.html">Privacy Policy</a>. If you do not agree, please do not use the Site.</p>
+        </section>
+
+        <section id="about">
+          <h2>Who we are</h2>
+          <p>The Site is operated in connection with the production of the film <em>The Silence Between Us</em> by Take 3 Media, the creative production company for the project. Financial contributions are administered by KC Films &amp; Media, the parent company of Take 3 Media (together, “we,” “us,” or “our”).</p>
+        </section>
+
+        <section id="use">
+          <h2>Permitted use of the site</h2>
+          <p>You agree to use the Site only for lawful purposes. You agree not to:</p>
+          <ul>
+            <li>Use the Site in any way that violates applicable law or regulation;</li>
+            <li>Attempt to gain unauthorized access to the Site, its servers, or related systems;</li>
+            <li>Interfere with or disrupt the integrity or performance of the Site;</li>
+            <li>Copy, reproduce, or redistribute Site content except as expressly permitted.</li>
+          </ul>
+        </section>
+
+        <section id="ip">
+          <h2>Intellectual property</h2>
+          <p>All content on the Site — including the film title, logos, text, images, trailers, and other materials — is owned by or licensed to us and is protected by intellectual property laws. Your contribution does not transfer to you any ownership of the film or any underlying rights.</p>
+        </section>
+
+        <section id="contrib">
+          <h2>Contributions &amp; payments</h2>
+          <p>Financial contributions made through the Site are governed by our <a class="inline" href="Contribution Terms.html">Contribution Terms</a>, which describe the nature of contributions, supporter benefits, fulfillment, and refunds. By making a contribution, you agree to those terms.</p>
+        </section>
+
+        <section id="submissions">
+          <h2>Your submissions</h2>
+          <p>When you contact us or provide information — such as the name you wish to appear in the film’s credits or on the Founding Supporters page — you grant us permission to use that information for the stated purpose. Please do not submit the personal information of others without their consent.</p>
+        </section>
+
+        <section id="thirdparty">
+          <h2>Third-party services</h2>
+          <p>Payments are processed by Stripe, Inc. Your use of payment features is also subject to Stripe’s terms and privacy policy. The Site may link to third-party websites; we are not responsible for the content or practices of those sites.</p>
+        </section>
+
+        <section id="disclaimers">
+          <h2>Disclaimers</h2>
+          <p>The Site and its content are provided “as is” and “as available,” without warranties of any kind, whether express or implied. We do not warrant that the Site will be uninterrupted, error-free, or secure. A contribution supports a creative project in production; we do not guarantee any particular outcome, completion date, or release.</p>
+        </section>
+
+        <section id="liability">
+          <h2>Limitation of liability</h2>
+          <p>To the fullest extent permitted by law, we will not be liable for any indirect, incidental, consequential, or punitive damages arising from your use of the Site or any contribution, even if advised of the possibility of such damages.</p>
+        </section>
+
+        <section id="changes">
+          <h2>Changes to these terms</h2>
+          <p>We may update these Terms of Use from time to time. The “Last updated” date above reflects the most recent revision. Your continued use of the Site after changes are posted constitutes acceptance of the revised terms.</p>
+        </section>
+
+        <section id="law">
+          <h2>Governing law</h2>
+          <p>These Terms of Use are governed by the laws of the State of Ohio, without regard to its conflict-of-law principles. Any disputes will be resolved in the state or federal courts located in Ohio.</p>
+        </section>
+
+        <section id="contact">
+          <h2>Contact us</h2>
+          <p>Questions about these terms? Email <a class="inline" href="mailto:kevin@kcfilmsmedia.com">kevin@kcfilmsmedia.com</a> or use our <a class="inline" href="../Contact - The Silence Between Us.html">contact page</a>.</p>
+        </section>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="wrap">
+      <span>The Silence Between Us · Take 3 Media</span>
+      <span>Donations administered by KC Films &amp; Media</span>
+      <span>Questions? <a href="mailto:kevin@kcfilmsmedia.com">kevin@kcfilmsmedia.com</a></span>
+    </div>
+  </div>
+
+</body>
+</html>

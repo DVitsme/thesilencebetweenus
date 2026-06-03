@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Thank You — The Silence Between Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f7f3ea;
+    --ink:#2c2620;
+    --ink-soft:#5e564a;
+    --muted:#9a8c6f;
+    --line:#e3dccb;
+    --line-soft:#ece5d6;
+    --tint:#f1ebdd;
+    --gold:#f3c33b;
+    --gold-deep:#b98a14;
+    --dark:#211d17;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Newsreader',serif;-webkit-font-smoothing:antialiased;font-size:18px;line-height:1.6;}
+  a{color:inherit;}
+
+  .ey{font-style:italic;font-size:16px;color:var(--muted);letter-spacing:.2px;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 28px;}
+
+  /* masthead */
+  .mast{display:flex;justify-content:center;align-items:center;padding:24px;border-bottom:1px solid var(--line);}
+  .mast .logo{font-weight:500;font-size:15px;letter-spacing:3px;text-transform:uppercase;}
+
+  /* hero confirmation */
+  .hero{text-align:center;padding:70px 28px 52px;}
+  .seal{width:74px;height:74px;border:1.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;margin:0 auto 26px;background:var(--gold);}
+  .seal::after{content:"";width:24px;height:13px;border-left:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:rotate(-45deg) translate(1px,-3px);}
+  .hero h1{font-weight:400;font-size:54px;line-height:1.06;letter-spacing:-.5px;margin:0 auto;max-width:660px;}
+  .hero .lede{font-size:20px;line-height:1.55;color:var(--ink-soft);max-width:520px;margin:18px auto 0;}
+  .receipt{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:28px;}
+  .chip{font-style:italic;font-size:15px;color:var(--ink-soft);border:1px solid var(--line);background:#fff;border-radius:30px;padding:7px 16px;}
+  .chip b{font-style:normal;font-weight:500;}
+
+  /* divider rule with gold tick */
+  .rule{display:flex;align-items:center;gap:14px;max-width:760px;margin:0 auto;padding:0 28px;}
+  .rule::before,.rule::after{content:"";flex:1;height:1px;background:var(--line);}
+  .rule .d{width:7px;height:7px;background:var(--gold);transform:rotate(45deg);}
+
+  section{padding:54px 28px;}
+  .lbl{font-style:italic;color:var(--muted);font-size:16px;text-align:center;display:block;margin-bottom:8px;}
+  h2.h{font-weight:400;font-size:34px;line-height:1.12;letter-spacing:-.3px;text-align:center;margin:0 0 6px;}
+
+  /* what happens next — timeline list */
+  .next{max-width:660px;margin:34px auto 0;display:flex;flex-direction:column;}
+  .step{display:grid;grid-template-columns:130px 1fr;gap:24px;padding:22px 0;border-top:1px solid var(--line);}
+  .step:last-child{border-bottom:1px solid var(--line);}
+  .step .when{font-style:italic;color:var(--gold-deep);font-size:17px;padding-top:2px;}
+  .step .what{font-size:18px;color:var(--ink);}
+  .step .what small{display:block;font-size:15px;color:var(--ink-soft);margin-top:3px;font-style:italic;}
+  .step .what a{border-bottom:1px solid var(--muted);text-decoration:none;font-style:italic;color:var(--ink);}
+
+  /* kevin note */
+  .note-sec{background:var(--tint);}
+  .quote{max-width:660px;margin:0 auto;text-align:center;}
+  .quote .q{font-style:italic;font-weight:400;font-size:28px;line-height:1.4;letter-spacing:-.2px;}
+  .quote .sig{margin-top:18px;font-style:italic;color:var(--muted);font-size:16px;}
+
+  /* share + upgrade two-up */
+  .twoup{max-width:760px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:26px;}
+  .card h3{font-weight:400;font-size:24px;margin:0 0 4px;letter-spacing:-.2px;}
+  .card p{font-size:16px;color:var(--ink-soft);margin:0 0 18px;}
+  .share{display:flex;flex-direction:column;gap:10px;}
+  .btn{font-style:italic;font-size:16px;color:var(--ink);border:1px solid var(--ink);border-radius:30px;padding:11px 22px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:transparent;cursor:pointer;transition:background .15s,color .15s;}
+  .btn:hover{background:var(--ink);color:var(--paper);}
+  .btn.gold{background:var(--gold);border-color:var(--ink);}
+  .btn.gold:hover{background:var(--gold-deep);color:#fff;border-color:var(--gold-deep);}
+  .btn.block{width:100%;}
+
+  .foot{background:var(--dark);color:#c9bfa9;padding:34px 28px;font-style:italic;}
+  .foot .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:14px;}
+  .foot a{text-decoration:none;border-bottom:1px solid #5a5142;}
+
+  @media(max-width:680px){
+    .hero h1{font-size:38px;}
+    .twoup{grid-template-columns:1fr;}
+    .step{grid-template-columns:1fr;gap:4px;}
+    .step .when{padding-top:0;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="mast"><span class="logo">The Silence Between Us</span></div>
+
+  <!-- confirmation -->
+  <div class="hero">
+    <div class="seal" role="img" aria-label="Confirmed"></div>
+    <div class="ey">Your contribution is received</div>
+    <h1>Thank you. You're a Founding Supporter.</h1>
+    <p class="lede">You've helped give a silent story a voice. A receipt is on its way to your email — and your name is already part of this film.</p>
+    <div class="receipt">
+      <span class="chip">Receipt <b>#SBU&#8209;0042</b></span>
+      <span class="chip">Tier 1 · <b>Supporter</b></span>
+      <span class="chip">Contribution <b>$175</b></span>
+      <span class="chip">Paid securely via <b>Stripe</b></span>
+    </div>
+  </div>
+
+  <div class="rule"><span class="d"></span></div>
+
+  <!-- what happens next -->
+  <section>
+    <span class="lbl">What happens next</span>
+    <h2 class="h">Here's everything your support unlocks.</h2>
+    <div class="next">
+      <div class="step">
+        <div class="when">Right now</div>
+        <div class="what">Your name joins the Founding Supporters wall — permanent, shareable recognition. <small><a href="#">View the wall &amp; find your name →</a></small></div>
+      </div>
+      <div class="step">
+        <div class="when">This week</div>
+        <div class="what">We'll email to schedule your virtual meet &amp; greet with the director and principal cast.</div>
+      </div>
+      <div class="step">
+        <div class="when">Every quarter</div>
+        <div class="what">Insider production updates — milestones, behind-the-scenes, and the road to release — land in your inbox.</div>
+      </div>
+      <div class="step">
+        <div class="when">Before release</div>
+        <div class="what">Your first look at the trailer, ahead of the public.</div>
+      </div>
+      <div class="step">
+        <div class="when">In the film</div>
+        <div class="what">Your on-screen credit as a <em>Supporter</em>, listed the way you asked us to.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- a word from kevin -->
+  <section class="note-sec">
+    <div class="quote">
+      <span class="lbl">A word from the director</span>
+      <div class="q">“These teenagers deserve to be seen, heard, and understood — and today you helped make sure they will be. Thank you for standing with this story.”</div>
+      <div class="sig">— Kevin Cameron, writer &amp; director</div>
+    </div>
+  </section>
+
+  <!-- share + upgrade -->
+  <section>
+    <div class="twoup">
+      <div class="card">
+        <h3>Help one more person hear about it.</h3>
+        <p>The more people who see this story, the further it travels. Share it with someone who'd care.</p>
+        <div class="share">
+          <a class="btn block" href="#">↗ &nbsp;Share the film</a>
+          <a class="btn block" href="#">Send a friend the trailer</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Felt led to do more?</h3>
+        <p>Becoming a Partner or Patron expands the film's reach and adds benefits for you.</p>
+        <div class="share">
+          <a class="btn gold block" href="#">Explore Partner &amp; Patron →</a>
+          <a class="btn block" href="#">Return home</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <div class="wrap">
+      <span>The Silence Between Us · Take 3 Media</span>
+      <span>Donations administered by KC Films &amp; Media</span>
+      <span>Questions? <a href="mailto:kevin@kcfilmsmedia.com">kevin@kcfilmsmedia.com</a></span>
+    </div>
+  </div>
+
+</body>
+</html>
