@@ -29,10 +29,17 @@ foundation mirrored from `digitaldog-site-starter` (new-york shadcn + Shadcn Stu
   prices (illustrative — only **$175** confirmed), `<SupportButton>` → hosted Checkout w/ `TODO(checkout)` fallback.
 - `app/layout.tsx` — real chrome now: `<SiteHeader>` (sticky nav + Support CTA), `<SiteFooter>`
   (**988** line), Newsreader, metadata/OG (`components/site/*`). No longer the scaffold.
+- `/about` (`app/about/page.tsx`) — the designed **About Kevin** page (warm-literary; reuses the home
+  primitives + the dark "record" band). Kevin's spoken catchphrases were **adapted to the serious
+  register** per `handoff/07`; documented facts kept; portrait/classroom are `<Placeholder>`.
+- `/portfolio` (`app/portfolio/page.tsx` + `components/site/portfolio/work-grid.tsx`) — the designed
+  portfolio, **wired to real data** (`content/portfolio.ts`) and **real images** (`public/portfolio/*`
+  via `next/image` — first page using it; sharp works in dev, prod uses the CF IMAGES binding):
+  featured-film spotlight, filterable work grid (client), tour timeline, grouped partner logo wall
+  (mental-health leads), bio strip → /about, screening gallery, support bridge. Bio catchphrase adapted.
 - `/faq` (`app/faq/page.tsx`) — provisional FAQ (Accordion); now inherits the warm theme + chrome. (Minor: it has its own `<main>` nested in the layout's — fix when reworked.)
 
-**Not built yet:** `/about` (the next milestone — see `The-Silence-Between-Us/handoff/07-ABOUT-PAGE-NEXT.md`;
-**do NOT build until the human says go**), `/portfolio`, `/supporters`, `/contact`, `/thank-you`,
+**Not built yet:** `/supporters`, `/contact`, `/thank-you`,
 `/support/canceled`, `/legal/{terms,privacy,contributions}`, `not-found.tsx`/`error.tsx`/`global-error.tsx`,
 and api routes `/api/{checkout,webhooks/stripe,contact}`. Designed mockups for each live in
 `The-Silence-Between-Us/` (route map: `handoff/06-ROUTE-AND-LINK-MAP.md`); page copy drafts in `docs/copy/`.
@@ -49,9 +56,9 @@ are we waiting for", "yes sir" are for social/video, not the site). Voice source
 **release window**; **fundraising goal** (progress bar); verified **Resend sending domain**; faith dial
 (currently crossover); trailer/pitch video.
 
-**Git:** on branch **`setup/foundation`** (off `main`; `main` = initial commit only). First checkpoint
-committed (planning + portfolio + Phase 0); the shadcn-studio mirror, Hero 30, and `/faq` are
-**uncommitted** — commit only when asked.
+**Git:** branch **`setup/foundation`** (off `main`; `main` = initial commit only). Committed checkpoints
+cover planning + Phase 0, the warm-literary retrofit + new-york UI foundation, and the `/about` +
+`/portfolio` designed pages. Commit only when asked.
 
 ## Commands
 
@@ -99,6 +106,17 @@ committed (planning + portfolio + Phase 0); the shadcn-studio mirror, Hero 30, a
   land in `components/shadcn-studio/blocks/<id>/` (+ `assets/svg/`, sometimes new `ui/` primitives), and
   the CLI also writes a throwaway demo route `app/<id>/page.tsx` — **delete it**. Icons: `lucide-react`.
 - `lib/utils.ts` exports `cn()` (clsx + tailwind-merge); use it for conditional class merging.
+- **Building the remaining designed pages** (`/contact`, `/supporters`, `/thank-you`, `/support/canceled`,
+  legal): port layout + copy from the mockup in `The-Silence-Between-Us/` (HTML wins on look/copy), but
+  use our brand tokens (warm-literary, in `app/globals.css`) + `components/site/primitives.tsx`
+  (`Eyebrow`/`SectionHeading`/`Rule`/`Placeholder`) + `SupportButton`; rewrite cross-page links per
+  `handoff/06-ROUTE-AND-LINK-MAP.md`; **adapt Kevin's spoken catchphrases** to the serious register
+  (see `handoff/07` table); use **real data/images** from `content/portfolio.ts` + `public/portfolio/`
+  where the design shows works/partners/photos. Page metadata `title` only (layout adds the template).
+- **Two layout gotchas (learned, applied):** (1) `app/layout.tsx` `<body>` has `suppressHydrationWarning`
+  to silence benign browser-extension attribute injection (`cz-shortcut-listen`, etc.). (2) **Never put a
+  `next/image fill` inside an `items-center` grid/flex column without an explicit height** — the box
+  collapses to height 0; wrap the aspect box and give it `w-full`, or use an explicit `h-[Npx]`.
 
 ## Next.js 16 — this is NOT the Next.js in your training data
 

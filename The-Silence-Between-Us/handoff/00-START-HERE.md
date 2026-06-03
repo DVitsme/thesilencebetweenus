@@ -22,6 +22,17 @@ Read these docs **in order**, top to bottom. Each builds on the last. Don't skip
 | 05 | `05-DIFF-CURRENT-REPO.md` | Current repo state → target. What to overwrite, what to delete, how to verify |
 | 06 | `06-ROUTE-AND-LINK-MAP.md` | Which mockup file maps to which route; how to rewrite internal links |
 | 07 | `07-ABOUT-PAGE-NEXT.md` | **Do not act on this yet.** The next milestone, for when the human says go |
+| 08 | `08-CHECKOUT-CUSTOM-GIVE.md` | **Checkout change** + Stripe recommendation, `/give` build, PaymentIntent route, webhook, Cloudflare gotchas |
+| 09 | `09-PAGE-PORTFOLIO.md` | `/portfolio` build notes |
+| 10 | `10-PAGE-SUPPORTERS.md` | `/supporters` build notes (reads webhook data) |
+| 11 | `11-PAGE-CONTACT.md` | `/contact` build notes (Resend + reCAPTCHA wiring) |
+| 12 | `12-PAGE-THANK-YOU.md` | `/thank-you` — Stripe success `return_url` |
+| 13 | `13-PAGE-CANCELED.md` | `/support/canceled` build notes |
+| 14 | `14-PAGES-LEGAL.md` | `/legal/{terms,privacy,contributions}` shared template |
+
+> **Docs 08–14 are for later milestones**, not the home-page pass. They exist so each subsequent
+> page is a short, clean task when the human points you at it. Build the home page first (docs
+> 00–06), stop, and hand back.
 
 The **mockup HTML files** (the source of truth for layout and copy) sit alongside these docs:
 
@@ -70,12 +81,11 @@ These mockups were designed before some of your locked decisions were finalized.
 conflict, **your CLAUDE.md / `docs/` decisions win on behavior; the mockups win on look & copy.**
 Specific reconciliations — apply these, don't re-litigate them:
 
-1. **Hosted Stripe Checkout, not the custom form.** `Give - The Silence Between Us.html` shows a
-   custom inline card form. That is a **visual reference only.** Do **not** build an on-page card
-   form. All "Support / Choose tier / Contribute" CTAs initiate **hosted Stripe Checkout** per your
-   locked decision. On the *home* page this just means the tier buttons are `<SupportButton>`s that
-   (eventually) POST to `/api/checkout` — doc 04 ships a button with a clear `TODO(checkout)` and a
-   safe fallback so the page builds now without the API.
+1. **Custom `/give` page (UPDATED 2026-06-03), not hosted Checkout.** `Give - The Silence Between
+   Us.html` is now the **real checkout** we build with Stripe **Elements** — see
+   `08-CHECKOUT-CUSTOM-GIVE.md`. For the home page, all "Support / Choose tier / Contribute" CTAs are
+   `<SupportButton>`s that **link to `/give?tier=…`** (doc 08 §6). No checkout API and no on-page card
+   form are built in the home pass; you only build `/give` + Stripe when you reach doc 08.
 
 2. **988 in the footer (required).** The mockup footer omits it. Doc 03's `<SiteFooter>` **adds the
    988 Suicide & Crisis Lifeline line** — keep it. This is non-negotiable per your guide.

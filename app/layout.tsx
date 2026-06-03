@@ -31,7 +31,14 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={newsreader.variable}>
-      <body>
+      {/*
+       * suppressHydrationWarning is scoped to <body> only. Browser extensions
+       * (ColorZilla, password managers, dark-mode forcers, Grammarly) inject
+       * attributes like `cz-shortcut-listen="true"` on <body> before React
+       * hydrates — a benign mismatch. This flag silences that one node; it does
+       * NOT hide real hydration bugs inside the tree.
+       */}
+      <body suppressHydrationWarning>
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />

@@ -413,7 +413,6 @@ export function Tiers() {
               <div className="whitespace-nowrap text-right font-serif text-[27px]">{t.amountLabel}</div>
               <SupportButton
                 tier={t.id}
-                amount={t.amount ? t.amount * 100 : undefined}
                 className={t.popular ? "" : "border-ink bg-transparent text-ink hover:bg-ink hover:text-paper"}
               >
                 {t.id === "custom" ? "Contribute →" : "Choose →"}

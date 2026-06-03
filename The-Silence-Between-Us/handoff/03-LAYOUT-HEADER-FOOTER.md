@@ -44,72 +44,45 @@ export const SITE = {
 
 ---
 
-## 2. Support button (hosted Stripe Checkout — with safe fallback)
+## 2. Support button (links to our custom `/give` page)
 
-The mockup's inline card form is **not** built. Every "Support / Choose / Contribute" CTA routes to
-**hosted Stripe Checkout** (locked decision). The checkout API doesn't exist yet, so this ships a
-button that POSTs to `/api/checkout` when present and otherwise no-ops to `/#support` with a console
-note — so the home page builds and is navigable now.
+> **Updated per `08-CHECKOUT-CUSTOM-GIVE.md`:** CTAs no longer call a checkout API. The button is a
+> `next/link` to `/give?tier=…`, carrying the chosen tier. `/give` is built later (doc 08); a link to
+> a not-yet-built route just 404s until then — harmless, and nothing else to wire in the home pass.
 
 `components/site/support-button.tsx`
 ```tsx
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 type Props = {
   tier?: "supporter" | "partner" | "patron" | "custom";
-  amount?: number;           // cents; omit for "choose on checkout"
   className?: string;
   children: React.ReactNode;
 };
 
-export function SupportButton({ tier = "supporter", amount, className, children }: Props) {
-  const [loading, setLoading] = useState(false);
-
-  async function start() {
-    setLoading(true);
-    try {
-      // TODO(checkout): implement /api/checkout (Stripe Checkout, one-time) per docs/ia-and-architecture.md.
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ tier, amount }),
-      });
-      if (res.ok) {
-        const { url } = await res.json();
-        if (url) { window.location.href = url; return; }
-      }
-      throw new Error("checkout not wired yet");
-    } catch {
-      // Safe fallback until /api/checkout exists: jump to the tier section.
-      if (location.pathname === "/") location.hash = "support";
-      else location.href = "/#support";
-    } finally {
-      setLoading(false);
-    }
-  }
-
+export function SupportButton({ tier = "supporter", className, children }: Props) {
   return (
-    <button
-      type="button"
-      onClick={start}
-      disabled={loading}
+    <Link
+      href={`/give?tier=${tier}`}
       className={cn(
         "inline-flex items-center gap-2 rounded-full border border-ink bg-gold px-7 py-3",
         "font-serif italic text-[17px] text-ink transition-colors",
-        "hover:bg-gold-deep hover:text-paper hover:border-gold-deep disabled:opacity-60",
+        "hover:bg-gold-deep hover:text-paper hover:border-gold-deep",
         className,
       )}
     >
       {children}
-    </button>
+    </Link>
   );
 }
 ```
 
-> When `/api/checkout` lands, nothing here changes — it already calls it. Until then the page works.
+> It can technically be a Server Component now (no state), but keep `"use client"` so doc 08 can later
+> add tier-aware behavior without churn. The `amount` prop from the old version is gone — amount is
+> resolved on `/give`.
 
 ---
 
