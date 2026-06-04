@@ -42,16 +42,18 @@ foundation mirrored from `digitaldog-site-starter` (new-york shadcn + Shadcn Stu
 - `/contact` (`app/contact/page.tsx`) — the designed **Contact** page, built from `handoff/11`. Server page = hero + `<Rule>` + a two-col grid (form left, direct-details aside right); the form is the `"use client"` island `components/site/contact/contact-form.tsx` (inquiry chips, validation, inline warm success state). Submit is a resolved **stub** (`TODO(contact-wiring)`: POST `/api/contact` → verify reCAPTCHA → Resend to `kevin@kcfilmsmedia.com` with the inquiry category in the subject). Two **`TODO(contact-confirm)`** content calls await Kevin: the phone **216-308-4427** (it's the original form's **Zelle** number — OK to publish?) and **Cleveland vs Tampa** as the shown production location (+ a real Facebook URL). Admin note still carries the deferred "Donations…" wording (same as footer).
 - `/thank-you` (`app/thank-you/page.tsx`) — the Stripe success **return_url**, built from `handoff/12`. **Dynamic** `async` Server Component: `await`s `searchParams` and branches on `redirect_status` (`succeeded`/missing → confirmation; `processing` → "we're confirming"; `failed` → error → `/give` + `/support/canceled`). **Display-only — never fulfills** (that's the webhook, doc 08 §7). Receipt is `TODO(receipt)`: shows the **real** PaymentIntent id from the URL when present + "Paid via Stripe", but **no fabricated tier/amount/number** (doc 08 wires the PI retrieve later). `robots:{index:false}`. Success body = confirmation seal → "what happens next" timeline (1st step → `/supporters`) → director quote → share/upgrade (share intents; upgrade → `/#support` `TODO(give)`).
 
-**Not built yet (pages):** `/give` (checkout), `/support/canceled`, `/legal/{terms,privacy,contributions}`,
+**Not built yet (pages):** `/support/canceled`, `/legal/{terms,privacy,contributions}`,
 `not-found.tsx`/`error.tsx`/`global-error.tsx`. Designed mockups for each live in
 `The-Silence-Between-Us/` (route map: `handoff/06-ROUTE-AND-LINK-MAP.md`); page copy drafts in `docs/copy/`.
 
 **Payment slice (Phase 1, in progress — full roadmap `docs/build-plan.md`, task tracker active):** built &
 test-verified = `lib/stripe/{server,tiers}.ts` (lazy client + Fetch httpClient for Workers, apiVersion
 `2026-05-27.dahlia` = account default, amounts derive from `content/tiers.ts`), `/api/payment-intent`,
-`/api/stripe/webhook` (`constructEventAsync`; `recordSupporter` is a `TODO(data)` log stub). Pending = `/give`
-page (#3), flip `SupportButton`→`/give?tier=` (#6, retires the old `/api/checkout`+`/#support` interims),
-thank-you receipt via PI retrieve (#7), `/api/contact` (Resend+reCAPTCHA, Phase 3), supporters **D1 data
+`/api/stripe/webhook` (`constructEventAsync`; `recordSupporter` is a `TODO(data)` log stub), and **`/give`**
+(`app/give/page.tsx` + `components/site/give/give-form.tsx` — Stripe **Payment Element**, deferred mode; page
+reads the publishable key via `connection()`; per-tier benefits live in `content/tiers.ts`). Pending = flip
+`SupportButton`→`/give?tier=` (#6, retires the old `/api/checkout`+`/#support` interims), thank-you receipt via
+PI retrieve (#7), end-to-end test (#8), `/api/contact` (Resend+reCAPTCHA, Phase 3), supporters **D1 data
 layer** (#12). ⚠️ test webhook secret env is `STRIPE_WEBHOOK_SECRET` (no `_TEST_`); live is `STRIPE_LIVE_WEBHOOK_SECRET`.
 **Design system** (warm-literary): `The-Silence-Between-Us/handoff/01-DESIGN-SYSTEM.md`.
 

@@ -1,9 +1,12 @@
+export type Benefit = { text: string; muted?: boolean };
+
 export type Tier = {
   id: "supporter" | "partner" | "patron" | "custom";
   name: string;
   amount: number | null; // USD; null = custom/any amount
   amountLabel: string; // what to render
-  blurb: string;
+  blurb: string; // one-line description (home tier table + /give tier card)
+  benefits: Benefit[]; // order-summary "what you'll receive" list (/give, handoff doc 08)
   popular?: boolean;
   illustrative?: boolean; // TODO(tiers): true = price NOT confirmed by Kevin
 };
@@ -16,7 +19,14 @@ export const TIERS: Tier[] = [
     amount: 175,
     amountLabel: "$175",
     popular: true,
-    blurb: "Credit · meet & greet · wall listing · updates · first trailer look",
+    blurb: "On-screen credit · meet & greet · wall listing",
+    benefits: [
+      { text: `On-screen "Supporter" credit in the film` },
+      { text: "Virtual meet & greet with the director & cast" },
+      { text: "A permanent listing on the Founding Supporters page" },
+      { text: "Quarterly production updates from set" },
+      { text: "First look at the trailer, before public release" },
+    ],
   },
   {
     id: "partner",
@@ -24,7 +34,13 @@ export const TIERS: Tier[] = [
     amount: 500,
     amountLabel: "$500",
     illustrative: true,
-    blurb: "Everything in Supporter, plus premiere access & special thanks",
+    blurb: "Everything in Supporter, plus premiere access",
+    benefits: [
+      { text: "Everything in Supporter, plus —" },
+      { text: "Two tickets to a premiere-tour screening" },
+      { text: `Your name in the film's "Special Thanks"` },
+      { text: "A behind-the-scenes set update reel" },
+    ],
   },
   {
     id: "patron",
@@ -32,7 +48,13 @@ export const TIERS: Tier[] = [
     amount: 1500,
     amountLabel: "$1,500",
     illustrative: true,
-    blurb: "Everything in Partner, plus a producer credit & private screening",
+    blurb: "Everything in Partner, plus a producer credit",
+    benefits: [
+      { text: "Everything in Partner, plus —" },
+      { text: "An associate producer credit on the film" },
+      { text: "An invitation to a private cast & crew screening" },
+      { text: "A personal call with Kevin about the project" },
+    ],
   },
   {
     id: "custom",
@@ -40,5 +62,11 @@ export const TIERS: Tier[] = [
     amount: null,
     amountLabel: "from $1",
     blurb: "Every dollar helps this story get made",
+    benefits: [
+      { text: "Our heartfelt thanks — every dollar helps" },
+      { text: "A listing on the Founding Supporters page" },
+      { text: "Quarterly production updates from set" },
+      { text: "Unlock full Supporter benefits at $175", muted: true },
+    ],
   },
 ];
