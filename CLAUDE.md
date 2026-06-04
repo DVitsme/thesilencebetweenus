@@ -38,8 +38,9 @@ foundation mirrored from `digitaldog-site-starter` (new-york shadcn + Shadcn Stu
   featured-film spotlight, filterable work grid (client), tour timeline, grouped partner logo wall
   (mental-health leads), bio strip → /about, screening gallery, support bridge. Bio catchphrase adapted.
 - `/faq` (`app/faq/page.tsx`) — provisional FAQ (Accordion); now inherits the warm theme + chrome. (Minor: it has its own `<main>` nested in the layout's — fix when reworked.)
+- `/supporters` (`app/supporters/page.tsx`) — the designed **Founding Supporters wall**, built from `handoff/10`. Server page computes the live counts (total / patrons+partners / founding year) + renders the dark bridge CTA; the search/tier-filter/show-more block is the `"use client"` island `components/site/supporters/wall.tsx`. Roster is **placeholder** data in `content/supporters.ts` (`TODO(data)` → wire to the webhook's store per doc 08 §7; **privacy:** credit-name only, never email). Filter behavior ported verbatim from the mockup (patrons hide under Partner/Supporter; search narrows both). CTAs use the `/#support` interim (`TODO(give)`).
 
-**Not built yet:** `/supporters`, `/contact`, `/thank-you`,
+**Not built yet:** `/contact`, `/thank-you`,
 `/support/canceled`, `/legal/{terms,privacy,contributions}`, `not-found.tsx`/`error.tsx`/`global-error.tsx`,
 and api routes `/api/{checkout,webhooks/stripe,contact}`. Designed mockups for each live in
 `The-Silence-Between-Us/` (route map: `handoff/06-ROUTE-AND-LINK-MAP.md`); page copy drafts in `docs/copy/`.
@@ -113,6 +114,11 @@ cover planning + Phase 0, the warm-literary retrofit + new-york UI foundation, a
   `handoff/06-ROUTE-AND-LINK-MAP.md`; **adapt Kevin's spoken catchphrases** to the serious register
   (see `handoff/07` table); use **real data/images** from `content/portfolio.ts` + `public/portfolio/`
   where the design shows works/partners/photos. Page metadata `title` only (layout adds the template).
+  **Each remaining page has a dedicated handoff doc — READ IT FIRST:** `handoff/08-CHECKOUT-CUSTOM-GIVE.md`
+  (Stripe Checkout / Give flow), `09-PAGE-PORTFOLIO.md`, `10-PAGE-SUPPORTERS.md`, `11-PAGE-CONTACT.md`,
+  `12-PAGE-THANK-YOU.md`, `13-PAGE-CANCELED.md`, `14-PAGES-LEGAL.md`. (⚠️ `/portfolio` was built from the
+  mockup *before* doc 09 landed — reconcile against `09` if it differs.) Real assets are arriving:
+  `public/images/teacher-at-school.jpg`, `public/videos/*.mp4` (use `next/image`/`next/video` to replace `<Placeholder>`s).
 - **Two layout gotchas (learned, applied):** (1) `app/layout.tsx` `<body>` has `suppressHydrationWarning`
   to silence benign browser-extension attribute injection (`cz-shortcut-listen`, etc.). (2) **Never put a
   `next/image fill` inside an `items-center` grid/flex column without an explicit height** — the box

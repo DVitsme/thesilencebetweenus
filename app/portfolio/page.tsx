@@ -91,20 +91,35 @@ export default function PortfolioPage() {
           <div className="grid items-center gap-12 md:grid-cols-[1.15fr_1fr]">
             {/* wrapper is the grid item (centered); the aspect box has a definite width
                 (w-full) so aspect-ratio resolves a real height for the fill image */}
+            {/* wrapper is the grid item (centered); the <a> below is the aspect box
+                with a definite width (w-full) so aspect-ratio resolves a real height
+                for the fill image — and it doubles as the trailer link + play affordance */}
             <div>
-              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[4px] border border-[#3a352b]">
+              <a
+                href={featuredFilm.trailerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Watch the ${featuredFilm.title} trailer`}
+                className="group relative block aspect-[16/10] w-full overflow-hidden rounded-[4px] border border-[#3a352b]"
+              >
                 <Image
                   src={featuredFilm.image}
                   alt={`${featuredFilm.title} — trailer still`}
                   fill
                   sizes="(max-width: 820px) 100vw, 560px"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-200 group-hover:scale-[1.02]"
                 />
+                {/* gentle scrim so the play button + badge read on any still */}
+                <span className="absolute inset-0 bg-black/10 transition-colors group-hover:bg-black/25" />
+                {/* play affordance — decoration + function (links to the trailer) */}
+                <span className="absolute top-1/2 left-1/2 grid size-[62px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-[1.5px] border-[#efe9da] bg-black/25 backdrop-blur-[1px] transition-colors group-hover:bg-black/40">
+                  <span className="ml-1 block h-0 w-0 border-y-[10px] border-l-[16px] border-y-transparent border-l-[#efe9da]" />
+                </span>
                 <span className="bg-on-dark text-dark absolute top-3 right-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-serif text-[12.5px] italic">
                   <span className="bg-gold-deep size-1.5 rounded-full" />
                   Now on Amazon Prime
                 </span>
-              </div>
+              </a>
             </div>
             <div>
               <span className="text-on-dark-muted mb-1 block font-serif text-[16px] italic">
@@ -337,7 +352,7 @@ export default function PortfolioPage() {
           <p className="text-on-dark-soft mx-auto mb-7 max-w-[560px] font-serif text-[19px]">
             When you back <em>The Silence Between Us</em>, you&apos;re not donating — you&apos;re
             producing. A front-row seat to the journey, your name in the credits, and a story that
-            matters.
+            matters. Let&apos;s build it together.
           </p>
           <div className="flex flex-wrap justify-center gap-3.5">
             <SupportButton>Become a Founding Supporter →</SupportButton>

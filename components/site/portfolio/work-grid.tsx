@@ -23,6 +23,14 @@ const FILTER_ORDER: WorkCategory[] = [
   "in-development",
 ];
 
+// Filter chips use plural/short forms per the mockup ("Features", "TV"); the card
+// badges keep the singular labels above ("Feature", "TV pilot") — they differ on purpose.
+const FILTER_LABELS: Record<WorkCategory, string> = {
+  ...LABELS,
+  feature: "Features",
+  tv: "TV",
+};
+
 function cardCta(w: Work): { href: string; label: string; external: boolean } {
   if (w.slug === "the-silence-between-us")
     return { href: "/#support", label: "Become a Founding Supporter →", external: false };
@@ -98,7 +106,7 @@ export function WorkGrid({ works }: { works: Work[] }) {
         </button>
         {present.map((c) => (
           <button key={c} type="button" onClick={() => setFilter(c)} className={chip(filter === c)}>
-            {LABELS[c]}
+            {FILTER_LABELS[c]}
           </button>
         ))}
       </div>
