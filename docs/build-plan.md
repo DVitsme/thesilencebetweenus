@@ -44,10 +44,75 @@ also activates three already-built pages (thank-you, supporters, every "Support"
 | 3 ✅ | **`/support/canceled`** (doc 13) · **DONE 2026-06-04** | 2 | Fixed the thank-you "What happened?" 404; completes give→thank-you→canceled. | ✅ | S |
 | 4 ✅ | **Refund email** — `charge.refunded` branch → `refund-confirmation` · **DONE 2026-06-04 (verified live)** | 3 | Completes the money lifecycle (same webhook file as #1). Full refunds only; partials logged. ⚠️ prod webhook endpoint must enable `charge.refunded`. | ✅ | S |
 | 5 ✅ | **Legal trio** — `/legal/{terms,privacy,contributions}` (doc 14) · **DONE 2026-06-04** | 2 | Footer legal links now resolve; renders $175 benefits from `tiers.ts`. | "Draft for review" banner kept; ⚠️ governing-law defaulted **Florida** (`TODO(legal-confirm)`) | L |
-| 6 | **Broadcast sends** — `production-update` + `trailer-first-look` via Resend Broadcasts | 3 | Quarterly updates + trailer reveal to all supporters. | ⚠️ gated: Kevin mailing address + Resend Audience + marketing subdomain | M |
+| 6 ⏸ | **Broadcast sends** — `production-update` + `trailer-first-look` via Resend Broadcasts · **DEFERRED → post-launch fast-follow** (2026-06-04) | 3 | **Not launch-blocking** — templates built, supporters captured in D1 from day one, no audience pre-launch. Delivers 2 promised perks, so do before the 1st quarterly update. | ⚠️ gated: Kevin mailing address + Resend Audience + marketing subdomain | M |
 
 *Later (not Phase 2/3):* Phase 4 (error pages, SEO, FAQ rework, a11y), Phase 5 (Kevin content), Phase 6
 (launch). Kevin-gated inputs: `docs/decisions-for-kevin.md`.
+
+---
+
+## 🚦 Pre-launch revisit checklist — deferred / skipped / stubbed
+
+> Consolidated audit of everything parked along the way, so nothing ships by accident. Grounded in the
+> code (every `TODO(...)`, `<Placeholder>`, `illustrative` flag) + the locked decisions. Full
+> Kevin-input detail: `docs/decisions-for-kevin.md`. **Revisit this whole list before go-live.**
+
+**Deferred features**
+- **#6 Broadcasts** ⏸ → **post-launch fast-follow** (decided 2026-06-04). Not launch-blocking: the
+  `production-update` + `trailer-first-look` templates are already built, supporters land in D1 from
+  day one (so you can broadcast retroactively), and there's no audience to email pre-launch. It IS the
+  delivery mechanism for two promised perks (quarterly updates + trailer first-look), so build it
+  before the first quarterly update comes due. Gated on Kevin's mailing address (CAN-SPAM) + a Resend
+  Audience + ideally a separate marketing subdomain.
+
+**⚠️ Must not ship as-is (would mislead or break in prod)**
+- **Seed supporters** — `db/seed-supporters.sql` loaded 47 fake rows (`seed:` tag); the live
+  `/supporters` wall would show fabricated names. Clear at go-live: `DELETE FROM supporters WHERE
+  stripe_payment_intent LIKE 'seed:%'` on the prod D1.
+- **Illustrative tier prices** — Partner **$500** / Patron **$1,500** are placeholders
+  (`content/tiers.ts`, `illustrative:true`); only **$175** is confirmed. The live site shows and would
+  charge these. Confirm with Kevin. `TODO(tiers)`.
+- **reCAPTCHA not actually verifying** — the site key lacks `localhost`/the prod domain, so live
+  `siteverify` returns `browser-error` (dev falls through; prod is strict). Register the domains +
+  confirm `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` ≠ `RECAPTCHA_SECRET_KEY` before trusting contact spam protection.
+- **Legal trio = drafts** — carry the "Draft for review" banner; need **counsel review**. Governing law
+  is a **Florida** default (`TODO(legal-confirm)`, per `docs/copy/legal.md`; the mockup said Ohio).
+- **`/api/dev/email-preview`** — confirm the dev-only guard 404s it in prod.
+
+**Launch config + accounts (Phase 6, blocking)**
+- **Production domain** → `metadataBase` (`app/layout.tsx` `TODO(domain)`) + `SHARE_URL`
+  (`app/thank-you/page.tsx` `TODO(domain)`) + sitemap/OG.
+- **Resend** — verify the transactional sending domain; set `RESEND_API_KEY`/`CONTACT_FROM_EMAIL`/
+  `CONTACT_TO_EMAIL` as Cloudflare secrets + `.dev.vars`.
+- **Flip contact recipient** → `CONTACT_TO_EMAIL=kevin@kcfilmsmedia.com` (now derrick@digitaldog.io;
+  `app/api/contact/route.ts` `TODO(launch)`).
+- **Stripe live** — live keys + live webhook + `STRIPE_LIVE_WEBHOOK_SECRET`, and **enable both events**
+  on the endpoint: `payment_intent.succeeded` + `charge.refunded` (#4).
+- **Prod D1** — `wrangler d1 create` + bind in `wrangler.jsonc` (`TODO(d1)`); `pnpm cf-typegen`.
+- **Statement descriptor** — what shows on the card statement (`docs/copy/legal.md` `[STATEMENT DESCRIPTOR]`).
+
+**Kevin-gated content (Phase 5 — detail in `docs/decisions-for-kevin.md`)**
+- Tier ladder + amounts · fundraising goal + progress bar · release window · endorsements
+  (`endorsements.tsx` `TODO(endorsements)`) · faith dial · trailer/pitch video.
+- **Imagery `<Placeholder>`s still live:** home (`filmmaker`, `teacher-split`), about (portrait,
+  classroom), portfolio ("more from the tour"). Swap to `next/image` as assets land.
+- **Contact confirmations** (`app/contact/page.tsx` `TODO(contact-confirm)`): phone **216-308-4427**
+  (the original Zelle number — OK to publish?), **Tampa vs Cleveland**, real Facebook URL.
+- **"Donations" wording** (footer + contact admin note) per the locked register.
+
+**Code hardening (Phase 4 — no Kevin needed; the next buildable work)**
+- `not-found.tsx` / `error.tsx` / `global-error.tsx` (warm-branded; today an unhandled error shows the
+  raw Next page). Mockups exist (`404`/`Error` HTML).
+- SEO: `sitemap.ts`, `robots.ts`, default/OG image.
+- FAQ: fix the nested `<main>` + finalize copy from `docs/copy/`.
+- a11y + Lighthouse pass.
+
+**Smaller gaps**
+- The **supporter-confirmation email** doesn't link the Contribution/Refund terms (doc 14 suggested it;
+  the `/give` form already does).
+- **Analytics** — the Privacy Policy mentions analytics + a cookie-consent banner "if added"; decide,
+  and add a banner if you enable analytics.
+- Legal **"Last updated"** is hardcoded `June 3, 2026`; bump when counsel revises.
 
 ---
 
