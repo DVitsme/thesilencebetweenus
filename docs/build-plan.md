@@ -32,6 +32,25 @@ also activates three already-built pages (thank-you, supporters, every "Support"
 
 ---
 
+## ▶ Recommended order — Phase 2 + 3 (current focus, set 2026-06-04)
+
+> Remaining Phase 2 + 3 work, merged and ordered. Finish the core user flows first (everything's
+> ready to wire), then dead-link fixes, then the bigger/gated items.
+
+| # | Task | Phase | Why / unblocks | Ready? | Effort |
+|---|------|:---:|------|:---:|:---:|
+| 1 | **Wire payment-confirmation emails** — `supporter-confirmation` + `internal-new-contribution` into the `payment_intent.succeeded` webhook | 3 | Supporters get a branded thank-you (today: only Stripe's receipt); team gets an alert. Clears webhook `TODO(email)`. | ✅ | M |
+| 2 | **Finish + secure contact** — wire `contact-autoreply` (2nd send in `/api/contact`) + add **reCAPTCHA** | 3 | Submitter acknowledgment + spam protection on the live form. | ✅ | M |
+| 3 | **`/support/canceled`** (doc 13) | 2 | Fixes the thank-you "What happened?" 404; completes give→thank-you→canceled. | ✅ | S |
+| 4 | **Refund email** — `charge.refunded` branch → `refund-confirmation` | 3 | Completes the money lifecycle (same webhook file as #1). | ✅ | S |
+| 5 | **Legal trio** — `/legal/{terms,privacy,contributions}` (doc 14) | 2 | Fixes footer/contribution links; launch credibility; renders $175 benefits. | ⚠️ draft banner; governing-law = Kevin | L |
+| 6 | **Broadcast sends** — `production-update` + `trailer-first-look` via Resend Broadcasts | 3 | Quarterly updates + trailer reveal to all supporters. | ⚠️ gated: Kevin mailing address + Resend Audience + marketing subdomain | M |
+
+*Later (not Phase 2/3):* Phase 4 (error pages, SEO, FAQ rework, a11y), Phase 5 (Kevin content), Phase 6
+(launch). Kevin-gated inputs: `docs/decisions-for-kevin.md`.
+
+---
+
 ## Phase 1 — Payment core ✅ done *(keystone; verified 2026-06-04, dev + workerd — see `docs/stripe-test-runbook.md`)*
 
 - [x] Install deps: `stripe`, `@stripe/stripe-js`, `@stripe/react-stripe-js` (+ `pnpm.onlyBuiltDependencies` if needed)

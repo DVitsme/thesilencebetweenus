@@ -1,6 +1,7 @@
 import type Stripe from "stripe";
 import { getStripe, stripeWebhookSecret } from "@/lib/stripe/server";
 import { recordSupporter } from "@/lib/db/supporters";
+import { sendContributionEmails } from "@/lib/email/notify";
 
 // Stripe SDK + webhook verification need the Node runtime (workerd + nodejs_compat).
 export const runtime = "nodejs";
@@ -37,8 +38,12 @@ export async function POST(req: Request) {
       email: pi.receipt_email ?? null,
       createdAt: new Date().toISOString(),
     });
-    // TODO(email): send a confirmation via Resend (Phase 3). Stripe also emails the
-    // receipt when receipt_email is set.
+    // Notify (best-effort): branded supporter thank-you + internal team alert. Stripe
+    // sends the itemized receipt separately. Failures are logged, never thrown — the D1
+    // record above is the source of truth and must not depend on a send.
+    await sendContributionEmails(pi).catch((e) =>
+      console.error("[webhook email] notify failed:", e),
+    );
   }
 
   // Acknowledge everything else (e.g. payment_intent.payment_failed) with 200 so
