@@ -14,7 +14,7 @@ Reference docs in **`docs/`**: full build spec `docs/ia-and-architecture.md`; vo
 `docs/portfolio-page-plan.md`; typed portfolio data `content/portfolio.ts`. `transcripts/` and
 `portfolio/` hold research/source material, not application code. **Read "Build status" next.**
 
-## Build status — read first after a context reset (updated 2026-06-03)
+## Build status — read first after a context reset (updated 2026-06-04)
 
 **Phase 0 (tooling) ✅ done & verified:** npm→pnpm; OpenNext + Wrangler (Cloudflare Workers); UI
 foundation mirrored from `digitaldog-site-starter` (new-york shadcn + Shadcn Studio registries).
