@@ -33,10 +33,10 @@ const FILTER_LABELS: Record<WorkCategory, string> = {
 
 function cardCta(w: Work): { href: string; label: string; external: boolean } {
   if (w.slug === "the-silence-between-us")
-    return { href: "/#support", label: "Become a Founding Supporter →", external: false };
+    return { href: "/give?tier=supporter", label: "Become a Founding Supporter →", external: false };
   if (w.videoUrl) return { href: w.videoUrl, label: "Watch →", external: true };
   if (w.externalUrl) return { href: w.externalUrl, label: "Watch on Prime →", external: true };
-  return { href: "/#support", label: "Learn more →", external: false };
+  return { href: "/give", label: "Learn more →", external: false };
 }
 
 function WorkCard({ work }: { work: Work }) {

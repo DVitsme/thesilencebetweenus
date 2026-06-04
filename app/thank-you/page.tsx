@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Check, Clock, X } from "lucide-react";
 import { Eyebrow, Rule } from "@/components/site/primitives";
+import { getStripe } from "@/lib/stripe/server";
+import { TIERS } from "@/content/tiers";
 
 export const metadata: Metadata = {
   title: "Thank You",
@@ -9,9 +11,7 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-// TODO(give): interim target until the /give checkout page ships (handoff doc 08);
-// flip to `/give?tier=…` then.
-const GIVE_HREF = "/#support";
+const GIVE_HREF = "/give";
 
 // TODO(domain): confirm the production domain (matches layout.tsx metadataBase).
 const SHARE_URL = "https://thesilencebetweenus.film";
@@ -47,6 +47,34 @@ function first(v: string | string[] | undefined): string | undefined {
   return Array.isArray(v) ? v[0] : v;
 }
 
+type Receipt = { id: string; amountCents: number; tier: string };
+
+function fmtUSD(cents: number): string {
+  return `$${Math.round(cents / 100).toLocaleString("en-US")}`;
+}
+
+function tierName(id: string): string | null {
+  const t = TIERS.find((x) => x.id === id);
+  return t && t.id !== "custom" ? t.name : null;
+}
+
+function shortRef(id: string): string {
+  return `#${id.replace(/^pi_/, "").slice(-8).toUpperCase()}`;
+}
+
+// Read-only receipt lookup (handoff doc 12). Fulfillment still happens in the webhook;
+// on any failure we fall back to a generic confirmation — never a fabricated receipt.
+async function retrieveReceipt(paymentIntentId: string | undefined): Promise<Receipt | null> {
+  if (!paymentIntentId) return null;
+  try {
+    const pi = await getStripe().paymentIntents.retrieve(paymentIntentId);
+    const tier = typeof pi.metadata?.tier === "string" ? pi.metadata.tier : "custom";
+    return { id: pi.id, amountCents: pi.amount_received || pi.amount, tier };
+  } catch {
+    return null;
+  }
+}
+
 function Chip({ children }: { children: React.ReactNode }) {
   return (
     <span className="border-line bg-card-paper text-ink-soft rounded-full border px-4 py-1.5 font-serif text-[15px] italic">
@@ -55,18 +83,31 @@ function Chip({ children }: { children: React.ReactNode }) {
   );
 }
 
-function ReceiptChips({ reference }: { reference?: string }) {
-  // TODO(receipt): once lib/stripe/server.ts exists (doc 08), retrieve the PaymentIntent
-  // server-side and render real Tier (pi.metadata.tier) + Amount (pi.amount / 100) chips
-  // here. We deliberately do NOT show a fabricated tier/amount/number — `reference` is the
-  // real Stripe PaymentIntent id from the return_url when present.
+function ReceiptChips({ receipt }: { receipt: Receipt | null }) {
+  if (receipt) {
+    const name = tierName(receipt.tier);
+    return (
+      <div className="mt-7 flex flex-wrap justify-center gap-2.5">
+        <Chip>
+          Receipt · <b className="font-medium not-italic">{shortRef(receipt.id)}</b>
+        </Chip>
+        {name && (
+          <Chip>
+            Tier · <b className="font-medium not-italic">{name}</b>
+          </Chip>
+        )}
+        <Chip>
+          Contribution · <b className="font-medium not-italic">{fmtUSD(receipt.amountCents)}</b>
+        </Chip>
+        <Chip>
+          Paid securely via <b className="font-medium not-italic">Stripe</b>
+        </Chip>
+      </div>
+    );
+  }
+  // No verified PaymentIntent (direct visit or lookup failed) — show only what's true.
   return (
     <div className="mt-7 flex flex-wrap justify-center gap-2.5">
-      {reference && (
-        <Chip>
-          Reference · <b className="font-medium not-italic">{reference}</b>
-        </Chip>
-      )}
       <Chip>
         Paid securely via <b className="font-medium not-italic">Stripe</b>
       </Chip>
@@ -74,7 +115,7 @@ function ReceiptChips({ reference }: { reference?: string }) {
   );
 }
 
-function SuccessState({ reference }: { reference?: string }) {
+function SuccessState({ receipt }: { receipt: Receipt | null }) {
   return (
     <>
       {/* Confirmation */}
@@ -90,7 +131,7 @@ function SuccessState({ reference }: { reference?: string }) {
           You&apos;ve helped give a silent story a voice. A receipt is on its way to your email — and
           your name is already part of this film.
         </p>
-        <ReceiptChips reference={reference} />
+        <ReceiptChips receipt={receipt} />
       </section>
 
       <Rule />
@@ -171,7 +212,7 @@ function SuccessState({ reference }: { reference?: string }) {
               Becoming a Partner or Patron expands the film&apos;s reach and adds benefits for you.
             </p>
             <div className="flex flex-col gap-2.5">
-              <Link href={GIVE_HREF} className={`${GOLD_BTN} w-full`}>
+              <Link href="/give?tier=partner" className={`${GOLD_BTN} w-full`}>
                 Explore Partner &amp; Patron →
               </Link>
               <Link href="/" className={`${OUTLINE_BTN} w-full`}>
@@ -251,5 +292,7 @@ export default async function ThankYouPage({
   // webhook (doc 08 §7), never here. This page may never run; never depend on it.
   if (status === "failed") return <FailedState />;
   if (status === "processing") return <ProcessingState />;
-  return <SuccessState reference={paymentIntent} />;
+
+  const receipt = await retrieveReceipt(paymentIntent);
+  return <SuccessState receipt={receipt} />;
 }

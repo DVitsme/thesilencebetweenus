@@ -51,10 +51,12 @@ test-verified = `lib/stripe/{server,tiers}.ts` (lazy client + Fetch httpClient f
 `2026-05-27.dahlia` = account default, amounts derive from `content/tiers.ts`), `/api/payment-intent`,
 `/api/stripe/webhook` (`constructEventAsync`; `recordSupporter` is a `TODO(data)` log stub), and **`/give`**
 (`app/give/page.tsx` + `components/site/give/give-form.tsx` — Stripe **Payment Element**, deferred mode; page
-reads the publishable key via `connection()`; per-tier benefits live in `content/tiers.ts`). Pending = flip
-`SupportButton`→`/give?tier=` (#6, retires the old `/api/checkout`+`/#support` interims), thank-you receipt via
-PI retrieve (#7), end-to-end test (#8), `/api/contact` (Resend+reCAPTCHA, Phase 3), supporters **D1 data
-layer** (#12). ⚠️ test webhook secret env is `STRIPE_WEBHOOK_SECRET` (no `_TEST_`); live is `STRIPE_LIVE_WEBHOOK_SECRET`.
+reads the publishable key via `connection()`; per-tier benefits live in `content/tiers.ts`). **`SupportButton`
+links to `/give?tier=` site-wide** (#6 — the `/#support`/`/api/checkout` interims are retired), and **`/thank-you`
+renders the real PaymentIntent receipt** (#7 — read-only retrieve: tier + amount + ref; falls back gracefully).
+Pending = end-to-end card test (#8 — needs a browser + `stripe listen`), `/api/contact` (Resend+reCAPTCHA,
+Phase 3), supporters **D1 data layer** (#12). ⚠️ test webhook secret env is `STRIPE_WEBHOOK_SECRET` (no
+`_TEST_`); live is `STRIPE_LIVE_WEBHOOK_SECRET`.
 **Design system** (warm-literary): `The-Silence-Between-Us/handoff/01-DESIGN-SYSTEM.md`.
 
 **Locked decisions:** Stripe **custom `/give` checkout** (Payment Element, *deferred* mode), **one-time**

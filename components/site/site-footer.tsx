@@ -14,7 +14,7 @@ const COLS = [
   {
     h: "Support",
     links: [
-      { label: "Become a Supporter", href: "/#support" },
+      { label: "Become a Supporter", href: "/give" },
       { label: "Founding Supporters", href: "/supporters" },
       { label: "Contact us", href: "/contact" },
     ],

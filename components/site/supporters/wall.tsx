@@ -17,9 +17,8 @@ const FILTERS: { key: FilterKey; label: string }[] = [
 
 const PAGE = 16;
 
-// TODO(give): the support CTAs route to the home #support recap until the /give
-// checkout page ships (handoff doc 08). Flip this to `/give?tier=…` at that point.
-const GIVE_HREF = "/#support";
+// Support CTAs link to the custom /give checkout (handoff doc 08).
+const GIVE_HREF = "/give";
 
 const HEADING = "text-[clamp(1.75rem,3.4vw,2rem)]";
 
