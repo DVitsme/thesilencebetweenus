@@ -52,7 +52,7 @@ also activates three already-built pages (thank-you, supporters, every "Support"
 
 - [ ] reCAPTCHA (client token + server verify) — *needs site/secret keys (free)*
 - [ ] `app/api/contact/route.ts` (Resend → `kevin@kcfilmsmedia.com`, category in subject) + flip contact-form stub → real POST → clears `TODO(contact-wiring)` — *needs Resend key*
-- [ ] Supporters data layer — add **D1** binding (rec. over KV) in `wrangler.jsonc`; `recordSupporter()` writes; supporters page reads real rows → clears `TODO(data)`; run `pnpm cf-typegen`
+- [x] Supporters data layer — **D1** `DB` binding in `wrangler.jsonc`; `lib/db/supporters.ts` (idempotent webhook write / public read); `/supporters` reads D1 (`force-dynamic`) → clears `TODO(data)`; `pnpm cf-typegen`. *(Verified 2026-06-04: read on workerd, write end-to-end on dev. V1 seed `db/seed-supporters.sql`; remote D1 `wrangler d1 create` = deploy-time `TODO(d1)`.)*
 
 ## Phase 4 — Site hardening *(independent — parallelizable with 1–3)*
 
@@ -80,6 +80,8 @@ also activates three already-built pages (thank-you, supporters, every "Support"
 ---
 
 ## Collect now — parallel asks that gate launch, not building
+
+> Full, prioritized list with context + current placeholders: **`docs/decisions-for-kevin.md`**.
 
 **From Kevin:** tier ladder + amounts · fundraising goal · release window · endorsements · trailer ·
 imagery · phone/location/Facebook · legal entity state.

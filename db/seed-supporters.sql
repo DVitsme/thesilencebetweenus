@@ -1,0 +1,56 @@
+-- Founding Supporters — V1 REVIEW SEED (sample names, NOT real supporters).
+-- Purpose: make the wall look complete for Kevin's review before real data flows in.
+-- Apply:   pnpm db:seed:local           (local D1)  |  pnpm db:seed  (remote, after `wrangler d1 create`)
+-- GO-LIVE: clear these before launch ->  DELETE FROM supporters WHERE stripe_payment_intent LIKE 'seed:%';
+-- Idempotent: INSERT OR IGNORE on the unique stripe_payment_intent ('seed:NNNN').
+
+INSERT OR IGNORE INTO supporters
+  (stripe_payment_intent, display_tier, tier_id, credit_name, supporter_name, amount_cents, email, created_at)
+VALUES
+  ('seed:0001', 'patron', 'patron', 'The Cameron Family', 'The Cameron Family', 150000, NULL, '2026-01-05T12:00:00.000Z'),
+  ('seed:0002', 'patron', 'patron', 'Grace & Mercy Foundation', 'Grace & Mercy Foundation', 150000, NULL, '2026-01-06T12:00:00.000Z'),
+  ('seed:0003', 'patron', 'patron', 'Dr. Marcus & Lila Bennett', 'Dr. Marcus & Lila Bennett', 150000, NULL, '2026-01-07T12:00:00.000Z'),
+  ('seed:0004', 'partner', 'partner', 'The Johnson Family', 'The Johnson Family', 50000, NULL, '2026-01-08T12:00:00.000Z'),
+  ('seed:0005', 'partner', 'partner', 'Maranatha SDA Church', 'Maranatha SDA Church', 50000, NULL, '2026-01-09T12:00:00.000Z'),
+  ('seed:0006', 'partner', 'partner', 'R. & T. Okafor', 'R. & T. Okafor', 50000, NULL, '2026-01-10T12:00:00.000Z'),
+  ('seed:0007', 'partner', 'partner', 'Deborah Whitfield', 'Deborah Whitfield', 50000, NULL, '2026-01-11T12:00:00.000Z'),
+  ('seed:0008', 'partner', 'partner', 'Cornerstone Media Group', 'Cornerstone Media Group', 50000, NULL, '2026-01-12T12:00:00.000Z'),
+  ('seed:0009', 'partner', 'partner', 'James A. Sinclair', 'James A. Sinclair', 50000, NULL, '2026-01-13T12:00:00.000Z'),
+  ('seed:0010', 'partner', 'partner', 'The Reyes Household', 'The Reyes Household', 50000, NULL, '2026-01-14T12:00:00.000Z'),
+  ('seed:0011', 'partner', 'partner', 'Pastor D. Snell', 'Pastor D. Snell', 50000, NULL, '2026-01-15T12:00:00.000Z'),
+  ('seed:0012', 'supporter', 'supporter', 'A. Rivera', 'A. Rivera', 17500, NULL, '2026-01-16T12:00:00.000Z'),
+  ('seed:0013', 'supporter', 'supporter', 'Grace Chapel Youth', 'Grace Chapel Youth', 17500, NULL, '2026-01-17T12:00:00.000Z'),
+  ('seed:0014', 'supporter', 'supporter', 'M. Thompson', 'M. Thompson', 17500, NULL, '2026-01-18T12:00:00.000Z'),
+  ('seed:0015', 'supporter', 'supporter', 'The Doe Family', 'The Doe Family', 17500, NULL, '2026-01-19T12:00:00.000Z'),
+  ('seed:0016', 'supporter', 'supporter', 'K. Patel', 'K. Patel', 17500, NULL, '2026-01-20T12:00:00.000Z'),
+  ('seed:0017', 'supporter', 'supporter', 'Nathaniel Brooks', 'Nathaniel Brooks', 17500, NULL, '2026-01-21T12:00:00.000Z'),
+  ('seed:0018', 'supporter', 'supporter', 'Simone & Co.', 'Simone & Co.', 17500, NULL, '2026-01-22T12:00:00.000Z'),
+  ('seed:0019', 'supporter', 'supporter', 'The Adeyemi Family', 'The Adeyemi Family', 17500, NULL, '2026-01-23T12:00:00.000Z'),
+  ('seed:0020', 'supporter', 'supporter', 'L. Carter', 'L. Carter', 17500, NULL, '2026-01-24T12:00:00.000Z'),
+  ('seed:0021', 'supporter', 'supporter', 'Hope Fellowship', 'Hope Fellowship', 17500, NULL, '2026-01-25T12:00:00.000Z'),
+  ('seed:0022', 'supporter', 'supporter', 'J. Nakamura', 'J. Nakamura', 17500, NULL, '2026-01-26T12:00:00.000Z'),
+  ('seed:0023', 'supporter', 'supporter', 'Brianna Hughes', 'Brianna Hughes', 17500, NULL, '2026-01-27T12:00:00.000Z'),
+  ('seed:0024', 'supporter', 'supporter', 'The Mensah Family', 'The Mensah Family', 17500, NULL, '2026-01-28T12:00:00.000Z'),
+  ('seed:0025', 'supporter', 'supporter', 'C. Daniels', 'C. Daniels', 17500, NULL, '2026-01-29T12:00:00.000Z'),
+  ('seed:0026', 'supporter', 'supporter', 'Olivia Grant', 'Olivia Grant', 17500, NULL, '2026-01-30T12:00:00.000Z'),
+  ('seed:0027', 'supporter', 'supporter', 'T. Robinson', 'T. Robinson', 17500, NULL, '2026-01-31T12:00:00.000Z'),
+  ('seed:0028', 'supporter', 'supporter', 'Faith & Film Club', 'Faith & Film Club', 17500, NULL, '2026-02-01T12:00:00.000Z'),
+  ('seed:0029', 'supporter', 'supporter', 'D. Osei', 'D. Osei', 17500, NULL, '2026-02-02T12:00:00.000Z'),
+  ('seed:0030', 'supporter', 'supporter', 'The Park Family', 'The Park Family', 17500, NULL, '2026-02-03T12:00:00.000Z'),
+  ('seed:0031', 'supporter', 'supporter', 'Renee Coleman', 'Renee Coleman', 17500, NULL, '2026-02-04T12:00:00.000Z'),
+  ('seed:0032', 'supporter', 'supporter', 'S. Abara', 'S. Abara', 17500, NULL, '2026-02-05T12:00:00.000Z'),
+  ('seed:0033', 'supporter', 'supporter', 'Michael Tran', 'Michael Tran', 17500, NULL, '2026-02-06T12:00:00.000Z'),
+  ('seed:0034', 'supporter', 'supporter', 'The Lewis Family', 'The Lewis Family', 17500, NULL, '2026-02-07T12:00:00.000Z'),
+  ('seed:0035', 'supporter', 'supporter', 'A. Fernández', 'A. Fernández', 17500, NULL, '2026-02-08T12:00:00.000Z'),
+  ('seed:0036', 'supporter', 'supporter', 'Gabriel Santos', 'Gabriel Santos', 17500, NULL, '2026-02-09T12:00:00.000Z'),
+  ('seed:0037', 'supporter', 'supporter', 'The Owusu Family', 'The Owusu Family', 17500, NULL, '2026-02-10T12:00:00.000Z'),
+  ('seed:0038', 'supporter', 'supporter', 'P. Nguyen', 'P. Nguyen', 17500, NULL, '2026-02-11T12:00:00.000Z'),
+  ('seed:0039', 'supporter', 'supporter', 'Hannah Bright', 'Hannah Bright', 17500, NULL, '2026-02-12T12:00:00.000Z'),
+  ('seed:0040', 'supporter', 'supporter', 'J. Mbeki', 'J. Mbeki', 17500, NULL, '2026-02-13T12:00:00.000Z'),
+  ('seed:0041', 'supporter', 'supporter', 'The Carter Twins', 'The Carter Twins', 17500, NULL, '2026-02-14T12:00:00.000Z'),
+  ('seed:0042', 'supporter', 'supporter', 'Elaine Foster', 'Elaine Foster', 17500, NULL, '2026-02-15T12:00:00.000Z'),
+  ('seed:0043', 'supporter', 'supporter', 'D. & M. Quaye', 'D. & M. Quaye', 17500, NULL, '2026-02-16T12:00:00.000Z'),
+  ('seed:0044', 'supporter', 'supporter', 'Stephen Ade', 'Stephen Ade', 17500, NULL, '2026-02-17T12:00:00.000Z'),
+  ('seed:0045', 'supporter', 'supporter', 'The Hill Family', 'The Hill Family', 17500, NULL, '2026-02-18T12:00:00.000Z'),
+  ('seed:0046', 'supporter', 'supporter', 'Yvonne Clarke', 'Yvonne Clarke', 17500, NULL, '2026-02-19T12:00:00.000Z'),
+  ('seed:0047', 'supporter', 'supporter', 'R. Donovan', 'R. Donovan', 17500, NULL, '2026-02-20T12:00:00.000Z');

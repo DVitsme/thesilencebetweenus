@@ -3,7 +3,8 @@ import Link from "next/link";
 import { Eyebrow } from "@/components/site/primitives";
 import { SupportButton } from "@/components/site/support-button";
 import { SupportersWall } from "@/components/site/supporters/wall";
-import { supporters, FOUNDING_YEAR } from "@/content/supporters";
+import { FOUNDING_YEAR } from "@/content/supporters";
+import { listPublicSupporters } from "@/lib/db/supporters";
 
 export const metadata: Metadata = {
   title: "Founding Supporters",
@@ -11,7 +12,12 @@ export const metadata: Metadata = {
     "The people making The Silence Between Us possible. Every Founding Supporter's place on the wall is permanent.",
 };
 
-export default function SupportersPage() {
+// Reads the live roster from D1 per request (handoff doc 10).
+export const dynamic = "force-dynamic";
+
+export default async function SupportersPage() {
+  const supporters = await listPublicSupporters();
+
   // Counts are computed from the data, not hard-coded (handoff doc 10).
   const total = supporters.length;
   const patronsAndPartners = supporters.filter(

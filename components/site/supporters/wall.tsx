@@ -126,9 +126,9 @@ export function SupportersWall({ supporters }: { supporters: Supporter[] }) {
             <Eyebrow>The Founding Circle</Eyebrow>
             <SectionHeading className={`mb-[22px] ${HEADING}`}>Patrons</SectionHeading>
             <div className="grid grid-cols-1 gap-[18px] md:grid-cols-3">
-              {patronsShown.map((p) => (
+              {patronsShown.map((p, i) => (
                 <div
-                  key={p.name}
+                  key={`${p.name}-${i}`}
                   className="bg-dark relative overflow-hidden rounded-[10px] px-6 py-[26px] text-center"
                 >
                   <span className="absolute inset-x-0 top-0 h-[3px] bg-gold" />
@@ -157,11 +157,11 @@ export function SupportersWall({ supporters }: { supporters: Supporter[] }) {
           <SectionHeading className={`mb-[22px] ${HEADING}`}>With gratitude</SectionHeading>
 
           <div className="grid grid-cols-2 gap-3.5 md:grid-cols-4">
-            {slice.map((p) => {
+            {slice.map((p, i) => {
               const partner = p.tier === "partner";
               return (
                 <div
-                  key={p.name}
+                  key={`${p.name}-${i}`}
                   className={`flex min-h-[78px] flex-col justify-center gap-1.5 rounded-[7px] border px-[18px] py-4 transition-[transform,box-shadow] duration-150 hover:-translate-y-[2px] hover:shadow-[0_10px_22px_-16px_rgba(0,0,0,0.4)] ${
                     partner ? "border-[#dfd3b0] bg-[#fffdf4]" : "border-line bg-card-paper"
                   }`}

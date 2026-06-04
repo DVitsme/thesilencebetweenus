@@ -1,11 +1,11 @@
 /**
- * Founding Supporters roster — feeds the recognition wall (/supporters) and the
- * site's strongest social proof. Render this; never hardcode names in components.
+ * Founding Supporters — shared types + constants for the recognition wall
+ * (/supporters) and its data layer (lib/db/supporters.ts).
  *
- * TODO(data): replace this placeholder roster with a real read from whatever
- * `recordSupporter()` writes in the Stripe webhook (handoff doc 08 §7 — on
- * Cloudflare that's likely D1/KV). The hero counts and the wall both derive
- * from this array, so swapping the source updates the whole page.
+ * The roster itself now lives in Cloudflare D1 (task #12): the Stripe webhook
+ * writes a row per contribution; the page reads the public columns. Sample names
+ * for the v1 review seed live in `db/seed-supporters.sql` (each row tagged
+ * `stripe_payment_intent = 'seed:…'`, cleared before go-live).
  *
  * PRIVACY: only ever expose the public credit name a supporter chose. Never
  * render an email, an amount, or any payment data on this page.
@@ -23,64 +23,3 @@ export interface Supporter {
 
 /** Year the Founding Supporters program opened (hero stat). */
 export const FOUNDING_YEAR = 2026;
-
-// ⚠️ Placeholder names — for design only, not real supporters. Replace via TODO(data) above.
-const partnerNames = [
-  "The Johnson Family",
-  "Maranatha SDA Church",
-  "R. & T. Okafor",
-  "Deborah Whitfield",
-  "Cornerstone Media Group",
-  "James A. Sinclair",
-  "The Reyes Household",
-  "Pastor D. Snell",
-];
-
-const supporterNames = [
-  "A. Rivera",
-  "Grace Chapel Youth",
-  "M. Thompson",
-  "The Doe Family",
-  "K. Patel",
-  "Nathaniel Brooks",
-  "Simone & Co.",
-  "The Adeyemi Family",
-  "L. Carter",
-  "Hope Fellowship",
-  "J. Nakamura",
-  "Brianna Hughes",
-  "The Mensah Family",
-  "C. Daniels",
-  "Olivia Grant",
-  "T. Robinson",
-  "Faith & Film Club",
-  "D. Osei",
-  "The Park Family",
-  "Renee Coleman",
-  "S. Abara",
-  "Michael Tran",
-  "The Lewis Family",
-  "A. Fernández",
-  "Gabriel Santos",
-  "The Owusu Family",
-  "P. Nguyen",
-  "Hannah Bright",
-  "J. Mbeki",
-  "The Carter Twins",
-  "Elaine Foster",
-  "D. & M. Quaye",
-  "Stephen Ade",
-  "The Hill Family",
-  "Yvonne Clarke",
-  "R. Donovan",
-];
-
-export const supporters: Supporter[] = [
-  // The Founding Circle — Patrons (featured)
-  { name: "The Cameron Family", tier: "patron", since: `Founding Patron · ${FOUNDING_YEAR}` },
-  { name: "Grace & Mercy Foundation", tier: "patron", since: `Founding Patron · ${FOUNDING_YEAR}` },
-  { name: "Dr. Marcus & Lila Bennett", tier: "patron", since: `Founding Patron · ${FOUNDING_YEAR}` },
-
-  ...partnerNames.map((name) => ({ name, tier: "partner" as const })),
-  ...supporterNames.map((name) => ({ name, tier: "supporter" as const })),
-];

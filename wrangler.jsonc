@@ -14,6 +14,15 @@
   "images": {
     "binding": "IMAGES"
   },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "silence-between-us-db",
+      // TODO(d1): replace with the real id from `wrangler d1 create silence-between-us-db` before remote/prod use.
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
   "observability": {
     "enabled": true
   }

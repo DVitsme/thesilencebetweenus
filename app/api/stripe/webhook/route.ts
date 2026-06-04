@@ -1,25 +1,9 @@
 import type Stripe from "stripe";
 import { getStripe, stripeWebhookSecret } from "@/lib/stripe/server";
+import { recordSupporter } from "@/lib/db/supporters";
 
 // Stripe SDK + webhook verification need the Node runtime (workerd + nodejs_compat).
 export const runtime = "nodejs";
-
-type SupporterRecord = {
-  tier: string;
-  name: string;
-  creditName: string;
-  amountCents: number;
-  email: string | null;
-  stripePaymentIntent: string;
-  createdAt: string;
-};
-
-// TODO(data): persist to the data layer (Cloudflare D1/KV — Phase 3, task #12). The
-// Supporters wall (doc 10) reads whatever this writes. Until then we log so the
-// webhook is observable while testing with `stripe listen`.
-async function recordSupporter(row: SupporterRecord): Promise<void> {
-  console.log("[stripe webhook] payment_intent.succeeded (stub — not yet persisted):", row);
-}
 
 export async function POST(req: Request) {
   const sig = req.headers.get("stripe-signature");
@@ -45,12 +29,12 @@ export async function POST(req: Request) {
   if (event.type === "payment_intent.succeeded") {
     const pi = event.data.object as Stripe.PaymentIntent;
     await recordSupporter({
-      tier: pi.metadata?.tier ?? "custom",
-      name: pi.metadata?.supporterName ?? "",
+      stripePaymentIntent: pi.id,
+      tierId: pi.metadata?.tier ?? "custom",
       creditName: pi.metadata?.creditName ?? "",
+      supporterName: pi.metadata?.supporterName ?? "",
       amountCents: pi.amount_received ?? pi.amount,
       email: pi.receipt_email ?? null,
-      stripePaymentIntent: pi.id,
       createdAt: new Date().toISOString(),
     });
     // TODO(email): send a confirmation via Resend (Phase 3). Stripe also emails the
