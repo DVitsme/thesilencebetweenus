@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<!--
+  ════════════════════════════════════════════════════════════════════════
+  TRANSACTIONAL EMAIL · Supporter Confirmation
+  Trigger: Stripe webhook  payment_intent.succeeded  (see handoff/08 §7)
+  Send via: Resend
+  ════════════════════════════════════════════════════════════════════════
+
+  EMAIL-SAFE NOTES (read before porting):
+  • Layout is TABLE-based with INLINE styles on purpose. Do not "modernize"
+    to flex/grid — Gmail/Outlook will break it.
+  • Newsreader is @imported for clients that allow web fonts (Apple Mail);
+    EVERYWHERE ELSE falls back to Georgia. Both look literary. Never rely on
+    Newsreader actually loading.
+  • Max body width 600px. Outer bg frames the card.
+  • Gold diamond bullets use the ◆ glyph (reliable) tinted gold, not CSS rotate.
+  • CTA is a bulletproof padded-anchor button. (For Outlook-perfect corners
+    you can add VML; omitted for readability — degrades to square, still fine.)
+
+  MERGE FIELDS (replace with Resend / React-Email props):
+    {{firstName}}     – supporter's first name (fallback: "friend")
+    {{creditName}}    – how their name appears in credits / on the wall
+    {{tierName}}      – "Supporter" | "Partner" | "Patron" | "Founding Supporter"
+    {{amount}}        – formatted, e.g. "$175.00"
+    {{receiptNumber}} – your internal receipt id (Stripe pi id is fine)
+    {{wallUrl}}       – absolute URL to /supporters (deep-link to their name if possible)
+    {{manageUrl}}     – absolute URL to /contact or a manage page
+    {{year}}          – current year
+
+  Tier-aware copy: the perks list below is the $175 SUPPORTER set. For Partner/
+  Patron, swap the <ul> items for that tier's benefits (single source: content/tiers.ts).
+-->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="x-apple-disable-message-reformatting" />
+  <meta name="color-scheme" content="light only" />
+  <meta name="supported-color-schemes" content="light" />
+  <title>You're a Founding Supporter</title>
+  <!-- web font for clients that allow it; Georgia fallback everywhere else -->
+  <style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap');
+    /* a few client resets */
+    body, table, td, a { -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
+    table, td { mso-table-lspace:0pt; mso-table-rspace:0pt; }
+    img { -ms-interpolation-mode:bicubic; border:0; line-height:100%; outline:none; text-decoration:none; }
+    body { margin:0; padding:0; width:100% !important; height:100% !important; }
+    a { color:#6b5409; }
+    .lit { font-family:'Newsreader', Georgia, 'Times New Roman', serif; }
+    /* mobile */
+    @media only screen and (max-width:600px){
+      .container { width:100% !important; }
+      .px { padding-left:24px !important; padding-right:24px !important; }
+      .h1 { font-size:34px !important; line-height:1.1 !important; }
+      .stack { display:block !important; width:100% !important; }
+      .stack-pad { padding:0 0 10px 0 !important; }
+    }
+  </style>
+</head>
+<body class="lit" style="margin:0; padding:0; background-color:#ece5d6;">
+
+  <!-- preheader (hidden preview text) -->
+  <div style="display:none; max-height:0; overflow:hidden; opacity:0; mso-hide:all; font-size:1px; line-height:1px; color:#ece5d6;">
+    Thank you, {{firstName}} — your name is now part of The Silence Between Us. Here's what you've unlocked, and what happens next.
+  </div>
+
+  <!-- outer -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#ece5d6;">
+    <tr>
+      <td align="center" style="padding:28px 12px;">
+
+        <!-- card -->
+        <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px; background-color:#f7f3ea; border:1px solid #e3dccb;">
+
+          <!-- masthead -->
+          <tr>
+            <td align="center" class="px" style="padding:26px 40px; border-bottom:1px solid #e3dccb;">
+              <div class="lit" style="font-size:14px; letter-spacing:3px; text-transform:uppercase; color:#2c2620; font-weight:500;">
+                The Silence Between Us
+              </div>
+            </td>
+          </tr>
+
+          <!-- hero -->
+          <tr>
+            <td align="center" class="px" style="padding:48px 48px 12px;">
+              <!-- gold seal (degrades to square in Outlook — fine) -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 24px;">
+                <tr>
+                  <td align="center" valign="middle" width="68" height="68" style="width:68px; height:68px; background-color:#f3c33b; border:1px solid #2c2620; border-radius:50%; font-size:32px; color:#2c2620; font-family:Georgia,serif;">
+                    &#10003;
+                  </td>
+                </tr>
+              </table>
+              <div class="lit" style="font-size:16px; font-style:italic; color:#9a8c6f; letter-spacing:.2px;">
+                Your contribution is received
+              </div>
+              <h1 class="lit h1" style="margin:10px 0 0; font-size:42px; line-height:1.07; letter-spacing:-.5px; font-weight:400; color:#2c2620;">
+                Thank you, {{firstName}}.<br />You're a Founding Supporter.
+              </h1>
+              <p class="lit" style="margin:16px auto 0; max-width:430px; font-size:18px; line-height:1.55; color:#5e564a;">
+                You've helped give a silent story a voice — and your name is already part of this film.
+              </p>
+            </td>
+          </tr>
+
+          <!-- receipt chips -->
+          <tr>
+            <td align="center" class="px" style="padding:24px 40px 4px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
+                <tr>
+                  <td class="lit" style="padding:6px 8px; font-size:14px; font-style:italic; color:#5e564a;">
+                    Receipt <strong style="font-style:normal; font-weight:500;">#{{receiptNumber}}</strong>
+                  </td>
+                  <td class="lit" style="padding:6px 8px; font-size:14px; font-style:italic; color:#9a8c6f;">&#9670;</td>
+                  <td class="lit" style="padding:6px 8px; font-size:14px; font-style:italic; color:#5e564a;">
+                    {{tierName}}
+                  </td>
+                  <td class="lit" style="padding:6px 8px; font-size:14px; font-style:italic; color:#9a8c6f;">&#9670;</td>
+                  <td class="lit" style="padding:6px 8px; font-size:14px; font-style:italic; color:#5e564a;">
+                    {{amount}}
+                  </td>
+                </tr>
+              </table>
+              <div class="lit" style="margin-top:6px; font-size:13px; font-style:italic; color:#9a8c6f;">
+                Paid securely via Stripe · a full receipt is attached to this email.
+              </div>
+            </td>
+          </tr>
+
+          <!-- divider -->
+          <tr><td class="px" style="padding:30px 48px 0;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+              <td style="border-top:1px solid #e3dccb; font-size:0; line-height:0;">&nbsp;</td>
+            </tr></table>
+          </td></tr>
+
+          <!-- a word from Kevin -->
+          <tr>
+            <td class="px" style="padding:34px 48px 8px;">
+              <div class="lit" style="font-size:16px; font-style:italic; color:#9a8c6f; margin-bottom:10px;">A word from the director</div>
+              <p class="lit" style="margin:0 0 16px; font-size:19px; line-height:1.7; color:#2c2620;">
+                {{firstName}}, I don't take this lightly. These teenagers — the ones this film is for — deserve to be seen, heard, and understood, and today you helped make sure they will be.
+              </p>
+              <p class="lit" style="margin:0 0 16px; font-size:19px; line-height:1.7; color:#2c2620;">
+                When you back a film like this, you aren't a bystander to it — you're part of how it gets made. Thank you for standing with this story. I'll make sure it's worthy of your trust.
+              </p>
+              <p class="lit" style="margin:0; font-size:19px; line-height:1.5; color:#2c2620;">
+                — Kevin Cameron<br />
+                <span style="font-size:15px; font-style:italic; color:#9a8c6f;">Writer &amp; director, The Silence Between Us</span>
+              </p>
+            </td>
+          </tr>
+
+          <!-- what you've unlocked -->
+          <tr>
+            <td class="px" style="padding:30px 48px 6px;">
+              <div class="lit" style="font-size:16px; font-style:italic; color:#9a8c6f; margin-bottom:14px;">What you've unlocked</div>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr><td valign="top" width="22" class="lit" style="font-size:16px; color:#b98a14; padding:0 0 12px;">&#9670;</td>
+                    <td class="lit" style="font-size:17px; line-height:1.45; color:#2c2620; padding:0 0 12px;">An on-screen <strong style="font-weight:500;">&ldquo;Supporter&rdquo; credit</strong> in the finished film</td></tr>
+                <tr><td valign="top" width="22" class="lit" style="font-size:16px; color:#b98a14; padding:0 0 12px;">&#9670;</td>
+                    <td class="lit" style="font-size:17px; line-height:1.45; color:#2c2620; padding:0 0 12px;">A <strong style="font-weight:500;">virtual meet &amp; greet</strong> with the director and cast</td></tr>
+                <tr><td valign="top" width="22" class="lit" style="font-size:16px; color:#b98a14; padding:0 0 12px;">&#9670;</td>
+                    <td class="lit" style="font-size:17px; line-height:1.45; color:#2c2620; padding:0 0 12px;">A permanent listing on the <strong style="font-weight:500;">Founding Supporters</strong> page</td></tr>
+                <tr><td valign="top" width="22" class="lit" style="font-size:16px; color:#b98a14; padding:0 0 12px;">&#9670;</td>
+                    <td class="lit" style="font-size:17px; line-height:1.45; color:#2c2620; padding:0 0 12px;"><strong style="font-weight:500;">Quarterly production updates</strong> from set</td></tr>
+                <tr><td valign="top" width="22" class="lit" style="font-size:16px; color:#b98a14; padding:0;">&#9670;</td>
+                    <td class="lit" style="font-size:17px; line-height:1.45; color:#2c2620; padding:0;">A <strong style="font-weight:500;">first look at the trailer</strong>, before its public release</td></tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- what happens next -->
+          <tr>
+            <td class="px" style="padding:30px 48px 6px;">
+              <div class="lit" style="font-size:16px; font-style:italic; color:#9a8c6f; margin-bottom:14px;">What happens next</div>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td valign="top" width="120" class="lit" style="font-size:15px; font-style:italic; color:#b98a14; padding:0 14px 14px 0;">Right now</td>
+                  <td class="lit" style="font-size:16px; line-height:1.5; color:#2c2620; padding:0 0 14px;">Your name joins the Founding Supporters wall — listed as <strong style="font-weight:500;">{{creditName}}</strong>.</td>
+                </tr>
+                <tr>
+                  <td valign="top" width="120" class="lit" style="font-size:15px; font-style:italic; color:#b98a14; padding:0 14px 14px 0;">This week</td>
+                  <td class="lit" style="font-size:16px; line-height:1.5; color:#2c2620; padding:0 0 14px;">We'll email you to schedule your virtual meet &amp; greet.</td>
+                </tr>
+                <tr>
+                  <td valign="top" width="120" class="lit" style="font-size:15px; font-style:italic; color:#b98a14; padding:0 14px 14px 0;">Each quarter</td>
+                  <td class="lit" style="font-size:16px; line-height:1.5; color:#2c2620; padding:0 0 14px;">Production updates land in your inbox.</td>
+                </tr>
+                <tr>
+                  <td valign="top" width="120" class="lit" style="font-size:15px; font-style:italic; color:#b98a14; padding:0 14px 0 0;">Before release</td>
+                  <td class="lit" style="font-size:16px; line-height:1.5; color:#2c2620; padding:0;">Your first look at the trailer, ahead of everyone else.</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- CTA button (bulletproof) -->
+          <tr>
+            <td align="center" class="px" style="padding:34px 48px 6px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
+                <tr>
+                  <td align="center" bgcolor="#f3c33b" style="border-radius:30px; border:1px solid #2c2620;">
+                    <a href="{{wallUrl}}" target="_blank" class="lit"
+                       style="display:inline-block; padding:14px 34px; font-size:18px; font-style:italic; color:#2c2620; text-decoration:none; border-radius:30px;">
+                      See your name on the wall &rarr;
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- gentle upgrade nudge -->
+          <tr>
+            <td align="center" class="px" style="padding:14px 48px 44px;">
+              <p class="lit" style="margin:0; font-size:15px; font-style:italic; line-height:1.5; color:#9a8c6f;">
+                Felt led to do more? You can <a href="{{manageUrl}}" target="_blank" style="color:#6b5409; text-decoration:none; border-bottom:1px solid #d8cba0;">become a Partner or Patron</a> any time.
+              </p>
+            </td>
+          </tr>
+
+          <!-- footer (dark) -->
+          <tr>
+            <td style="background-color:#211d17; padding:30px 40px;">
+              <p class="lit" style="margin:0 0 14px; font-size:14px; font-style:italic; line-height:1.55; color:#cfc4ac;">
+                If you or a teen you love is struggling, you are not alone. Call or text
+                <a href="tel:988" style="color:#efe9da; text-decoration:none; border-bottom:1px solid #3a352b;">988</a>
+                — the Suicide &amp; Crisis Lifeline, free and confidential, 24/7.
+              </p>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr><td style="border-top:1px solid #2c2a22; font-size:0; line-height:0; padding-top:14px;">&nbsp;</td></tr>
+              </table>
+              <p class="lit" style="margin:0; font-size:13px; font-style:italic; line-height:1.6; color:#85806f;">
+                The Silence Between Us · a Take 3 Media production.<br />
+                Contributions administered by KC Films &amp; Media.<br />
+                Questions? <a href="mailto:kevin@kcfilmsmedia.com" style="color:#a59d8c; text-decoration:none; border-bottom:1px solid #3a352b;">kevin@kcfilmsmedia.com</a>
+              </p>
+              <p class="lit" style="margin:14px 0 0; font-size:12px; font-style:italic; line-height:1.5; color:#6f6a5c;">
+                You're receiving this because you made a contribution to The Silence Between Us.
+                This is a one-time transactional receipt &amp; confirmation.<br />
+                {{mailingAddress}} · &copy; {{year}} Take 3 Media
+              </p>
+            </td>
+          </tr>
+
+        </table>
+        <!-- /card -->
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>

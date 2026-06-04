@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!--
+  BROADCAST · Trailer first-look  → emails/trailer-first-look.tsx
+  Trigger: one-time Resend Broadcast to all supporters, before public release
+  Subject:  Watch first: the trailer for The Silence Between Us
+  Preview:  As a Founding Supporter, you see it before anyone else.
+  Merge:    firstName, trailerUrl, thumbnailUrl, unsubscribeUrl, mailingAddress, year
+  The thumbnail is a LINKED image (click → trailerUrl); play glyph overlays via a separate row,
+  but never rely on the image — the "Watch the trailer" button below is the real affordance.
+-->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="x-apple-disable-message-reformatting" />
+  <meta name="color-scheme" content="light only" />
+  <meta name="supported-color-schemes" content="light" />
+  <title>Watch first: the trailer</title>
+  <style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap');
+    body, table, td, a { -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
+    table, td { mso-table-lspace:0pt; mso-table-rspace:0pt; }
+    img { -ms-interpolation-mode:bicubic; border:0; line-height:100%; outline:none; text-decoration:none; display:block; }
+    body { margin:0; padding:0; width:100% !important; }
+    a { color:#6b5409; }
+    .lit { font-family:'Newsreader', Georgia, 'Times New Roman', serif; }
+    @media only screen and (max-width:600px){
+      .container{ width:100% !important; }
+      .px{ padding-left:26px !important; padding-right:26px !important; }
+      .h1{ font-size:34px !important; }
+    }
+  </style>
+</head>
+<body class="lit" style="margin:0; padding:0; background-color:#211d17;">
+  <div style="display:none; max-height:0; overflow:hidden; opacity:0; mso-hide:all; font-size:1px; line-height:1px; color:#211d17;">
+    As a Founding Supporter, you see it before anyone else. Press play.
+  </div>
+
+  <!-- This one leads dark — it's a cinematic moment. -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#211d17;">
+    <tr><td align="center" style="padding:28px 12px;">
+      <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px; background-color:#1b1813; border:1px solid #2c2a22;">
+
+        <!-- masthead -->
+        <tr><td align="center" class="px" style="padding:24px 40px; border-bottom:1px solid #2c2a22;">
+          <div class="lit" style="font-size:14px; letter-spacing:3px; text-transform:uppercase; color:#efe9da; font-weight:500;">The Silence Between Us</div>
+        </td></tr>
+
+        <!-- intro -->
+        <tr><td align="center" class="px" style="padding:42px 48px 6px;">
+          <div class="lit" style="font-size:16px; font-style:italic; color:#b9ad93;">For our Founding Supporters</div>
+          <h1 class="lit h1" style="margin:10px 0 0; font-size:40px; line-height:1.08; letter-spacing:-.5px; font-weight:400; color:#ffffff;">You see it first, {{firstName}}.</h1>
+          <p class="lit" style="margin:14px auto 0; max-width:420px; font-size:18px; line-height:1.55; color:#cfc4ac;">
+            The first trailer for the film you're helping make — yours to watch before it goes public.
+          </p>
+        </td></tr>
+
+        <!-- thumbnail (linked) with play overlay -->
+        <tr><td class="px" style="padding:30px 40px 0;">
+          <a href="{{trailerUrl}}" target="_blank" style="text-decoration:none; display:block;">
+            <img src="{{thumbnailUrl}}" width="520" height="292" alt="Play the trailer for The Silence Between Us" style="width:100%; max-width:520px; height:auto; border:1px solid #3a352b; background-color:#2a251d;" />
+          </a>
+        </td></tr>
+        <!-- play affordance row (text, never relies on image) -->
+        <tr><td align="center" class="px" style="padding:18px 40px 0;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center"><tr>
+            <td align="center" bgcolor="#f3c33b" style="border-radius:30px; border:1px solid #f3c33b;">
+              <a href="{{trailerUrl}}" target="_blank" class="lit" style="display:inline-block; padding:14px 36px; font-size:18px; font-style:italic; color:#211d17; text-decoration:none; border-radius:30px;">&#9658;&nbsp; Watch the trailer</a>
+            </td>
+          </tr></table>
+        </td></tr>
+
+        <!-- share line -->
+        <tr><td align="center" class="px" style="padding:28px 48px 44px;">
+          <p class="lit" style="margin:0; font-size:17px; line-height:1.6; color:#cfc4ac;">
+            If it moves you, share it. Every person who sees this story is one more who might need it —
+            and one more who might help us finish it.
+          </p>
+        </td></tr>
+
+        <!-- footer (broadcast: 988 + unsubscribe + address) -->
+        <tr><td style="background-color:#15140f; padding:30px 40px;">
+          <p class="lit" style="margin:0 0 14px; font-size:14px; font-style:italic; line-height:1.55; color:#cfc4ac;">
+            If you or a teen you love is struggling, you are not alone. Call or text
+            <a href="tel:988" style="color:#efe9da; text-decoration:none; border-bottom:1px solid #3a352b;">988</a>
+            — the Suicide &amp; Crisis Lifeline, free and confidential, 24/7.
+          </p>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="border-top:1px solid #2c2a22; font-size:0; line-height:0; padding-top:14px;">&nbsp;</td></tr></table>
+          <p class="lit" style="margin:0 0 10px; font-size:13px; font-style:italic; line-height:1.6; color:#85806f;">
+            You're receiving this because you're a Founding Supporter of The Silence Between Us.<br />
+            <a href="{{unsubscribeUrl}}" target="_blank" style="color:#a59d8c; text-decoration:none; border-bottom:1px solid #3a352b;">Unsubscribe</a>
+          </p>
+          <p class="lit" style="margin:0; font-size:12px; font-style:italic; line-height:1.5; color:#6f6a5c;">
+            The Silence Between Us · Take 3 Media · administered by KC Films &amp; Media<br />
+            {{mailingAddress}} · &copy; {{year}}
+          </p>
+        </td></tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>

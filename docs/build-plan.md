@@ -75,6 +75,7 @@ also activates three already-built pages (thank-you, supporters, every "Support"
 
 - [ ] **Production domain** decided → set everywhere (metadataBase, share URLs, sitemap)
 - [ ] Accounts/secrets: Resend **domain verified**; reCAPTCHA keys; Stripe **live** keys + live webhook endpoint + `STRIPE_LIVE_WEBHOOK_SECRET`; push to Cloudflare (`wrangler secret put`) + prod D1 binding
+- [ ] **Flip contact recipient** → `CONTACT_TO_EMAIL=kevin@kcfilmsmedia.com` (testing uses `derrick@digitaldog.io` so delivery is verifiable). Set the Resend/contact envs (`RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL`) as Cloudflare secrets + add to `.dev.vars` for preview. `TODO(launch)`
 - [ ] `pnpm preview` (workerd) full pass → `pnpm deploy` → **live smoke test** (real $1 contribution in live mode → webhook → supporters-wall row → receipt email)
 
 ---

@@ -50,12 +50,13 @@ export function ContactForm() {
 
     setSending(true);
     try {
-      // TODO(contact-wiring): wire the real submit. POST to /api/contact (or a Server
-      // Action) that (1) verifies the Google reCAPTCHA token server-side, then (2) sends
-      // the message via Resend to kevin@kcfilmsmedia.com with the inquiry category in the
-      // subject — e.g. `[${selected label}] Message from ${first} ${last}`. Until that
-      // route exists we resolve a stub so this success state is exercisable.
-      await stubSend({ inquiry, ...form });
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        // TODO(recaptcha): include a reCAPTCHA token in this payload (next slice).
+        body: JSON.stringify({ inquiry, ...form }),
+      });
+      if (!res.ok) throw new Error("send_failed");
       setSent(true);
     } catch {
       setError(
@@ -197,23 +198,4 @@ export function ContactForm() {
       </p>
     </form>
   );
-}
-
-// TODO(contact-wiring): replace with the real network submit (reCAPTCHA verify + Resend
-// via /api/contact). The eventual call is roughly:
-//   await fetch("/api/contact", {
-//     method: "POST",
-//     headers: { "content-type": "application/json" },
-//     body: JSON.stringify(payload),   // + a reCAPTCHA token
-//   });
-// Kept as a resolved no-op so the form's success state works today.
-async function stubSend(payload: {
-  inquiry: string;
-  first: string;
-  last: string;
-  email: string;
-  message: string;
-}): Promise<void> {
-  void payload;
-  return Promise.resolve();
 }

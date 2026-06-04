@@ -110,5 +110,22 @@
 
 ---
 
+## 8 · Email & communications
+
+> Full inventory + claude.ai design brief: **`docs/email-plan.md`**.
+
+- [ ] 🟡 **Receipt — Stripe's vs. our own.** Stripe already emails a payment receipt (the financial
+  record). Recommend keeping that **plus** our branded "human thank-you" confirmation. OK — or do you
+  also want a custom itemized receipt from us?
+- [ ] 🟡 **Broadcasts need consent + unsubscribe + address.** Quarterly updates and the trailer go to
+  *all* supporters, so by law they need an **unsubscribe link** and a **physical mailing address** in
+  the footer. Confirm we may email supporters updates, and give us a mailing address to show.
+- [ ] 🟡 **Sender addresses.** Transactional email from `hello@…`; broadcasts maybe from `updates@…`
+  or `kevin@…`. Confirm the addresses + that the sending domain is verified in Resend (ties to §7).
+- [ ] 🟢 **Automate vs. hand-send perks.** Meet & greet, screening invites, credit confirmations, the
+  Patron call — automated emails, or sent by hand at first (low volume)?
+
+---
+
 ### Resolved
 *(Move answered items here with their answer + date, e.g. `✅ Supporter tier = $175 — 2026-05-xx`.)*

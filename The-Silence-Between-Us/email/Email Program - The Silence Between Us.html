@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Email Program — The Silence Between Us</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;background:#ded7c8;font-family:'Newsreader',serif;color:#2c2620;}
+  header{position:sticky;top:0;z-index:10;background:#15140f;color:#efe9da;padding:14px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;border-bottom:1px solid #000;}
+  header .t{font-size:17px;letter-spacing:.5px;}
+  header .t small{display:block;font-family:'IBM Plex Mono';font-size:10.5px;color:#9d9a8e;letter-spacing:.4px;margin-top:2px;}
+  .tabs{display:flex;gap:7px;flex-wrap:wrap;flex:1;}
+  .tab{font-family:'Newsreader';font-style:italic;font-size:14px;color:#cfccc2;background:transparent;border:1px solid #3a382f;border-radius:30px;padding:7px 15px;cursor:pointer;display:flex;flex-direction:column;line-height:1.15;transition:all .15s;}
+  .tab small{font-family:'IBM Plex Mono';font-style:normal;font-size:9px;color:#86837a;letter-spacing:.3px;margin-top:2px;}
+  .tab:hover{border-color:#6a6658;color:#fff;}
+  .tab.active{background:#f3c33b;color:#15140f;border-color:#f3c33b;}
+  .tab.active small{color:#6b685e;}
+  .stage{padding:30px 16px 70px;display:flex;flex-direction:column;align-items:center;}
+  .meta{max-width:600px;width:100%;margin:0 auto 16px;background:#f7f3ea;border:1px solid #c8c4b8;border-radius:8px;padding:14px 18px;}
+  .meta .k{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#9a8c6f;}
+  .meta .subject{font-size:19px;margin:3px 0 2px;}
+  .meta .pre{font-style:italic;color:#5e564a;font-size:14.5px;}
+  .meta .tags{margin-top:9px;display:flex;gap:7px;flex-wrap:wrap;}
+  .meta .tag{font-family:'IBM Plex Mono';font-size:10.5px;color:#6b5409;background:#f1ebdd;border:1px solid #e3dccb;border-radius:20px;padding:3px 10px;}
+  .frame{width:600px;max-width:100%;border:1px solid #c8c4b8;box-shadow:0 18px 50px -24px rgba(0,0,0,.5);background:#fff;}
+  iframe{width:600px;max-width:100%;border:0;display:block;height:1400px;background:#ece5d6;}
+  .panel{display:none;flex-direction:column;align-items:center;width:100%;}
+  .panel.active{display:flex;}
+</style>
+</head>
+<body>
+<header>
+  <div class="t">Email Program<small>The Silence Between Us · 6 templates</small></div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<div class="stage" id="stage"></div>
+
+<script>
+  const EMAILS = [
+    {id:"sup", file:"Email - Supporter Confirmation.html", label:"Supporter confirmation", kind:"P1 · transactional",
+      subject:"You're a Founding Supporter of The Silence Between Us", pre:"Your name is already part of this film — here's what comes next.",
+      tags:["webhook: payment_intent.succeeded","to: supporter","perks + next steps + wall"]},
+    {id:"auto", file:"Email - Contact Auto-Reply.html", label:"Contact auto-reply", kind:"P1 · transactional",
+      subject:"We got your message — The Silence Between Us", pre:"Thanks, {{firstName}} — we read every note and reply personally.",
+      tags:["/api/contact (to submitter)","echoes their message"]},
+    {id:"refund", file:"Email - Refund Confirmation.html", label:"Refund confirmation", kind:"P2 · transactional",
+      subject:"Your contribution has been refunded", pre:"We've refunded {{amountFormatted}} — no hard feelings at all.",
+      tags:["charge.refunded webhook","5–10 business days","warm, no-pressure"]},
+    {id:"internal", file:"Email - Internal New Contribution.html", label:"Internal alert", kind:"P2 · utility",
+      subject:"New contribution: {{tierName}} — {{amountFormatted}} ({{creditName}})", pre:"Team ops tool — scannable data block, intentionally plain.",
+      tags:["webhook → CONTACT_TO_EMAIL","no 988/marketing (internal)","fulfillment note"]},
+    {id:"update", file:"Email - Production Update.html", label:"Production update", kind:"P3 · broadcast",
+      subject:"From the set: {{title}}", pre:"Dispatch {{dispatchLabel}} from production.",
+      tags:["Resend Broadcast","editorial layout","unsubscribe + address"]},
+    {id:"trailer", file:"Email - Trailer First-Look.html", label:"Trailer first-look", kind:"P3 · broadcast",
+      subject:"Watch first: the trailer for The Silence Between Us", pre:"As a Founding Supporter, you see it before anyone else.",
+      tags:["Resend Broadcast","cinematic dark","unsubscribe + address"]},
+  ];
+
+  const tabs = document.getElementById('tabs');
+  const stage = document.getElementById('stage');
+
+  EMAILS.forEach((e,i)=>{
+    const b = document.createElement('button');
+    b.className = 'tab' + (i===0?' active':'');
+    b.innerHTML = e.label + '<small>'+e.kind+'</small>';
+    b.onclick = ()=>show(e.id);
+    b.dataset.id = e.id;
+    tabs.appendChild(b);
+
+    const panel = document.createElement('div');
+    panel.className = 'panel' + (i===0?' active':'');
+    panel.dataset.id = e.id;
+    panel.innerHTML =
+      '<div class="meta">'+
+        '<div class="k">Subject line</div>'+
+        '<div class="subject">'+e.subject+'</div>'+
+        '<div class="pre">Preview: '+e.pre+'</div>'+
+        '<div class="tags">'+e.tags.map(t=>'<span class="tag">'+t+'</span>').join('')+'</div>'+
+      '</div>'+
+      '<div class="frame"><iframe loading="lazy" src="'+encodeURI(e.file)+'"></iframe></div>';
+    stage.appendChild(panel);
+  });
+
+  function show(id){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.id===id));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active', p.dataset.id===id));
+    window.scrollTo({top:0});
+  }
+</script>
+</body>
+</html>

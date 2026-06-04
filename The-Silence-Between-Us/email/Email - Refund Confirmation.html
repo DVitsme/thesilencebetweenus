@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!--
+  TRANSACTIONAL · Refund / cancellation confirmation  → emails/refund-confirmation.tsx
+  Trigger: charge.refunded webhook branch · Resend
+  Subject:  Your contribution has been refunded
+  Preview:  We've refunded {{amountFormatted}} — no hard feelings at all.
+  Merge:    firstName, amountFormatted, refundRef, contactEmail, year
+-->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="x-apple-disable-message-reformatting" />
+  <meta name="color-scheme" content="light only" />
+  <meta name="supported-color-schemes" content="light" />
+  <title>Your contribution has been refunded</title>
+  <style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap');
+    body, table, td, a { -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
+    table, td { mso-table-lspace:0pt; mso-table-rspace:0pt; }
+    body { margin:0; padding:0; width:100% !important; }
+    a { color:#6b5409; }
+    .lit { font-family:'Newsreader', Georgia, 'Times New Roman', serif; }
+    @media only screen and (max-width:600px){
+      .container{ width:100% !important; }
+      .px{ padding-left:26px !important; padding-right:26px !important; }
+      .h1{ font-size:32px !important; }
+    }
+  </style>
+</head>
+<body class="lit" style="margin:0; padding:0; background-color:#ece5d6;">
+  <div style="display:none; max-height:0; overflow:hidden; opacity:0; mso-hide:all; font-size:1px; line-height:1px; color:#ece5d6;">
+    We've refunded {{amountFormatted}} — no hard feelings at all. Here are the details.
+  </div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#ece5d6;">
+    <tr><td align="center" style="padding:28px 12px;">
+      <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px; background-color:#f7f3ea; border:1px solid #e3dccb;">
+
+        <tr><td align="center" class="px" style="padding:26px 40px; border-bottom:1px solid #e3dccb;">
+          <div class="lit" style="font-size:14px; letter-spacing:3px; text-transform:uppercase; color:#2c2620; font-weight:500;">The Silence Between Us</div>
+        </td></tr>
+
+        <!-- hero -->
+        <tr><td align="center" class="px" style="padding:46px 48px 10px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 22px;"><tr>
+            <td align="center" valign="middle" width="64" height="64" style="width:64px; height:64px; background-color:#ffffff; border:1px solid #2c2620; border-radius:50%; font-size:30px; color:#2c2620; font-family:Georgia,serif;">&#8617;</td>
+          </tr></table>
+          <div class="lit" style="font-size:16px; font-style:italic; color:#9a8c6f;">Your refund is on its way</div>
+          <h1 class="lit h1" style="margin:10px 0 0; font-size:38px; line-height:1.08; letter-spacing:-.5px; font-weight:400; color:#2c2620;">All taken care of, {{firstName}}.</h1>
+        </td></tr>
+
+        <!-- refund detail block -->
+        <tr><td class="px" style="padding:24px 48px 6px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#ffffff; border:1px solid #e3dccb;">
+            <tr>
+              <td class="lit" style="padding:16px 22px; font-size:16px; font-style:italic; color:#9a8c6f; border-bottom:1px solid #ece5d6;">Amount refunded</td>
+              <td class="lit" align="right" style="padding:16px 22px; font-size:20px; color:#2c2620; border-bottom:1px solid #ece5d6;">{{amountFormatted}}</td>
+            </tr>
+            <tr>
+              <td class="lit" style="padding:16px 22px; font-size:16px; font-style:italic; color:#9a8c6f; border-bottom:1px solid #ece5d6;">Reference</td>
+              <td class="lit" align="right" style="padding:16px 22px; font-size:16px; color:#2c2620; border-bottom:1px solid #ece5d6;">{{refundRef}}</td>
+            </tr>
+            <tr>
+              <td class="lit" style="padding:16px 22px; font-size:16px; font-style:italic; color:#9a8c6f;">Back to</td>
+              <td class="lit" align="right" style="padding:16px 22px; font-size:16px; color:#2c2620;">Your original payment method</td>
+            </tr>
+          </table>
+        </td></tr>
+
+        <!-- body -->
+        <tr><td class="px" style="padding:24px 48px 6px;">
+          <p class="lit" style="margin:0 0 16px; font-size:18px; line-height:1.7; color:#2c2620;">
+            We've refunded your contribution in full. It should appear on your statement within <strong style="font-weight:500;">5–10 business days</strong>, depending on your bank.
+          </p>
+          <p class="lit" style="margin:0; font-size:18px; line-height:1.7; color:#2c2620;">
+            There are no hard feelings on our end — truly. The door stays open, and you're welcome back among the Founding Supporters any time you feel ready. Either way, thank you for caring about this story.
+          </p>
+        </td></tr>
+
+        <!-- sign-off -->
+        <tr><td class="px" style="padding:26px 48px 44px;">
+          <p class="lit" style="margin:0; font-size:18px; line-height:1.6; color:#2c2620;">
+            Questions about your refund? Just reply, or email <a href="mailto:{{contactEmail}}" style="color:#6b5409; text-decoration:none; border-bottom:1px solid #d8cba0;">{{contactEmail}}</a> — we'll help personally.
+          </p>
+        </td></tr>
+
+        <!-- footer -->
+        <tr><td style="background-color:#211d17; padding:28px 40px;">
+          <p class="lit" style="margin:0 0 14px; font-size:14px; font-style:italic; line-height:1.55; color:#cfc4ac;">
+            If you or a teen you love is struggling, you are not alone. Call or text
+            <a href="tel:988" style="color:#efe9da; text-decoration:none; border-bottom:1px solid #3a352b;">988</a>
+            — the Suicide &amp; Crisis Lifeline, free and confidential, 24/7.
+          </p>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="border-top:1px solid #2c2a22; font-size:0; line-height:0; padding-top:14px;">&nbsp;</td></tr></table>
+          <p class="lit" style="margin:0; font-size:13px; font-style:italic; line-height:1.6; color:#85806f;">
+            The Silence Between Us · a Take 3 Media production.<br />
+            Contributions administered by KC Films &amp; Media · <a href="mailto:{{contactEmail}}" style="color:#a59d8c; text-decoration:none; border-bottom:1px solid #3a352b;">{{contactEmail}}</a>
+          </p>
+        </td></tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>
