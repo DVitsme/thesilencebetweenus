@@ -1,0 +1,122 @@
+/* Auto-numbered legal document, ported from the design mockup (handoff doc 14).
+   CSS counters (TOC + section numbers) and the diamond bullets are awkward as
+   Tailwind utilities, so they live here. Brand custom properties are global
+   (defined on :root in app/globals.css), so var(--gold) etc. resolve fine. */
+
+/* sticky numbered table of contents */
+.toc {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: t;
+}
+.toc li {
+  counter-increment: t;
+  margin: 0 0 9px;
+}
+.toc a {
+  display: flex;
+  gap: 9px;
+  font-size: 15.5px;
+  line-height: 1.35;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.toc a::before {
+  content: counter(t, decimal-leading-zero);
+  flex: none;
+  font-style: italic;
+  color: var(--gold-deep);
+}
+.toc a:hover {
+  color: var(--ink);
+}
+
+/* the document column */
+.doc {
+  max-width: 680px;
+  counter-reset: sec;
+}
+.editorNote {
+  margin-bottom: 38px;
+  padding: 16px 20px;
+  border-radius: 6px;
+  background: var(--tint);
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.doc .intro {
+  margin: 0 0 34px;
+  font-size: 19px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+.doc section {
+  margin-bottom: 18px;
+  padding: 6px 0 8px;
+  scroll-margin-top: 96px; /* clear the sticky site header when jumping to an anchor */
+}
+.doc h2 {
+  counter-increment: sec;
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  margin: 0 0 12px;
+  font-weight: 400;
+  font-size: 26px;
+  letter-spacing: -0.2px;
+}
+.doc h2::before {
+  content: counter(sec, decimal-leading-zero);
+  flex: none;
+  font-style: italic;
+  font-size: 17px;
+  color: var(--gold-deep);
+}
+.doc p {
+  margin: 0 0 14px;
+  color: var(--ink);
+}
+.doc ul {
+  margin: 0 0 14px;
+  padding-left: 0;
+  list-style: none;
+}
+.doc ul li {
+  position: relative;
+  margin-bottom: 8px;
+  padding-left: 22px;
+  color: var(--ink);
+}
+.doc ul li::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 11px;
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+.doc .small {
+  font-style: italic;
+  font-size: 15px;
+  color: var(--muted-warm);
+}
+.inline {
+  border-bottom: 1px solid var(--muted-warm);
+  font-style: italic;
+  text-decoration: none;
+}
+.callout {
+  margin: 0 0 16px;
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold);
+  border-radius: 5px;
+  background: var(--card-paper);
+  font-size: 16px;
+  color: var(--ink-soft);
+}
