@@ -1,7 +1,35 @@
 "use client";
 
 import { useState } from "react";
+import Script from "next/script";
 import { Check } from "lucide-react";
+
+// reCAPTCHA v3 site key (public). The matching secret verifies the token in /api/contact.
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+
+declare global {
+  interface Window {
+    grecaptcha?: {
+      ready: (cb: () => void) => void;
+      execute: (siteKey: string, opts: { action: string }) => Promise<string>;
+    };
+  }
+}
+
+/** Run reCAPTCHA v3 for the "contact" action; returns a token ("" if unavailable). */
+async function getRecaptchaToken(): Promise<string> {
+  const grecaptcha = typeof window !== "undefined" ? window.grecaptcha : undefined;
+  if (!RECAPTCHA_SITE_KEY || !grecaptcha) return "";
+  try {
+    return await new Promise<string>((resolve, reject) => {
+      grecaptcha.ready(() => {
+        grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: "contact" }).then(resolve, reject);
+      });
+    });
+  } catch {
+    return "";
+  }
+}
 
 const INQUIRIES = [
   { id: "general", label: "General inquiry" },
@@ -44,17 +72,17 @@ export function ContactForm() {
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
-      setError("That email address doesn't look right — mind double-checking it?");
+      setError("That email address doesn't look right. Mind double-checking it?");
       return;
     }
 
     setSending(true);
     try {
+      const recaptchaToken = await getRecaptchaToken();
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        // TODO(recaptcha): include a reCAPTCHA token in this payload (next slice).
-        body: JSON.stringify({ inquiry, ...form }),
+        body: JSON.stringify({ inquiry, ...form, recaptchaToken }),
       });
       if (!res.ok) throw new Error("send_failed");
       setSent(true);
@@ -103,7 +131,14 @@ export function ContactForm() {
     }`;
 
   return (
-    <form onSubmit={onSubmit} noValidate>
+    <>
+      {RECAPTCHA_SITE_KEY && (
+        <Script
+          src={`https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`}
+          strategy="afterInteractive"
+        />
+      )}
+      <form onSubmit={onSubmit} noValidate>
       <div className="mb-5">
         <span className={LABEL}>What&apos;s this about?</span>
         <div className="flex flex-wrap gap-2.5">
@@ -196,6 +231,30 @@ export function ContactForm() {
       <p className="text-muted-warm mt-3.5 font-serif text-[14px] italic">
         We read every note and reply ourselves. Your details are never shared.
       </p>
+      {RECAPTCHA_SITE_KEY && (
+        <p className="text-muted-warm mt-2 font-serif text-[12.5px]">
+          This site is protected by reCAPTCHA and the Google{" "}
+          <a
+            href="https://policies.google.com/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border-muted-warm border-b"
+          >
+            Privacy Policy
+          </a>{" "}
+          and{" "}
+          <a
+            href="https://policies.google.com/terms"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border-muted-warm border-b"
+          >
+            Terms of Service
+          </a>{" "}
+          apply.
+        </p>
+      )}
     </form>
+    </>
   );
 }

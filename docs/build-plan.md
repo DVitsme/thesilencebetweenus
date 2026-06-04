@@ -39,8 +39,8 @@ also activates three already-built pages (thank-you, supporters, every "Support"
 
 | # | Task | Phase | Why / unblocks | Ready? | Effort |
 |---|------|:---:|------|:---:|:---:|
-| 1 | **Wire payment-confirmation emails** — `supporter-confirmation` + `internal-new-contribution` into the `payment_intent.succeeded` webhook | 3 | Supporters get a branded thank-you (today: only Stripe's receipt); team gets an alert. Clears webhook `TODO(email)`. | ✅ | M |
-| 2 | **Finish + secure contact** — wire `contact-autoreply` (2nd send in `/api/contact`) + add **reCAPTCHA** | 3 | Submitter acknowledgment + spam protection on the live form. | ✅ | M |
+| 1 ✅ | **Wire payment-confirmation emails** — `supporter-confirmation` + `internal-new-contribution` into the `payment_intent.succeeded` webhook · **DONE 2026-06-04 (verified live)** | 3 | Supporters get a branded thank-you; team gets an alert. Cleared webhook `TODO(email)`. | ✅ | M |
+| 2 ✅ | **Finish + secure contact** — `contact-autoreply` 2nd send + **reCAPTCHA v3** (server verify, badge hidden + legal line) · **DONE 2026-06-04** | 3 | Submitter ack + spam protection. ⚠️ add `localhost` + the prod domain to the reCAPTCHA site key (live verify returns `browser-error` until then; dev falls through). | ✅ | M |
 | 3 | **`/support/canceled`** (doc 13) | 2 | Fixes the thank-you "What happened?" 404; completes give→thank-you→canceled. | ✅ | S |
 | 4 | **Refund email** — `charge.refunded` branch → `refund-confirmation` | 3 | Completes the money lifecycle (same webhook file as #1). | ✅ | S |
 | 5 | **Legal trio** — `/legal/{terms,privacy,contributions}` (doc 14) | 2 | Fixes footer/contribution links; launch credibility; renders $175 benefits. | ⚠️ draft banner; governing-law = Kevin | L |
@@ -93,7 +93,7 @@ also activates three already-built pages (thank-you, supporters, every "Support"
 ## Phase 6 — Launch
 
 - [ ] **Production domain** decided → set everywhere (metadataBase, share URLs, sitemap)
-- [ ] Accounts/secrets: Resend **domain verified**; reCAPTCHA keys; Stripe **live** keys + live webhook endpoint + `STRIPE_LIVE_WEBHOOK_SECRET`; push to Cloudflare (`wrangler secret put`) + prod D1 binding
+- [ ] Accounts/secrets: Resend **domain verified**; reCAPTCHA keys (**register the production domain** on the site key — and `localhost` for local verify; live verify fails with `browser-error` until the domain is allowed); Stripe **live** keys + live webhook endpoint + `STRIPE_LIVE_WEBHOOK_SECRET`; push to Cloudflare (`wrangler secret put`) + prod D1 binding
 - [ ] **Flip contact recipient** → `CONTACT_TO_EMAIL=kevin@kcfilmsmedia.com` (testing uses `derrick@digitaldog.io` so delivery is verifiable). Set the Resend/contact envs (`RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL`) as Cloudflare secrets + add to `.dev.vars` for preview. `TODO(launch)`
 - [ ] `pnpm preview` (workerd) full pass → `pnpm deploy` → **live smoke test** (real $1 contribution in live mode → webhook → supporters-wall row → receipt email)
 

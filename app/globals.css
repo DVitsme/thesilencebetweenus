@@ -228,3 +228,6 @@
       color-mix(in oklch, var(--ink) 5%, transparent) 13px);
   }
 }
+
+/* Hide the reCAPTCHA v3 badge — the legal line is shown on the contact form instead. */
+.grecaptcha-badge { visibility: hidden !important; }
