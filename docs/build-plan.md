@@ -140,7 +140,7 @@ also activates three already-built pages (thank-you, supporters, every "Support"
 
 ## Phase 4 — Site hardening *(independent — parallelizable with 1–3)*
 
-- [ ] `not-found.tsx`, `error.tsx`, `global-error.tsx` (warm, designed)
+- [x] `not-found.tsx`, `error.tsx`, `global-error.tsx` (warm, designed) *(done 2026-06-04; not-found → `/_not-found` Static, site-wide 404; error.tsx + global-error.tsx client boundaries using v16 `unstable_retry`; em-dashes scrubbed; build passes)*
 - [ ] SEO: `sitemap.ts`, `robots.ts`, default/OG image, `metadataBase` from `NEXT_PUBLIC_SITE_URL` → clears both `TODO(domain)`
 - [ ] FAQ rework (fix nested `<main>`, finalize copy from `docs/copy/`)
 - [ ] Accessibility + Lighthouse pass (`LIGHTHOUSE_URL` already in env)

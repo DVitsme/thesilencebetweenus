@@ -56,9 +56,12 @@ foundation mirrored from `digitaldog-site-starter` (new-york shadcn + Shadcn Stu
   ⚠️ governing law defaulted **Florida** per `docs/copy/legal.md` (the mockup said Ohio) = `TODO(legal-confirm)`.
   Footer legal links now resolve.
 
-**Not built yet (pages):**
-`not-found.tsx`/`error.tsx`/`global-error.tsx`. Designed mockups for each live in
-`The-Silence-Between-Us/` (route map: `handoff/06-ROUTE-AND-LINK-MAP.md`); page copy drafts in `docs/copy/`.
+**All designed pages are now built.** The error/empty states were built 2026-06-04 from the `404`/`Error`
+mockups: `app/not-found.tsx` (site-wide 404 → `/_not-found` Static), `app/error.tsx` (segment error
+boundary, v16 `unstable_retry`, "card was not charged" reassurance + `error.digest` reference), and
+`app/global-error.tsx` (root-layout fallback; own `<html>`/`<body>`, Georgia serif fallback since the
+layout font is gone). Remaining pre-launch work is non-page: SEO (`sitemap.ts`/`robots.ts`/OG), FAQ
+rework, a11y/Lighthouse (Phase 4) + the launch checklist in `docs/build-plan.md`.
 
 **Payment slice (Phase 1 ✅ end-to-end verified 2026-06-04 — full roadmap `docs/build-plan.md`):** built &
 test-verified = `lib/stripe/{server,tiers}.ts` (lazy client + Fetch httpClient for Workers, apiVersion
