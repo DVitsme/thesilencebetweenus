@@ -1,8 +1,10 @@
 import { Resend } from "resend";
 import type Stripe from "stripe";
 import { TIERS } from "@/content/tiers";
+import { getStripe } from "@/lib/stripe/server";
 import SupporterConfirmation, { subject as supporterSubject } from "@/emails/supporter-confirmation";
 import InternalNewContribution, { subject as internalSubject } from "@/emails/internal-new-contribution";
+import RefundConfirmation, { subject as refundSubject } from "@/emails/refund-confirmation";
 
 /**
  * Best-effort contribution notifications (Phase 3, task #1). Called from the Stripe
@@ -119,5 +121,61 @@ export async function sendContributionEmails(pi: Stripe.PaymentIntent): Promise<
     } catch (e) {
       console.error("[webhook email] internal-new-contribution threw:", e);
     }
+  }
+}
+
+/**
+ * Best-effort refund confirmation (Phase 3, task #4). Called from the Stripe webhook on a
+ * FULLY-refunded charge — the template copy says "refunded in full," so the webhook gates on
+ * charge.refunded and partial refunds are handled manually. Failures are logged, never thrown.
+ */
+export async function sendRefundEmail(charge: Stripe.Charge): Promise<void> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error("[webhook email] RESEND_API_KEY missing — skipping refund email");
+    return;
+  }
+
+  // Recipient: the receipt email carried from the PaymentIntent, then the card's billing email.
+  const supporterEmail = charge.receipt_email ?? charge.billing_details?.email ?? null;
+  if (!supporterEmail) {
+    console.error(`[webhook email] refund: no recipient email on charge ${charge.id} — skipping`);
+    return;
+  }
+
+  // First name: prefer the supporterName stored on the PaymentIntent metadata (so it matches the
+  // confirmation email); fall back to the cardholder name on the charge.
+  let supporterName = charge.billing_details?.name ?? "";
+  const piId =
+    typeof charge.payment_intent === "string" ? charge.payment_intent : charge.payment_intent?.id;
+  if (piId) {
+    try {
+      const pi = await getStripe().paymentIntents.retrieve(piId);
+      if (pi.metadata?.supporterName) supporterName = pi.metadata.supporterName;
+    } catch (e) {
+      console.error("[webhook email] refund: PaymentIntent retrieve failed:", e);
+    }
+  }
+
+  const props = {
+    firstName: firstNameOf(supporterName),
+    amountFormatted: fmtAmount(charge.amount_refunded || charge.amount),
+    // Real Stripe reference, never fabricated: the latest refund id if present, else the charge id.
+    refundRef: charge.refunds?.data?.[0]?.id ?? charge.id,
+    // Public support inbox shown in the email (matches the contact page + auto-reply).
+    contactEmail: "kevin@kcfilmsmedia.com",
+  };
+
+  const resend = new Resend(apiKey);
+  try {
+    const { error } = await resend.emails.send({
+      from: fromAddress(),
+      to: supporterEmail,
+      subject: refundSubject(props),
+      react: <RefundConfirmation {...props} />,
+    });
+    if (error) console.error("[webhook email] refund-confirmation:", error);
+  } catch (e) {
+    console.error("[webhook email] refund-confirmation threw:", e);
   }
 }

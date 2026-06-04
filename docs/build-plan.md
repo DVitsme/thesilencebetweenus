@@ -42,7 +42,7 @@ also activates three already-built pages (thank-you, supporters, every "Support"
 | 1 ✅ | **Wire payment-confirmation emails** — `supporter-confirmation` + `internal-new-contribution` into the `payment_intent.succeeded` webhook · **DONE 2026-06-04 (verified live)** | 3 | Supporters get a branded thank-you; team gets an alert. Cleared webhook `TODO(email)`. | ✅ | M |
 | 2 ✅ | **Finish + secure contact** — `contact-autoreply` 2nd send + **reCAPTCHA v3** (server verify, badge hidden + legal line) · **DONE 2026-06-04** | 3 | Submitter ack + spam protection. ⚠️ add `localhost` + the prod domain to the reCAPTCHA site key (live verify returns `browser-error` until then; dev falls through). | ✅ | M |
 | 3 ✅ | **`/support/canceled`** (doc 13) · **DONE 2026-06-04** | 2 | Fixed the thank-you "What happened?" 404; completes give→thank-you→canceled. | ✅ | S |
-| 4 | **Refund email** — `charge.refunded` branch → `refund-confirmation` | 3 | Completes the money lifecycle (same webhook file as #1). | ✅ | S |
+| 4 ✅ | **Refund email** — `charge.refunded` branch → `refund-confirmation` · **DONE 2026-06-04 (verified live)** | 3 | Completes the money lifecycle (same webhook file as #1). Full refunds only; partials logged. ⚠️ prod webhook endpoint must enable `charge.refunded`. | ✅ | S |
 | 5 | **Legal trio** — `/legal/{terms,privacy,contributions}` (doc 14) | 2 | Fixes footer/contribution links; launch credibility; renders $175 benefits. | ⚠️ draft banner; governing-law = Kevin | L |
 | 6 | **Broadcast sends** — `production-update` + `trailer-first-look` via Resend Broadcasts | 3 | Quarterly updates + trailer reveal to all supporters. | ⚠️ gated: Kevin mailing address + Resend Audience + marketing subdomain | M |
 

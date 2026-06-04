@@ -1,7 +1,7 @@
 import type Stripe from "stripe";
 import { getStripe, stripeWebhookSecret } from "@/lib/stripe/server";
 import { recordSupporter } from "@/lib/db/supporters";
-import { sendContributionEmails } from "@/lib/email/notify";
+import { sendContributionEmails, sendRefundEmail } from "@/lib/email/notify";
 
 // Stripe SDK + webhook verification need the Node runtime (workerd + nodejs_compat).
 export const runtime = "nodejs";
@@ -44,6 +44,22 @@ export async function POST(req: Request) {
     await sendContributionEmails(pi).catch((e) =>
       console.error("[webhook email] notify failed:", e),
     );
+  }
+
+  // A refund was issued. Only the full-refund email copy exists ("refunded in full"), so we notify
+  // for full refunds and log partials for manual follow-up. The supporter's wall listing is left as
+  // is — whether a refund drops someone off the wall is a Kevin decision (docs/decisions-for-kevin.md).
+  if (event.type === "charge.refunded") {
+    const charge = event.data.object as Stripe.Charge;
+    if (charge.refunded) {
+      await sendRefundEmail(charge).catch((e) =>
+        console.error("[webhook email] refund notify failed:", e),
+      );
+    } else {
+      console.warn(
+        `[webhook] partial refund on ${charge.id} (${charge.amount_refunded}/${charge.amount}) — no email sent`,
+      );
+    }
   }
 
   // Acknowledge everything else (e.g. payment_intent.payment_failed) with 200 so
