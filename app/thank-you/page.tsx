@@ -270,7 +270,7 @@ function FailedState() {
         <Link href={GIVE_HREF} className={GOLD_BTN}>
           Try again →
         </Link>
-        {/* /support/canceled is handoff doc 13 (built next). */}
+        {/* /support/canceled — the reassuring canceled-checkout page (handoff doc 13). */}
         <Link href="/support/canceled" className={OUTLINE_BTN}>
           What happened?
         </Link>
