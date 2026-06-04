@@ -64,12 +64,12 @@ Validates signature verification (`constructEventAsync`) + the `payment_intent.s
 
 ---
 
-## Done-criteria (doc 08 §8)
-- [ ] `4242…` → lands on `/thank-you` with a real receipt.
-- [ ] `4000…0002` → inline decline, no redirect.
-- [ ] Tampered amount → `invalid_amount` (already verified via `/api/payment-intent`).
-- [ ] Webhook verified via `constructEventAsync`; `payment_intent.succeeded` → `recordSupporter` logs.
-- [ ] `pnpm build` + `pnpm preview` (workerd runtime) pass.
+## Done-criteria (doc 08 §8) — ✅ all verified 2026-06-04 (dev + workerd preview)
+- [x] `4242…` → lands on `/thank-you` with a real receipt (PI `pi_3Tebn…` retrieved + rendered, incl. on workerd).
+- [x] `4000…0002` → inline decline, no redirect (Stripe `confirm` → **402**, red inline error, no `/thank-you` nav — verified 2026-06-04).
+- [x] Tampered amount → `invalid_amount` (verified via `/api/payment-intent`, dev + workerd → 400).
+- [x] Webhook verified via `constructEventAsync`; `payment_intent.succeeded` → `recordSupporter` logs (Part B: all events `[200]` via `stripe listen`).
+- [x] `pnpm build` + `pnpm preview` (workerd runtime) pass (+ Stripe PI create/retrieve work on the CF runtime).
 
 ## Notes
 - `recordSupporter` is a **log stub** (`TODO(data)`) until the D1 data layer (Phase 3, task #12) — the

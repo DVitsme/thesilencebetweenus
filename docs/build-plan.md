@@ -1,19 +1,22 @@
 # Build Plan — The Silence Between Us
 
 > Ranked roadmap to finish the donation/marketing site. **Build top to bottom.**
-> Last updated 2026-06-03 — keep in sync as items land (check the boxes).
+> Last updated 2026-06-04 — keep in sync as items land (check the boxes).
 > Companion to `CLAUDE.md` (build status) and the design handoff
 > (`The-Silence-Between-Us/handoff/`, docs 08–14).
 
 ## Where it stands
 
-**Built & verified (7 pages):** `/`, `/about`, `/portfolio`, `/supporters`, `/contact`, `/faq`,
-`/thank-you`.
+**Built & verified (8 pages):** `/`, `/about`, `/portfolio`, `/supporters`, `/contact`, `/faq`,
+`/thank-you`, `/give`.
 
-**Not yet wired:** no `app/api/*` routes; `lib/` has only `utils.ts`; payment/email/captcha deps
-not installed; **no data binding** in `wrangler.jsonc` (only `ASSETS`/`IMAGES`/`WORKER_SELF_REFERENCE`).
-The env *names* are ready in `.env.example`; the values + accounts are not. 15 `TODO()` markers are
-open in code — most collapse the moment the payment slice lands.
+**Wired (Phase 1 ✅ — payments):** Stripe deps; `lib/stripe/{server,tiers}.ts`; `app/api/payment-intent`
++ `app/api/stripe/webhook`; `/give` checkout; `SupportButton`→`/give`; `/thank-you` PI-retrieve receipt.
+**Verified end-to-end 2026-06-04** (dev + workerd `pnpm preview`) — see `docs/stripe-test-runbook.md`.
+
+**Not yet wired:** email/captcha deps (Resend/reCAPTCHA, Phase 3); **no data binding** in `wrangler.jsonc`
+(only `ASSETS`/`IMAGES`/`WORKER_SELF_REFERENCE`) — supporters still on placeholder data (#12). The env
+*names* are ready in `.env.example`; the values + accounts are not.
 
 **Primary goal (locked):** capture supporter contributions. The payment core is the keystone — it
 also activates three already-built pages (thank-you, supporters, every "Support" CTA).
@@ -29,16 +32,16 @@ also activates three already-built pages (thank-you, supporters, every "Support"
 
 ---
 
-## Phase 1 — Payment core *(keystone; clears 5 TODOs + activates 3 built pages)*
+## Phase 1 — Payment core ✅ done *(keystone; verified 2026-06-04, dev + workerd — see `docs/stripe-test-runbook.md`)*
 
-- [ ] Install deps: `stripe`, `@stripe/stripe-js`, `@stripe/react-stripe-js` (+ `pnpm.onlyBuiltDependencies` if needed)
-- [ ] `lib/stripe/server.ts` (mode-select, **Fetch httpClient** for Workers) + `lib/stripe/tiers.ts` (server-authoritative amount validation, single source)
-- [ ] `/give` page + `<GiveForm>` client island — Payment Element, *deferred* mode (doc 08 §4–5)
-- [ ] `app/api/payment-intent/route.ts` (validate amount server-side)
-- [ ] `app/api/stripe/webhook/route.ts` — `constructEventAsync`, `payment_intent.succeeded` → `recordSupporter()` (stub the store)
-- [ ] Flip `SupportButton` → `Link href="/give?tier=…"` (doc 08 §6); retire `/api/checkout` + `/#support` interims → clears `TODO(give)`/`TODO(checkout)`
-- [ ] Wire thank-you receipt to the PI retrieve → clears `TODO(receipt)`
-- [ ] Test end-to-end with Stripe **test** keys + `stripe listen`
+- [x] Install deps: `stripe`, `@stripe/stripe-js`, `@stripe/react-stripe-js` (+ `pnpm.onlyBuiltDependencies` if needed)
+- [x] `lib/stripe/server.ts` (mode-select, **Fetch httpClient** for Workers) + `lib/stripe/tiers.ts` (server-authoritative amount validation, single source)
+- [x] `/give` page + `<GiveForm>` client island — Payment Element, *deferred* mode (doc 08 §4–5)
+- [x] `app/api/payment-intent/route.ts` (validate amount server-side)
+- [x] `app/api/stripe/webhook/route.ts` — `constructEventAsync`, `payment_intent.succeeded` → `recordSupporter()` (stub the store)
+- [x] Flip `SupportButton` → `Link href="/give?tier=…"` (doc 08 §6); retire `/api/checkout` + `/#support` interims → clears `TODO(give)`/`TODO(checkout)`
+- [x] Wire thank-you receipt to the PI retrieve → clears `TODO(receipt)`
+- [x] Test end-to-end with Stripe **test** keys + `stripe listen` *(success + decline `402` + webhook + workerd all verified 2026-06-04)*
 
 ## Phase 2 — Finish the designed pages
 

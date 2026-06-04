@@ -46,7 +46,7 @@ foundation mirrored from `digitaldog-site-starter` (new-york shadcn + Shadcn Stu
 `not-found.tsx`/`error.tsx`/`global-error.tsx`. Designed mockups for each live in
 `The-Silence-Between-Us/` (route map: `handoff/06-ROUTE-AND-LINK-MAP.md`); page copy drafts in `docs/copy/`.
 
-**Payment slice (Phase 1, in progress — full roadmap `docs/build-plan.md`, task tracker active):** built &
+**Payment slice (Phase 1 ✅ end-to-end verified 2026-06-04 — full roadmap `docs/build-plan.md`):** built &
 test-verified = `lib/stripe/{server,tiers}.ts` (lazy client + Fetch httpClient for Workers, apiVersion
 `2026-05-27.dahlia` = account default, amounts derive from `content/tiers.ts`), `/api/payment-intent`,
 `/api/stripe/webhook` (`constructEventAsync`; `recordSupporter` is a `TODO(data)` log stub), and **`/give`**
@@ -54,7 +54,7 @@ test-verified = `lib/stripe/{server,tiers}.ts` (lazy client + Fetch httpClient f
 reads the publishable key via `connection()`; per-tier benefits live in `content/tiers.ts`). **`SupportButton`
 links to `/give?tier=` site-wide** (#6 — the `/#support`/`/api/checkout` interims are retired), and **`/thank-you`
 renders the real PaymentIntent receipt** (#7 — read-only retrieve: tier + amount + ref; falls back gracefully).
-Pending = end-to-end card test (#8 — needs a browser + `stripe listen`), `/api/contact` (Resend+reCAPTCHA,
+**#8 end-to-end ✅ verified 2026-06-04** (dev + workerd): `/give`→PI→`/thank-you` receipt; webhook→`recordSupporter` via `stripe listen` (all `[200]`); Stripe create/retrieve + amount-validation on the CF runtime; `pnpm build`+`pnpm preview` pass; `4000…0002` decline → **402** inline error, no redirect (runbook `docs/stripe-test-runbook.md`). Pending = `/api/contact` (Resend+reCAPTCHA,
 Phase 3), supporters **D1 data layer** (#12). ⚠️ test webhook secret env is `STRIPE_WEBHOOK_SECRET` (no
 `_TEST_`); live is `STRIPE_LIVE_WEBHOOK_SECRET`.
 **Design system** (warm-literary): `The-Silence-Between-Us/handoff/01-DESIGN-SYSTEM.md`.
