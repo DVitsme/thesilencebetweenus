@@ -40,15 +40,24 @@ foundation mirrored from `digitaldog-site-starter` (new-york shadcn + Shadcn Stu
 - `/faq` (`app/faq/page.tsx`) — provisional FAQ (Accordion); now inherits the warm theme + chrome. (Minor: it has its own `<main>` nested in the layout's — fix when reworked.)
 - `/supporters` (`app/supporters/page.tsx`) — the designed **Founding Supporters wall**, built from `handoff/10`. Server page computes the live counts (total / patrons+partners / founding year) + renders the dark bridge CTA; the search/tier-filter/show-more block is the `"use client"` island `components/site/supporters/wall.tsx`. Roster is **placeholder** data in `content/supporters.ts` (`TODO(data)` → wire to the webhook's store per doc 08 §7; **privacy:** credit-name only, never email). Filter behavior ported verbatim from the mockup (patrons hide under Partner/Supporter; search narrows both). CTAs use the `/#support` interim (`TODO(give)`).
 - `/contact` (`app/contact/page.tsx`) — the designed **Contact** page, built from `handoff/11`. Server page = hero + `<Rule>` + a two-col grid (form left, direct-details aside right); the form is the `"use client"` island `components/site/contact/contact-form.tsx` (inquiry chips, validation, inline warm success state). Submit is a resolved **stub** (`TODO(contact-wiring)`: POST `/api/contact` → verify reCAPTCHA → Resend to `kevin@kcfilmsmedia.com` with the inquiry category in the subject). Two **`TODO(contact-confirm)`** content calls await Kevin: the phone **216-308-4427** (it's the original form's **Zelle** number — OK to publish?) and **Cleveland vs Tampa** as the shown production location (+ a real Facebook URL). Admin note still carries the deferred "Donations…" wording (same as footer).
+- `/thank-you` (`app/thank-you/page.tsx`) — the Stripe success **return_url**, built from `handoff/12`. **Dynamic** `async` Server Component: `await`s `searchParams` and branches on `redirect_status` (`succeeded`/missing → confirmation; `processing` → "we're confirming"; `failed` → error → `/give` + `/support/canceled`). **Display-only — never fulfills** (that's the webhook, doc 08 §7). Receipt is `TODO(receipt)`: shows the **real** PaymentIntent id from the URL when present + "Paid via Stripe", but **no fabricated tier/amount/number** (doc 08 wires the PI retrieve later). `robots:{index:false}`. Success body = confirmation seal → "what happens next" timeline (1st step → `/supporters`) → director quote → share/upgrade (share intents; upgrade → `/#support` `TODO(give)`).
 
-**Not built yet:** `/thank-you`,
-`/support/canceled`, `/legal/{terms,privacy,contributions}`, `not-found.tsx`/`error.tsx`/`global-error.tsx`,
-and api routes `/api/{checkout,webhooks/stripe,contact}`. Designed mockups for each live in
+**Not built yet (pages):** `/give` (checkout), `/support/canceled`, `/legal/{terms,privacy,contributions}`,
+`not-found.tsx`/`error.tsx`/`global-error.tsx`. Designed mockups for each live in
 `The-Silence-Between-Us/` (route map: `handoff/06-ROUTE-AND-LINK-MAP.md`); page copy drafts in `docs/copy/`.
+
+**Payment slice (Phase 1, in progress — full roadmap `docs/build-plan.md`, task tracker active):** built &
+test-verified = `lib/stripe/{server,tiers}.ts` (lazy client + Fetch httpClient for Workers, apiVersion
+`2026-05-27.dahlia` = account default, amounts derive from `content/tiers.ts`), `/api/payment-intent`,
+`/api/stripe/webhook` (`constructEventAsync`; `recordSupporter` is a `TODO(data)` log stub). Pending = `/give`
+page (#3), flip `SupportButton`→`/give?tier=` (#6, retires the old `/api/checkout`+`/#support` interims),
+thank-you receipt via PI retrieve (#7), `/api/contact` (Resend+reCAPTCHA, Phase 3), supporters **D1 data
+layer** (#12). ⚠️ test webhook secret env is `STRIPE_WEBHOOK_SECRET` (no `_TEST_`); live is `STRIPE_LIVE_WEBHOOK_SECRET`.
 **Design system** (warm-literary): `The-Silence-Between-Us/handoff/01-DESIGN-SYSTEM.md`.
 
-**Locked decisions:** Stripe **Checkout (hosted), one-time** (tiers + custom amount); fulfillment via
-**webhook** `checkout.session.completed` (not the redirect; Workers → `constructEventAsync`). **Resend**
+**Locked decisions:** Stripe **custom `/give` checkout** (Payment Element, *deferred* mode), **one-time**
+(tiers + custom amount) — **not** hosted Checkout (superseded by `handoff/08`); fulfillment via **webhook**
+`payment_intent.succeeded` (not the redirect; Workers → `constructEventAsync`). **Resend**
 email; **Google reCAPTCHA** on contact. Framing = **rewards crowdfunding** ("support/back/contribute",
 **never** "tax-deductible" or "invest"); **988** crisis line in footer. Copy = **teens-first** (NOT "a
 movie about a teacher") in a **serious sales register — no spoken catchphrases** ("true to this", "what
