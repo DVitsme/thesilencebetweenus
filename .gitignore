@@ -45,3 +45,10 @@ cloudflare-env.d.ts
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# agent skills — vendored bodies + per-agent symlinks (restore from skills-lock.json)
+/.agents/skills/
+/.claude/skills/
+
+# local Claude Code settings (personal; shared config → .claude/settings.json)
+/.claude/settings.local.json
