@@ -4,6 +4,7 @@ import { Check, Clock, X } from "lucide-react";
 import { Eyebrow, Rule } from "@/components/site/primitives";
 import { getStripe } from "@/lib/stripe/server";
 import { TIERS } from "@/content/tiers";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Thank You",
@@ -13,8 +14,7 @@ export const metadata: Metadata = {
 
 const GIVE_HREF = "/give";
 
-// TODO(domain): confirm the production domain (matches layout.tsx metadataBase).
-const SHARE_URL = "https://thesilencebetweenus.film";
+const SHARE_URL = SITE_URL; // production domain via NEXT_PUBLIC_SITE_URL (lib/site.ts)
 const SHARE_TEXT =
   "I just became a Founding Supporter of The Silence Between Us — a film about the anxiety and depression teenagers carry in silence. Help tell this story:";
 const X_SHARE = `https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent(SHARE_URL)}`;

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Newsreader } from "next/font/google";
 import { SiteHeader } from "@/components/site/site-header";
 import { SiteFooter } from "@/components/site/site-footer";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const newsreader = Newsreader({
@@ -13,7 +14,7 @@ const newsreader = Newsreader({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://thesilencebetweenus.film"), // TODO(domain): confirm production domain
+  metadataBase: new URL(SITE_URL), // domain via NEXT_PUBLIC_SITE_URL (lib/site.ts); set per environment
   title: {
     default: "The Silence Between Us — A film by Kevin Cameron",
     template: "%s — The Silence Between Us",

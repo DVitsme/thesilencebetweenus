@@ -2,6 +2,7 @@ import { Resend } from "resend";
 import type Stripe from "stripe";
 import { TIERS } from "@/content/tiers";
 import { getStripe } from "@/lib/stripe/server";
+import { SITE_URL } from "@/lib/site";
 import SupporterConfirmation, { subject as supporterSubject } from "@/emails/supporter-confirmation";
 import InternalNewContribution, { subject as internalSubject } from "@/emails/internal-new-contribution";
 import RefundConfirmation, { subject as refundSubject } from "@/emails/refund-confirmation";
@@ -19,10 +20,6 @@ import RefundConfirmation, { subject as refundSubject } from "@/emails/refund-co
 function fromAddress(): string {
   const addr = process.env.CONTACT_FROM_EMAIL ?? "onboarding@resend.dev";
   return `The Silence Between Us <${addr}>`;
-}
-
-function siteUrl(): string {
-  return (process.env.NEXT_PUBLIC_SITE_URL ?? "https://thesilencebetweenus.film").replace(/\/$/, "");
 }
 
 function tierDisplayName(tierId: string | undefined): string {
@@ -83,7 +80,7 @@ export async function sendContributionEmails(pi: Stripe.PaymentIntent): Promise<
       tierName,
       amountFormatted,
       receiptRef,
-      wallUrl: `${siteUrl()}/supporters`,
+      wallUrl: `${SITE_URL}/supporters`,
     };
     try {
       const { error } = await resend.emails.send({

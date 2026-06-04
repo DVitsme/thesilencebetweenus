@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
-
+import Link from "next/link";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Eyebrow, Rule } from "@/components/site/primitives";
+import { SupportButton } from "@/components/site/support-button";
 
 export const metadata: Metadata = {
-  title: "FAQ — The Silence Between Us",
-  description:
-    "Answers about the film, supporting it, your supporter perks, and the filmmaker.",
+  title: "FAQ",
+  description: "Answers about the film, supporting it, your supporter perks, and the filmmaker.",
 };
 
-// Provisional placeholder copy — source: docs/copy/secondary-pages.md.
-// Subject to Kevin's final inputs (release window, full tier ladder, etc.).
-const faqGroups: { heading: string; items: { q: string; a: string }[] }[] = [
+// Copy source: docs/copy/secondary-pages.md (em-dashes scrubbed per the copy register). The release
+// window stays open until Kevin confirms it; the answer reads fine without a date.
+const FAQ_GROUPS: { heading: string; items: { q: string; a: string }[] }[] = [
   {
     heading: "The film",
     items: [
@@ -29,7 +30,7 @@ const faqGroups: { heading: string; items: { q: string; a: string }[] }[] = [
       },
       {
         q: "Is this a faith-based film?",
-        a: "It's a story for anyone who has ever loved a young person who was hurting. Kevin's work is rooted in hope and humanity — you don't need to share any particular faith to be moved by it, or to help make it.",
+        a: "It's a story for anyone who has ever loved a young person who was hurting. Kevin's work is rooted in hope and humanity, and you don't need to share any particular faith to be moved by it, or to help make it.",
       },
     ],
   },
@@ -46,15 +47,15 @@ const faqGroups: { heading: string; items: { q: string; a: string }[] }[] = [
       },
       {
         q: "Will I be charged more than once?",
-        a: "No — it's a single, one-time contribution. We never see or store your card details; payments are processed by Stripe.",
+        a: "No. It's a single, one-time contribution. We never see or store your card details; payments are processed by Stripe.",
       },
       {
         q: "Can I get a refund?",
-        a: "Contributions go directly into production, so they're generally final — but if something isn't right, contact us and we'll work with you.",
+        a: "Contributions go directly into production, so they're generally final. If something isn't right, contact us and we'll work with you.",
       },
       {
         q: "Can a business, church, or organization sponsor the film?",
-        a: "Yes — we'd welcome it. Get in touch and we'll find the right fit.",
+        a: "Yes, we'd welcome it. Get in touch and we'll find the right fit.",
       },
       {
         q: "I can't give right now. How else can I help?",
@@ -67,7 +68,7 @@ const faqGroups: { heading: string; items: { q: string; a: string }[] }[] = [
     items: [
       {
         q: "What do I get?",
-        a: "It depends on your tier — an on-screen credit, a virtual meet & greet with the director and cast, set updates, early trailer access, and a spot on the Founding Supporters page.",
+        a: "It depends on your tier: an on-screen credit, a virtual meet & greet with the director and cast, set updates, early trailer access, and a spot on the Founding Supporters page.",
       },
       {
         q: "How do I choose how my name appears in the credits?",
@@ -84,7 +85,7 @@ const faqGroups: { heading: string; items: { q: string; a: string }[] }[] = [
     items: [
       {
         q: "Who is Kevin Cameron?",
-        a: "A filmmaker and former educator whose work spans features, documentaries, and films made with schools, churches, and mental-health organizations — including a feature now streaming on Amazon Prime.",
+        a: "A filmmaker and former educator whose work spans features, documentaries, and films made with schools, churches, and mental-health organizations, including a feature now streaming on Amazon Prime.",
       },
     ],
   },
@@ -92,38 +93,62 @@ const faqGroups: { heading: string; items: { q: string; a: string }[] }[] = [
 
 export default function FaqPage() {
   return (
-    <main className="mx-auto w-full max-w-3xl px-4 py-16 sm:py-24">
-      <header className="mb-10 sm:mb-14">
-        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+    <>
+      <section className="px-7 pt-[58px] pb-[10px] text-center">
+        <Eyebrow>Good to know</Eyebrow>
+        <h1 className="mx-auto max-w-[640px] font-serif text-[clamp(2.25rem,5vw,3rem)] leading-[1.07] tracking-[-0.5px]">
           Frequently asked questions
         </h1>
-        <p className="text-muted-foreground mt-3 text-lg">
-          Everything you need to know about the film and supporting it. Still have a
-          question? Reach out and we&apos;ll help.
+        <p className="text-ink-soft mx-auto mt-4 max-w-[560px] font-serif text-[19px] leading-[1.55]">
+          Everything you need to know about the film and supporting it. Still have a question? Reach
+          out and we&apos;ll help.
         </p>
-      </header>
+      </section>
 
-      <div className="space-y-10">
-        {faqGroups.map((group) => (
-          <section key={group.heading}>
-            <h2 className="text-muted-foreground mb-1 text-sm font-medium tracking-wide uppercase">
-              {group.heading}
-            </h2>
-            <Accordion type="single" collapsible className="w-full">
-              {group.items.map((item, i) => (
-                <AccordionItem key={i} value={`${group.heading}-${i}`}>
-                  <AccordionTrigger className="text-base">
-                    {item.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground text-base">
-                    {item.a}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </section>
-        ))}
-      </div>
-    </main>
+      <Rule className="mt-9" />
+
+      <section className="mx-auto max-w-[760px] px-7 pt-12 pb-[60px]">
+        <div className="flex flex-col gap-12">
+          {FAQ_GROUPS.map((group) => (
+            <div key={group.heading}>
+              <span className="text-gold-deep mb-1.5 block font-serif text-[15px] italic">
+                {group.heading}
+              </span>
+              <Accordion type="single" collapsible className="w-full">
+                {group.items.map((item, i) => (
+                  <AccordionItem key={i} value={`${group.heading}-${i}`} className="border-line">
+                    <AccordionTrigger className="text-ink font-serif text-[18px] hover:no-underline">
+                      {item.q}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-ink-soft font-serif text-[16.5px] leading-[1.6]">
+                      {item.a}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* support bridge */}
+      <section className="bg-tint px-7 py-[54px] text-center">
+        <h2 className="mx-auto max-w-[520px] font-serif text-[clamp(1.6rem,3.5vw,2rem)] leading-[1.15] tracking-[-0.3px]">
+          Still wondering about something?
+        </h2>
+        <p className="text-ink-soft mx-auto mt-3 max-w-[480px] font-serif text-[17px] leading-[1.6]">
+          We read every note and reply ourselves. Ask us anything about the film or supporting it.
+        </p>
+        <div className="mt-7 flex flex-wrap justify-center gap-3.5">
+          <SupportButton>Support the film →</SupportButton>
+          <Link
+            href="/contact"
+            className="border-ink hover:bg-ink hover:text-paper inline-flex items-center justify-center gap-2 rounded-full border px-7 py-3 font-serif text-[17px] italic transition-colors"
+          >
+            Contact us
+          </Link>
+        </div>
+      </section>
+    </>
   );
 }
