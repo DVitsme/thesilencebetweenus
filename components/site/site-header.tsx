@@ -47,14 +47,20 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-3">
           <SupportButton className="px-5 py-2 text-[15px]">Support the film →</SupportButton>
-          <button className="lg:hidden" aria-label="Menu" onClick={() => setOpen((v) => !v)}>
-            {open ? <X size={22} /> : <Menu size={22} />}
+          <button
+            className="lg:hidden"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X size={22} aria-hidden /> : <Menu size={22} aria-hidden />}
           </button>
         </div>
       </div>
 
       {open && (
-        <nav className="border-line bg-paper border-t px-6 py-4 lg:hidden">
+        <nav id="mobile-nav" className="border-line bg-paper border-t px-6 py-4 lg:hidden">
           {NAV_ITEMS.map((i) => (
             <Link
               key={i.href}

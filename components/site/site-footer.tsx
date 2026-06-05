@@ -45,7 +45,7 @@ export function SiteFooter() {
 
         {COLS.map((c) => (
           <div key={c.h}>
-            <h4 className="text-on-dark-muted mb-3.5 font-serif text-[15px] italic">{c.h}</h4>
+            <h2 className="text-on-dark-muted mb-3.5 font-serif text-[15px] italic">{c.h}</h2>
             {c.links.map((l) => (
               <Link
                 key={l.href}

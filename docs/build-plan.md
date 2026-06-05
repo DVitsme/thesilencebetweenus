@@ -143,13 +143,14 @@ also activates three already-built pages (thank-you, supporters, every "Support"
 - [x] `not-found.tsx`, `error.tsx`, `global-error.tsx` (warm, designed) *(done 2026-06-04; not-found → `/_not-found` Static, site-wide 404; error.tsx + global-error.tsx client boundaries using v16 `unstable_retry`; em-dashes scrubbed; build passes)*
 - [~] SEO: `sitemap.ts` ✅ + `robots.ts` ✅ + `metadataBase` ✅ — env-driven via `lib/site.ts` (`SITE_URL` from `NEXT_PUBLIC_SITE_URL`, normalized + protocol-safe; clears both `TODO(domain)`; share links + email wall URL now centralized too). **Still TODO: default/OG image** (1200×630) — `next/og` on Workers is its own spike, or ship a static asset. ⚠️ `.env.local` `NEXT_PUBLIC_SITE_URL=digitaldog.io` currently drives canonical/sitemap → set the real/staging value or remove it.
 - [x] FAQ rework — nested `<main>` removed (was double-wrapped in the layout's); rebuilt warm-literary on-brand (Eyebrow / Rule / restyled Accordion + a support bridge); em-dashes scrubbed; copy reconciled with `docs/copy/secondary-pages.md` *(done 2026-06-04)*
-- [ ] Accessibility + Lighthouse pass (`LIGHTHOUSE_URL` already in env)
+- [~] Accessibility + Lighthouse pass — Lighthouse baseline (dev) **A11y 94 / SEO 92 / BP 96**. Fixed: focus-visible rings on links/buttons, a skip-to-content link, footer heading-order (`<h4>`→`<h2>`), mobile-menu `aria-expanded`/`aria-controls`. ⚠️ **Contrast deviation accepted (user, 2026-06-04):** the warm `muted-warm` (~2.98:1) + `gold-deep` (~2.83:1) accents sit below AA 4.5:1 by design — **not darkening the palette.** (The SEO/best-practices docks were dev-only false positives: cold-compiled robots.txt, HMR console errors, source maps.)
+- [ ] **Skeleton loading states** (`loading.tsx` per route) for all pages — *deferred: do right after the a11y/Lighthouse pass (noted 2026-06-04)*
 
 ## Phase 5 — Content finalization *(gated on Kevin — slot in as inputs arrive)*
 
 - [ ] Tier ladder + amounts → clears `TODO(tiers)`; reconcile home tiers, `/give`, contribution terms
 - [ ] Endorsements section content → clears `TODO(endorsements)`
-- [ ] Replace imagery `<Placeholder>`s (home, about) with real assets via `next/image`
+- [x] Replace imagery `<Placeholder>`s with real assets via `next/image` (2026-06-04) — home (filmmaker portrait, teacher-split, film-still **video** via `<BackgroundVideo>`, partner-logo wall), about (portrait + classroom), portfolio (premiere-tour gallery). **Only remaining placeholder site-wide: endorsement avatars** (`TODO(endorsements)` — no real photos; real quotes pending the Sacramento screening transcript).
 - [ ] Fundraising goal + progress bar (new home feature — needs the goal number)
 - [ ] Release-window copy · faith dial · **trailer/pitch video** (replaces thank-you "send the trailer" + home placeholders)
 - [ ] Contact confirmations: phone (ex-Zelle), Cleveland vs Tampa, real Facebook URL → clears `TODO(contact-confirm)`

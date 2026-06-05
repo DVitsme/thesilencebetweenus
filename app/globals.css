@@ -208,6 +208,15 @@
     border-color: var(--gold-deep);
     box-shadow: 0 0 0 3px color-mix(in oklch, var(--gold) 28%, transparent);
   }
+  /* visible keyboard focus for every other interactive element (a11y) */
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  summary:focus-visible {
+    outline: 2px solid var(--gold-deep);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
 }
 
 @layer components {

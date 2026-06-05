@@ -27,7 +27,7 @@ export default function ContactAutoReply(p: ContactAutoReplyProps) {
       {/* body */}
       <Section style={{ padding: "18px 48px 6px" }}>
         <Text style={para}>
-          Your <strong style={{ fontWeight: 500 }}>{p.inquiryLabel}</strong> message reached us, and we don&apos;t take that lightly. We&apos;re a small team, and we read every note ourselves, so this isn&apos;t an automated dead end. A real person will write you back, usually within a few days.
+          {" "}Your <strong style={{ fontWeight: 500 }}>{p.inquiryLabel}</strong> message reached us, and we don&apos;t take that lightly. We&apos;re a small team, and we read every note ourselves, so this isn&apos;t an automated dead end. A real person will write you back, usually within a few days.
         </Text>
         <Text style={{ ...para, margin: 0 }}>
           If it&apos;s time sensitive, you can reach us directly at{" "}

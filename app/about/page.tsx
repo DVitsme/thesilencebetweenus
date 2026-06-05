@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Eyebrow, SectionHeading, Rule, Placeholder } from "@/components/site/primitives";
+import Image from "next/image";
+import { Eyebrow, SectionHeading, Rule } from "@/components/site/primitives";
 import { SupportButton } from "@/components/site/support-button";
 
 export const metadata: Metadata = {
@@ -14,7 +15,7 @@ const RECORD_STATS = [
   { big: "500+", cap: "Films produced for brands, churches & nonprofits" },
   { big: "400+", cap: "At the sold-out Toronto premiere" },
   { big: "9–10", cap: "Cities on the premiere tour, US & Canada" },
-  { big: "Prime", cap: "A feature streaming on Amazon today" },
+  { big: "Amazon", cap: "A feature of his streaming on Prime today" },
 ];
 
 const SIGNATURE_WORK = [
@@ -73,11 +74,15 @@ export default function AboutPage() {
       {/* Intro two-up */}
       <div className="mx-auto max-w-[1120px] px-[34px]">
         <div className="grid items-center gap-11 py-12 md:grid-cols-[1fr_1.25fr]">
-          <Placeholder
-            label="Portrait — Kevin Cameron"
-            ratio="4 / 5"
-            className="w-full"
-          />
+          <div className="border-line relative aspect-[4/5] w-full overflow-hidden rounded-[4px] border">
+            <Image
+              src="/images/kevin-speaking.jpg"
+              alt="Kevin Cameron, filmmaker and former educator"
+              fill
+              sizes="(max-width: 768px) 100vw, 440px"
+              className="object-cover"
+            />
+          </div>
           <div className="font-serif text-[20px] leading-[1.7]">
             <p className="mb-4">
               He&apos;s been telling stories for as long as he can remember — long before independent
@@ -202,7 +207,15 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-          <Placeholder label="Still — classroom / teacher moment" ratio="5 / 4" className="w-full" />
+          <div className="border-line relative aspect-[5/4] w-full overflow-hidden rounded-[4px] border">
+            <Image
+              src="/images/teacher-at-school.jpg"
+              alt="A teacher with students in a classroom"
+              fill
+              sizes="(max-width: 768px) 100vw, 480px"
+              className="object-cover"
+            />
+          </div>
         </div>
       </section>
 
@@ -242,7 +255,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="px-[34px] pt-16 pb-4 text-center">
+      <section className=" my-8 px-[34px] pt-16 pb-4 text-center">
         <Eyebrow>Be part of it</Eyebrow>
         <h2 className="mx-auto mb-3 max-w-[600px] font-serif text-[clamp(2rem,4.5vw,2.375rem)] leading-[1.1] tracking-[-0.4px]">
           Help Kevin tell the one he can&apos;t stay quiet about.

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Something went wrong — The Silence Between Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f7f3ea;--ink:#2c2620;--ink-soft:#5e564a;--muted:#9a8c6f;
+    --line:#e3dccb;--line-soft:#ece5d6;--tint:#f1ebdd;--gold:#f3c33b;--gold-deep:#b98a14;--dark:#211d17;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Newsreader',serif;-webkit-font-smoothing:antialiased;
+    font-size:18px;line-height:1.6;min-height:100vh;display:flex;flex-direction:column;}
+  a{color:inherit;}
+  em{font-style:italic;}
+  .ey{font-style:italic;font-size:16px;color:var(--muted);letter-spacing:.2px;}
+
+  .mast{display:flex;justify-content:center;align-items:center;padding:24px;border-bottom:1px solid var(--line);}
+  .mast .logo{font-weight:500;font-size:15px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;}
+
+  .stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:70px 28px 80px;}
+
+  /* seal — calm, not alarming */
+  .seal{width:78px;height:78px;border:1.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;
+    margin:0 auto 28px;background:#fff;font-size:40px;line-height:1;color:var(--ink);}
+
+  h1{font-weight:400;font-size:46px;line-height:1.08;letter-spacing:-.5px;margin:14px auto 0;max-width:560px;}
+  .stage .ey{display:block;margin-bottom:4px;}
+  .lede{font-size:20px;line-height:1.55;color:var(--ink-soft);max-width:500px;margin:16px auto 0;}
+  .reassure{display:inline-flex;align-items:center;gap:9px;margin-top:24px;font-style:italic;font-size:16px;color:var(--ink-soft);
+    background:var(--tint);border:1px solid var(--line);border-radius:30px;padding:9px 20px;}
+  .reassure .d{width:7px;height:7px;background:var(--gold);transform:rotate(45deg);flex:none;}
+
+  .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:30px;}
+  .btn{font-style:italic;font-size:17px;border-radius:30px;padding:13px 28px;text-decoration:none;
+    display:inline-flex;align-items:center;gap:9px;transition:all .15s;cursor:pointer;border:1px solid var(--ink);background:transparent;color:var(--ink);font-family:'Newsreader',serif;}
+  .btn:hover{background:var(--ink);color:var(--paper);}
+  .btn.gold{background:var(--gold);border-color:var(--ink);}
+  .btn.gold:hover{background:var(--gold-deep);color:#fff;border-color:var(--gold-deep);}
+
+  .rule{display:flex;align-items:center;gap:14px;max-width:520px;margin:44px auto 0;width:100%;}
+  .rule::before,.rule::after{content:"";flex:1;height:1px;background:var(--line);}
+  .rule .d{width:7px;height:7px;background:var(--gold);transform:rotate(45deg);}
+
+  .help{margin-top:24px;font-style:italic;font-size:16px;color:var(--ink-soft);max-width:440px;}
+  .help a{border-bottom:1px solid var(--muted);text-decoration:none;}
+
+  /* error reference (the digest) — subtle, for support */
+  .ref{margin-top:22px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;color:var(--muted);
+    background:#fff;border:1px dashed var(--line);border-radius:6px;padding:7px 13px;display:inline-block;}
+
+  .foot{background:var(--dark);color:#c9bfa9;padding:26px 28px;font-style:italic;}
+  .foot .wrap{max-width:760px;margin:0 auto;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:14px;}
+  .foot a{text-decoration:none;border-bottom:1px solid #5a5142;}
+
+  @media(max-width:560px){ h1{font-size:36px;} }
+</style>
+</head>
+<body>
+
+  <div class="mast"><span class="logo">The Silence Between Us</span></div>
+
+  <div class="stage">
+    <div class="seal" role="img" aria-label="Something went wrong">↻</div>
+    <div class="ey">Something went wrong</div>
+    <h1>That didn't go as planned.</h1>
+    <p class="lede">An unexpected error interrupted the page. It's on our end, not yours — and trying again usually clears it.</p>
+
+    <div class="reassure"><span class="d"></span> If you were making a contribution, your card was not charged.</div>
+
+    <div class="ctas">
+      <button class="btn gold" onclick="window.location.reload()">Try again →</button>
+      <a class="btn" href="Home - The Silence Between Us.html">Back to home</a>
+    </div>
+
+    <div class="rule"><span class="d"></span></div>
+
+    <p class="help">If it keeps happening, we'd genuinely like to know — <a href="Contact - The Silence Between Us.html">get in touch</a> or email <a href="/cdn-cgi/l/email-protection#c8a3adbea1a688a3abaea1a4a5bba5adaca1a9e6aba7a5"><span class="__cf_email__" data-cfemail="5e353b2837301e353d383732332d333b3a373f703d3133">[email&#160;protected]</span></a> and we'll help personally.</p>
+
+    <div class="ref">Reference: SBU-3f9a2c &nbsp;·&nbsp; share this if you contact us</div>
+  </div>
+
+  <div class="foot">
+    <div class="wrap">
+      <span>The Silence Between Us · Take 3 Media</span>
+      <span>Need a hand? <a href="Contact - The Silence Between Us.html">Contact us</a></span>
+    </div>
+  </div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

@@ -23,10 +23,15 @@ foundation mirrored from `digitaldog-site-starter` (new-york shadcn + Shadcn Stu
 **Built so far:**
 - `/` (`app/page.tsx`) — the real **warm-literary designed home page**, built from the design handoff
   in `The-Silence-Between-Us/handoff/` (Newsreader font, brand tokens in `app/globals.css`). Composed
-  from `components/site/home/*` (hero → film still → story w/ drop cap → pull quote → teacher split →
+  from `components/site/home/*` (hero → film still (a looping muted `<BackgroundVideo>`) → story w/ drop cap → pull quote → teacher split →
   filmmaker → dark proof band → endorsements → tiers → gold final CTA). **Hero 30 was deleted.**
-  Placeholders remain: imagery (`<Placeholder>`), endorsements (`TODO(endorsements)`), Partner/Patron
-  prices (illustrative — only **$175** confirmed), `<SupportButton>` → hosted Checkout w/ `TODO(checkout)` fallback.
+  Real imagery now (2026-06-04, all via `next/image`): home film-still **video** (`<BackgroundVideo>`),
+  filmmaker portrait (`kevin-speaking.jpg`), teacher still (`teacher-at-school.jpg`), the partner-logo wall
+  (`content/proof.ts` → `public/images/partners-logos/`, real `<Image>` on light chips; brand logos held back
+  for portfolio); **about** (portrait `kevin-good-waistup-shot.jpg` + classroom `teacher-at-school.jpg`);
+  **portfolio** (premiere-tour gallery cell). **Only placeholder left site-wide: endorsement avatars**
+  (`TODO(endorsements)` — never attach invented quotes to real faces; real quotes pending the Sacramento
+  screening transcript). Partner/Patron prices stay illustrative (only **$175** confirmed).
 - `app/layout.tsx` — real chrome now: `<SiteHeader>` (sticky nav + Support CTA), `<SiteFooter>`
   (**988** line), Newsreader, metadata/OG (`components/site/*`). No longer the scaffold.
 - `/about` (`app/about/page.tsx`) — the designed **About Kevin** page (warm-literary; reuses the home
@@ -152,7 +157,10 @@ cover planning + Phase 0, the warm-literary retrofit + new-york UI foundation, a
   (Stripe Checkout / Give flow), `09-PAGE-PORTFOLIO.md`, `10-PAGE-SUPPORTERS.md`, `11-PAGE-CONTACT.md`,
   `12-PAGE-THANK-YOU.md`, `13-PAGE-CANCELED.md`, `14-PAGES-LEGAL.md`. (⚠️ `/portfolio` was built from the
   mockup *before* doc 09 landed — reconcile against `09` if it differs.) Real assets are arriving:
-  `public/images/teacher-at-school.jpg`, `public/videos/*.mp4` (use `next/image`/`next/video` to replace `<Placeholder>`s).
+  `public/images/teacher-at-school.jpg`, `public/videos/*.mp4`. Use `next/image` for stills and the
+  reusable **`<BackgroundVideo>`** (`components/site/background-video.tsx` — mobile-optimized muted autoplay
+  loop: `playsInline`, off-screen pause, reduced-motion aware) for clips, to replace `<Placeholder>`s. The
+  home film-still band already uses it (`/videos/Kid-With-Basketball-24.mp4`).
 - **Two layout gotchas (learned, applied):** (1) `app/layout.tsx` `<body>` has `suppressHydrationWarning`
   to silence benign browser-extension attribute injection (`cz-shortcut-listen`, etc.). (2) **Never put a
   `next/image fill` inside an `items-center` grid/flex column without an explicit height** — the box

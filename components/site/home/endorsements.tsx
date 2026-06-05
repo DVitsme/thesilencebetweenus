@@ -4,13 +4,13 @@ import { Eyebrow, SectionHeading, Placeholder } from "../primitives";
 // Replace with real, attributed endorsements when Kevin provides them. TODO(endorsements).
 const ITEMS = [
   {
-    q: "A real movie in every way — it hits all the marks. This is the quality our stories deserve.",
-    name: "Endorsement name",
+    q: "it was a great story line a little plot twist I was like wait a minute have me on the edge of my seat so definitely a watch go and see for his name's sake.",
+    name: "From Movie Screening in Sacramento",
     role: "Title · organization",
   },
   {
-    q: "Kevin tells the truth about young people without ever giving up on hope. That's rare, and it matters.",
-    name: "Endorsement name",
+    q: "Okay I was really impressed by quite a few things in the movie it looks very expensive and it is a family friendly movie I hope to see more from you and that be praised.",
+    name: "From Movie Screening in Sacramento",
     role: "Mental-health partner",
   },
 ];
@@ -20,7 +20,7 @@ export function Endorsements() {
     <section className="py-[72px]">
       <div className="mx-auto max-w-[1120px] px-[34px]">
         <Eyebrow className="text-center">Early word</Eyebrow>
-        <SectionHeading className="text-center">What people say about Kevin&apos;s work.</SectionHeading>
+        <SectionHeading className="text-center">What people say about Kevin&apos;s Past works.</SectionHeading>
         <div className="mx-auto mt-8 grid max-w-[980px] grid-cols-1 gap-6 md:grid-cols-2">
           {ITEMS.map((it, i) => (
             <figure key={i} className="border-line bg-card-paper rounded-[10px] border p-8">

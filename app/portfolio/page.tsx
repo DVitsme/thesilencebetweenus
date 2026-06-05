@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Eyebrow, SectionHeading, Placeholder } from "@/components/site/primitives";
+import { Eyebrow, SectionHeading } from "@/components/site/primitives";
 import { SupportButton } from "@/components/site/support-button";
 import { WorkGrid } from "@/components/site/portfolio/work-grid";
 import { works, partners, tour, featuredFilm, type PartnerGroup } from "@/content/portfolio";
@@ -36,7 +36,7 @@ const BIO_CHIPS = [
 const GALLERY = [
   { src: "/portfolio/press/reno-screening-preshow.jpg", label: "Red carpet / preshow" },
   { src: "/portfolio/press/reno-screening-qanda.jpg", label: "Q&A with the director" },
-  { src: "/portfolio/press/reno-screening-kevin.jpg", label: "The director, on the night" },
+  { src: "/imagekevin-in-director-shirt-working-on-shoot.jpg", label: "The director working" },
 ];
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -72,9 +72,8 @@ export default function PortfolioPage() {
           {PROOF.map((s, i) => (
             <div
               key={s.big}
-              className={`border-line px-4 py-[26px] text-center ${
-                i % 2 === 0 ? "border-r" : ""
-              } ${i < 2 ? "border-b md:border-b-0" : ""} ${i !== PROOF.length - 1 ? "md:border-r" : ""}`}
+              className={`border-line px-4 py-[26px] text-center ${i % 2 === 0 ? "border-r" : ""
+                } ${i < 2 ? "border-b md:border-b-0" : ""} ${i !== PROOF.length - 1 ? "md:border-r" : ""}`}
             >
               <div className="font-serif text-[38px] leading-[0.9]">{s.big}</div>
               <div className="text-ink-soft mt-1.5 font-serif text-[14px] leading-[1.35] italic">
@@ -187,7 +186,7 @@ export default function PortfolioPage() {
       </section>
 
       {/* The tour */}
-      <section className="bg-tint px-[34px] py-[60px]">
+      <section className="bg-tint px-[34px] py-20">
         <div className="mx-auto max-w-[1080px]">
           <div className="text-center">
             <Eyebrow>The tour</Eyebrow>
@@ -201,9 +200,8 @@ export default function PortfolioPage() {
             {tour.map((s, i) => (
               <div
                 key={s.city}
-                className={`border-line grid grid-cols-1 items-baseline gap-x-6 gap-y-1 border-t py-5 md:grid-cols-[170px_1fr] ${
-                  i === tour.length - 1 ? "border-b" : ""
-                }`}
+                className={`border-line grid grid-cols-1 items-baseline gap-x-6 gap-y-1 border-t py-5 md:grid-cols-[170px_1fr] ${i === tour.length - 1 ? "border-b" : ""
+                  }`}
               >
                 <div className="font-serif text-[23px]">
                   {s.city}
@@ -237,9 +235,8 @@ export default function PortfolioPage() {
               return (
                 <div key={grp.label} className="mb-8">
                   <div
-                    className={`mb-3.5 text-center font-serif text-[15.5px] italic ${
-                      grp.lead ? "text-gold-deep" : "text-muted-warm"
-                    }`}
+                    className={`mb-3.5 text-center font-serif text-[15.5px] italic ${grp.lead ? "text-gold-deep" : "text-muted-warm"
+                      }`}
                   >
                     {grp.label}
                   </div>
@@ -332,7 +329,18 @@ export default function PortfolioPage() {
                 />
               </div>
             ))}
-            <Placeholder label="More from the tour" ratio="4 / 3" className="rounded-[5px]" />
+            <div
+              title="Toronto premiere"
+              className="border-line relative aspect-[4/3] overflow-hidden rounded-[5px] border"
+            >
+              <Image
+                src="/image/shooting-client-on-set.jpg"
+                alt="shooting client on set"
+                fill
+                sizes="(max-width: 820px) 50vw, 25vw"
+                className="object-cover"
+              />
+            </div>
           </div>
           <p className="text-muted-warm mt-4 text-center font-serif text-[15px] italic">
             Screening photos from the premiere tour.

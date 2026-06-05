@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { PROOF_STATS, PARTNER_GROUPS } from "@/content/proof";
 
 export function ProofBand() {
@@ -30,13 +31,15 @@ export function ProofBand() {
             >
               {g.label}
             </div>
-            <div className="flex flex-wrap justify-center gap-2.5">
+            <div className="flex flex-wrap justify-center gap-3">
               {g.logos.map((l) => (
+                // Light chip so partner logos (most are built for white) read on the dark band.
                 <div
-                  key={l}
-                  className="text-on-dark-soft flex h-[50px] min-w-[148px] items-center justify-center rounded border border-[#3a352b] bg-[#2a251d] px-5 text-center font-serif text-[13.5px] leading-[1.25] whitespace-pre-line italic"
+                  key={l.src}
+                  className="bg-card-paper relative h-[66px] w-[158px] overflow-hidden rounded-[6px]"
+                  title={l.name}
                 >
-                  {l}
+                  <Image src={l.src} alt={l.name} fill sizes="158px" className="object-contain p-3" />
                 </div>
               ))}
             </div>

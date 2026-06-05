@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Page Not Found — The Silence Between Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f7f3ea;--ink:#2c2620;--ink-soft:#5e564a;--muted:#9a8c6f;
+    --line:#e3dccb;--line-soft:#ece5d6;--tint:#f1ebdd;--gold:#f3c33b;--gold-deep:#b98a14;--dark:#211d17;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Newsreader',serif;-webkit-font-smoothing:antialiased;
+    font-size:18px;line-height:1.6;min-height:100vh;display:flex;flex-direction:column;}
+  a{color:inherit;}
+  em{font-style:italic;}
+  .ey{font-style:italic;font-size:16px;color:var(--muted);letter-spacing:.2px;}
+
+  .mast{display:flex;justify-content:center;align-items:center;padding:24px;border-bottom:1px solid var(--line);}
+  .mast .logo{font-weight:500;font-size:15px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;}
+
+  .stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:70px 28px 80px;}
+
+  /* big quiet 404 mark */
+  .mark{position:relative;font-size:170px;line-height:.86;letter-spacing:-4px;color:var(--ink);margin:0 0 6px;}
+  .mark .dot{display:inline-block;width:26px;height:26px;background:var(--gold);transform:rotate(45deg);
+    margin:0 14px;vertical-align:24px;border:1px solid var(--ink);}
+  .mark .small{font-style:italic;}
+
+  h1{font-weight:400;font-size:46px;line-height:1.08;letter-spacing:-.5px;margin:18px auto 0;max-width:560px;}
+  .lede{font-size:20px;line-height:1.55;color:var(--ink-soft);max-width:480px;margin:16px auto 0;}
+
+  .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:32px;}
+  .btn{font-style:italic;font-size:17px;border-radius:30px;padding:13px 28px;text-decoration:none;
+    display:inline-flex;align-items:center;gap:9px;transition:all .15s;cursor:pointer;border:1px solid var(--ink);background:transparent;color:var(--ink);}
+  .btn:hover{background:var(--ink);color:var(--paper);}
+  .btn.gold{background:var(--gold);border-color:var(--ink);}
+  .btn.gold:hover{background:var(--gold-deep);color:#fff;border-color:var(--gold-deep);}
+
+  /* helpful links */
+  .rule{display:flex;align-items:center;gap:14px;max-width:520px;margin:46px auto 0;width:100%;}
+  .rule::before,.rule::after{content:"";flex:1;height:1px;background:var(--line);}
+  .rule .d{width:7px;height:7px;background:var(--gold);transform:rotate(45deg);}
+  .links{margin-top:26px;}
+  .links .lbl{font-style:italic;color:var(--muted);font-size:15px;display:block;margin-bottom:14px;}
+  .links .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .links a{font-style:italic;font-size:16px;color:var(--ink-soft);background:#fff;border:1px solid var(--line);
+    border-radius:30px;padding:9px 18px;text-decoration:none;transition:all .14s;}
+  .links a:hover{border-color:var(--muted);color:var(--ink);}
+
+  .foot{background:var(--dark);color:#c9bfa9;padding:26px 28px;font-style:italic;}
+  .foot .wrap{max-width:760px;margin:0 auto;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:14px;}
+  .foot a{text-decoration:none;border-bottom:1px solid #5a5142;}
+
+  @media(max-width:560px){
+    .mark{font-size:120px;}
+    .mark .dot{width:18px;height:18px;margin:0 9px;vertical-align:18px;}
+    h1{font-size:36px;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="mast"><span class="logo">The Silence Between Us</span></div>
+
+  <div class="stage">
+    <div class="mark" aria-hidden="true">4<span class="dot"></span>4</div>
+    <div class="ey">Page not found</div>
+    <h1>This page is one of our quieter ones.</h1>
+    <p class="lede">The link may be old, or the page may have moved. Nothing's lost — let's get you back to the story.</p>
+
+    <div class="ctas">
+      <a class="btn gold" href="Home - The Silence Between Us.html">Back to home →</a>
+      <a class="btn" href="Give - The Silence Between Us.html">Support the film</a>
+    </div>
+
+    <div class="rule"><span class="d"></span></div>
+
+    <div class="links">
+      <span class="lbl">Or find your way from here</span>
+      <div class="row">
+        <a href="Portfolio - The Silence Between Us.html">The Work</a>
+        <a href="About Kevin Cameron - The Silence Between Us.html">About Kevin</a>
+        <a href="Supporters - The Silence Between Us.html">Supporters</a>
+        <a href="Contact - The Silence Between Us.html">Contact</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="wrap">
+      <span>The Silence Between Us · Take 3 Media</span>
+      <span>Lost? <a href="Contact - The Silence Between Us.html">We're happy to help</a></span>
+    </div>
+  </div>
+
+</body>
+</html>

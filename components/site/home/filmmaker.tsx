@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Eyebrow, SectionHeading, Placeholder } from "../primitives";
+import Image from "next/image";
+import { Eyebrow, SectionHeading } from "../primitives";
 
 const CHIPS = ["Former school principal", "Oakwood University", "500+ films produced", "Take 3 Media"];
 
@@ -7,11 +8,16 @@ export function Filmmaker() {
   return (
     <section className="bg-tint py-[72px]">
       <div className="mx-auto grid max-w-[1120px] grid-cols-1 items-center gap-12 px-[34px] md:grid-cols-[260px_1fr]">
-        <Placeholder
-          label="Portrait — Kevin Cameron"
-          ratio="4 / 5"
-          className="mx-auto w-full max-w-[260px]"
-        />
+        {/* aspect box gives the fill image a real height inside the items-center grid */}
+        <div className="border-line relative mx-auto aspect-[4/5] w-full max-w-[260px] overflow-hidden rounded-[4px] border">
+          <Image
+            src="/images/happy-kevin.jpg"
+            alt="Kevin Cameron, writer and director"
+            fill
+            sizes="260px"
+            className="object-cover"
+          />
+        </div>
         <div>
           <Eyebrow>Meet the filmmaker</Eyebrow>
           <SectionHeading className="mb-3.5">This story is in careful hands.</SectionHeading>
