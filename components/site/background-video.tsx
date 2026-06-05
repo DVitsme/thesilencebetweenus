@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 type BackgroundVideoProps = {
   /** Path to the video file served from /public (e.g. "/videos/clip.mp4"). */
   src: string;
-  /** Optional first-frame image shown while the video loads / when reduced-motion holds the frame. */
+  /** Optional first-frame image shown while the video loads. */
   poster?: string;
   className?: string;
   /** Above-the-fold? Eagerly preload. Otherwise it lazy-loads and starts when scrolled into view. */
@@ -18,11 +18,11 @@ type BackgroundVideoProps = {
  *  - `playsInline` so iOS plays it in place instead of hijacking fullscreen (the #1 mobile gotcha)
  *  - `muted` + `autoPlay` + `loop` (autoplay is only allowed while muted)
  *  - pauses while off-screen via IntersectionObserver — saves battery/data, matters with several clips
- *  - honors `prefers-reduced-motion` (holds the first frame instead of animating)
  *  - `object-cover` fills the container; the parent sets the dimensions
  *  - `aria-hidden` since it carries no audio or captions (mood, not content)
  *
- * For an ambient clip. For a video with sound/controls/captions, use a plain <video controls> instead.
+ * Autoplays even under `prefers-reduced-motion` (per design — it's a muted, decorative loop).
+ * For a video with sound/controls/captions, use a plain <video controls> instead.
  */
 export function BackgroundVideo({ src, poster, className, priority = false }: BackgroundVideoProps) {
   const ref = useRef<HTMLVideoElement>(null);
@@ -32,16 +32,10 @@ export function BackgroundVideo({ src, poster, className, priority = false }: Ba
     if (!video) return;
 
     // React sets `muted` as an attribute, not the property, but the autoplay policy checks the
-    // property — so set it imperatively, or play() gets rejected (the "no autoplay in prod" bug).
+    // property — so set it imperatively, or play() gets rejected (the no-autoplay-in-prod bug).
     video.muted = true;
 
-    // Reduced-motion: don't animate — hold the first frame / poster.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      video.pause();
-      return;
-    }
-
-    // Play only while on-screen.
+    // Play only while on-screen (saves battery/data with several clips on a page).
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

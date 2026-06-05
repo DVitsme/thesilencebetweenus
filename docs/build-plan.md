@@ -158,6 +158,15 @@ also activates three already-built pages (thank-you, supporters, every "Support"
 
 ## Phase 6 — Launch
 
+**▶ Staging deploy LIVE (2026-06-05):** `https://silence-between-us.derrick-2fd.workers.dev` (Stripe test
+mode). Done: `wrangler login` (OAuth — the `.env.local` `CLOUDFLARE_API_TOKEN` is commented so it doesn't
+shadow OAuth), remote D1 created + schema applied + seeded (47 `seed:` rows), Worker test secrets set,
+**`pnpm run deploy`** (NOT `pnpm deploy`), `NEXT_PUBLIC_SITE_URL` set to the workers.dev URL. **Pending for
+the demo:** reCAPTCHA domain registration (contact form), Stripe test webhook + `STRIPE_WEBHOOK_SECRET`
+(payment fulfillment). **Video fixed (2026-06-05):** the no-autoplay was `prefers-reduced-motion` on the test machine; the
+reduced-motion gate was removed so `<BackgroundVideo>` force-autoplays. (Video loads fine; the `200`/no-range
+serving is cosmetic.) The items below remain for the **production** launch.
+
 - [ ] **Production domain** decided → set everywhere (metadataBase, share URLs, sitemap)
 - [ ] Accounts/secrets: Resend **domain verified**; reCAPTCHA keys (**register the production domain** on the site key — and `localhost` for local verify; live verify fails with `browser-error` until the domain is allowed); Stripe **live** keys + live webhook endpoint + `STRIPE_LIVE_WEBHOOK_SECRET`; push to Cloudflare (`wrangler secret put`) + prod D1 binding
 - [ ] **Flip contact recipient** → `CONTACT_TO_EMAIL=kevin@kcfilmsmedia.com` (testing uses `derrick@digitaldog.io` so delivery is verifiable). Set the Resend/contact envs (`RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL`) as Cloudflare secrets + add to `.dev.vars` for preview. `TODO(launch)`

@@ -127,6 +127,20 @@ cover planning + Phase 0, the warm-literary retrofit + new-york UI foundation, a
   secrets go in Cloudflare (dashboard / `wrangler secret put`). Env var names: `.env.example`.
 - Build artifacts `.open-next/` and `.wrangler/` are gitignored. Run `pnpm cf-typegen` after changing
   `wrangler.jsonc` bindings.
+- **▶ STAGING DEPLOY — LIVE (2026-06-05):** `https://silence-between-us.derrick-2fd.workers.dev` (Stripe
+  **test** mode). Deploy with **`pnpm run deploy`** (NOT `pnpm deploy` — pnpm's built-in `deploy` shadows
+  the script). ⚠️ Auth: `.env.local`'s `CLOUDFLARE_API_TOKEN` is under-scoped, wrangler auto-loads it, and
+  it shadows OAuth — so it's **commented out**, and wrangler uses the `wrangler login` OAuth (super-admin).
+  Re-scope it (Workers Scripts + D1) + un-comment for CI later. Remote **D1** `silence-between-us-db` created
+  (`database_id` in `wrangler.jsonc`), schema applied, wall **seeded** (47 `seed:` rows — clear at launch).
+  Worker **secrets set** (test): `STRIPE_MODE=test` + `STRIPE_TEST_{SECRET,PUBLISHABLE}_KEY` + `RESEND_API_KEY`
+  + `CONTACT_{FROM,TO}_EMAIL` + `RECAPTCHA_SECRET_KEY`. **Pending for the demo:** register the workers.dev
+  domain on the reCAPTCHA site key (contact form 403s until then); add a Stripe **test** webhook →
+  `…/api/stripe/webhook` (`payment_intent.succeeded` + `charge.refunded`) → set `STRIPE_WEBHOOK_SECRET`.
+  **Video force-autoplays (2026-06-05):** the deployed no-autoplay was just `prefers-reduced-motion` on the
+  test machine — `<BackgroundVideo>`'s reduced-motion gate was **removed** per request, so the muted,
+  decorative loop autoplays for everyone (debug logging stripped). The video loads fine (`readyState 3`);
+  the ASSETS `200`/no-`accept-ranges` serving is cosmetic, not blocking.
 
 ## Stack & conventions
 
