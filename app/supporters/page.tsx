@@ -55,7 +55,7 @@ export default async function SupportersPage() {
       <SupportersWall supporters={supporters} />
 
       {/* Bridge CTA */}
-      <section className="bg-dark text-on-dark px-[28px] py-[72px] text-center">
+      <section className="bg-dark text-on-dark px-[28px] py-10 text-center sm:py-[72px]">
         <div className="mx-auto max-w-[760px]">
           <span className="text-on-dark-muted block font-serif text-[16px] italic">
             There&apos;s room for your name

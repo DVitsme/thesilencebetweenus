@@ -59,7 +59,7 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="px-[34px] pt-20 pb-6 text-center">
+      <section className="px-[34px] pt-10 pb-6 text-center sm:pt-20">
         <Eyebrow>The filmmaker behind the film</Eyebrow>
         <h1 className="mx-auto mt-3 max-w-[720px] font-serif text-[clamp(2.25rem,5.5vw,3.5rem)] leading-[1.05] tracking-[-0.6px]">
           Kevin Cameron has been telling stories his whole life.
@@ -131,7 +131,7 @@ export default function AboutPage() {
       </section>
 
       {/* Pull quote */}
-      <div className="bg-tint my-14 px-[34px] py-16 text-center">
+      <div className="bg-tint my-10 px-[34px] py-10 text-center sm:my-14 sm:py-16">
         <p className="mx-auto max-w-[760px] font-serif text-[clamp(1.6rem,4vw,2.0625rem)] leading-[1.34] tracking-[-0.3px] italic">
           &ldquo;God put the burden on me to tell stories.&rdquo;
         </p>
@@ -139,7 +139,7 @@ export default function AboutPage() {
       </div>
 
       {/* The record — dark band */}
-      <section className="bg-dark text-on-dark my-14 py-[72px]">
+      <section className="bg-dark text-on-dark my-10 py-10 sm:my-14 sm:py-[72px]">
         <div className="mx-auto max-w-[1120px] px-[34px]">
           <span className="text-on-dark-muted mb-2 block text-center font-serif text-[16px] italic">
             Why you can trust the work

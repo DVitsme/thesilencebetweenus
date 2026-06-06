@@ -4,7 +4,7 @@ import { PROOF_STATS, PARTNER_GROUPS } from "@/content/proof";
 
 export function ProofBand() {
   return (
-    <section className="bg-dark text-on-dark py-[72px]">
+    <section className="bg-dark text-on-dark py-10 sm:py-[72px]">
       <div className="mx-auto max-w-[1120px] px-[34px]">
         <span className="text-on-dark-muted mb-2 block text-center font-serif text-[16px] italic">
           Why you can trust this

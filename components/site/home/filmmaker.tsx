@@ -6,7 +6,7 @@ const CHIPS = ["Former school principal", "Oakwood University", "500+ films prod
 
 export function Filmmaker() {
   return (
-    <section className="bg-tint py-[72px]">
+    <section className="bg-tint py-10 sm:py-[72px]">
       <div className="mx-auto grid max-w-[1120px] grid-cols-1 items-center gap-12 px-[34px] md:grid-cols-[260px_1fr]">
         {/* aspect box gives the fill image a real height inside the items-center grid */}
         <div className="border-line relative mx-auto aspect-[4/5] w-full max-w-[260px] overflow-hidden rounded-[4px] border">

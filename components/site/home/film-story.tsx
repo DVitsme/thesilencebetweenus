@@ -2,7 +2,7 @@ import { Eyebrow, SectionHeading } from "../primitives";
 
 export function FilmStory() {
   return (
-    <section id="story" className="py-[72px]">
+    <section id="story" className="py-10 sm:py-[72px]">
       <div className="mx-auto max-w-[680px] px-[34px] text-center">
         <Eyebrow>The ones it&apos;s for</Eyebrow>
         <SectionHeading>A story our young people need told.</SectionHeading>

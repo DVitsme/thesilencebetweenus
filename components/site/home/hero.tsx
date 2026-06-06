@@ -4,7 +4,7 @@ import { SupportButton } from "../support-button";
 
 export function Hero() {
   return (
-    <section className="px-[34px] pt-[84px] pb-14 text-center">
+    <section className="px-[34px] pt-12 pb-14 text-center sm:pt-[84px]">
       <Eyebrow className="text-[17px]">A feature film by Kevin Cameron · in production</Eyebrow>
       <h1 className="mx-auto mt-4 max-w-[880px] font-serif text-[clamp(2.4rem,6vw,4.25rem)] leading-[1.03] tracking-[-1px]">
         Some battles a teenager fights are completely silent.

@@ -17,7 +17,7 @@ const ITEMS = [
 
 export function Endorsements() {
   return (
-    <section className="py-[72px]">
+    <section className="py-10 sm:py-[72px]">
       <div className="mx-auto max-w-[1120px] px-[34px]">
         <Eyebrow className="text-center">Early word</Eyebrow>
         <SectionHeading className="text-center">What people say about Kevin&apos;s Past works.</SectionHeading>

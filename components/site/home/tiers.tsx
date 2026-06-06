@@ -4,7 +4,7 @@ import { TIERS } from "@/content/tiers";
 
 export function Tiers() {
   return (
-    <section id="support" className="bg-tint py-[72px]">
+    <section id="support" className="bg-tint py-10 sm:py-[72px]">
       <div className="mx-auto max-w-[1120px] px-[34px]">
         <div className="text-center">
           <Eyebrow>Be part of it</Eyebrow>

@@ -2,7 +2,7 @@ import { SupportButton } from "../support-button";
 
 export function FinalCta() {
   return (
-    <div className="bg-gold px-[34px] py-[84px] text-center">
+    <div className="bg-gold px-[34px] py-12 text-center sm:py-[84px]">
       <h2 className="text-ink mx-auto mb-3.5 max-w-[680px] font-serif text-[clamp(2.1rem,5vw,2.875rem)] leading-[1.07] tracking-[-0.6px]">
         Help this story be told.
       </h2>

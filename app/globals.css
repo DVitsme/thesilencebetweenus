@@ -187,6 +187,8 @@
   }
   html {
     -webkit-text-size-adjust: 100%;
+    /* Clear the sticky <SiteHeader> when jumping to in-page anchors (e.g. #story, #support). */
+    scroll-padding-top: 5rem;
   }
   body {
     @apply bg-paper text-ink antialiased;

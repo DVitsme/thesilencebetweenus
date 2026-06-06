@@ -186,7 +186,7 @@ export default function PortfolioPage() {
       </section>
 
       {/* The tour */}
-      <section className="bg-tint px-[34px] py-20">
+      <section className="bg-tint px-[34px] py-10 sm:py-20">
         <div className="mx-auto max-w-[1080px]">
           <div className="text-center">
             <Eyebrow>The tour</Eyebrow>
@@ -349,7 +349,7 @@ export default function PortfolioPage() {
       </section>
 
       {/* Bridge CTA → support */}
-      <section className="bg-dark text-on-dark px-[34px] py-[72px] text-center">
+      <section className="bg-dark text-on-dark px-[34px] py-10 text-center sm:py-[72px]">
         <div className="mx-auto max-w-[760px]">
           <span className="text-on-dark-muted block font-serif text-[16px] italic">
             You&apos;ve seen the work
