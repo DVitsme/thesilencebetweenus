@@ -36,7 +36,7 @@ const BIO_CHIPS = [
 const GALLERY = [
   { src: "/portfolio/press/reno-screening-preshow.jpg", label: "Red carpet / preshow" },
   { src: "/portfolio/press/reno-screening-qanda.jpg", label: "Q&A with the director" },
-  { src: "/imagekevin-in-director-shirt-working-on-shoot.jpg", label: "The director working" },
+  { src: "/images/kevin-in-director-shirt-working-on-shoot.jpg", label: "The director working" },
 ];
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -334,7 +334,7 @@ export default function PortfolioPage() {
               className="border-line relative aspect-[4/3] overflow-hidden rounded-[5px] border"
             >
               <Image
-                src="/image/shooting-client-on-set.jpg"
+                src="/images/shooting-client-on-set.jpg"
                 alt="shooting client on set"
                 fill
                 sizes="(max-width: 820px) 50vw, 25vw"
