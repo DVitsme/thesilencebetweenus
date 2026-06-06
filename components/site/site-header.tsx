@@ -28,7 +28,7 @@ export function SiteHeader() {
       <div className="flex items-center justify-between gap-4 px-6 py-3.5 md:px-[34px]">
         <Link
           href="/"
-          className="text-[15px] font-medium tracking-[0.16em] whitespace-nowrap uppercase"
+          className="text-[13px] font-medium tracking-[0.1em] whitespace-nowrap uppercase sm:text-[15px] sm:tracking-[0.16em]"
         >
           {SITE.name}
         </Link>
@@ -46,7 +46,9 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <SupportButton className="px-5 py-2 text-[15px]">Support the film →</SupportButton>
+          <SupportButton className="hidden px-5 py-2 text-[15px] lg:inline-flex">
+            Support the film →
+          </SupportButton>
           <button
             className="lg:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -71,6 +73,12 @@ export function SiteHeader() {
               {i.label}
             </Link>
           ))}
+          <SupportButton
+            className="mt-3 w-full justify-center px-5 py-3 text-[16px]"
+            onClick={() => setOpen(false)}
+          >
+            Support the film →
+          </SupportButton>
         </nav>
       )}
     </header>

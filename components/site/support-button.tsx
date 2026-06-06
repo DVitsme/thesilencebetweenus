@@ -9,14 +9,18 @@ export function SupportButton({
   tier = "supporter",
   className,
   children,
+  onClick,
 }: {
   tier?: "supporter" | "partner" | "patron" | "custom";
   className?: string;
   children: React.ReactNode;
+  /** Optional click handler — e.g. to close the mobile menu after navigating. */
+  onClick?: () => void;
 }) {
   return (
     <Link
       href={`/give?tier=${tier}`}
+      onClick={onClick}
       className={cn(
         "inline-flex items-center gap-2 rounded-full border border-ink bg-gold px-7 py-3",
         "font-serif text-[17px] text-ink italic transition-colors",

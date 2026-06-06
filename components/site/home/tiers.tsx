@@ -18,7 +18,7 @@ export function Tiers() {
           {TIERS.map((t) => (
             <div
               key={t.id}
-              className={`border-line grid grid-cols-[1fr_auto_auto] items-center gap-5 border-b px-6 py-5.5 last:border-b-0 ${t.popular ? "bg-[#fffdf4]" : ""} ${t.id === "custom" ? "bg-paper" : ""}`}
+              className={`border-line grid grid-cols-1 gap-3 border-b px-6 py-5.5 last:border-b-0 sm:grid-cols-[1fr_auto_auto] sm:items-center sm:gap-5 ${t.popular ? "bg-[#fffdf4]" : ""} ${t.id === "custom" ? "bg-paper" : ""}`}
             >
               <div>
                 <div className="flex flex-wrap items-center gap-2.5 font-serif text-[23px]">
@@ -31,12 +31,12 @@ export function Tiers() {
                 </div>
                 <div className="text-muted-warm mt-1 font-serif text-[14.5px] italic">{t.blurb}</div>
               </div>
-              <div className="text-right font-serif text-[27px] whitespace-nowrap">{t.amountLabel}</div>
+              <div className="font-serif text-[27px] whitespace-nowrap sm:text-right">{t.amountLabel}</div>
               <SupportButton
                 tier={t.id}
-                className={
+                className={`w-full justify-center sm:w-auto ${
                   t.popular ? "" : "border-ink hover:bg-ink hover:text-paper bg-transparent text-ink"
-                }
+                }`}
               >
                 {t.id === "custom" ? "Contribute →" : "Choose →"}
               </SupportButton>

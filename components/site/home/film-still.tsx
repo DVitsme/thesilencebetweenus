@@ -2,7 +2,7 @@ import { BackgroundVideo } from "@/components/site/background-video";
 
 export function FilmStill() {
   return (
-    <div className="border-line relative h-[440px] overflow-hidden border-y">
+    <div className="border-line relative aspect-[2263/1080] overflow-hidden border-y lg:aspect-auto lg:h-[440px]">
       <BackgroundVideo
         src="/videos/Kid-With-Basketball-24.mp4"
         priority
