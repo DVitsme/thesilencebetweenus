@@ -88,7 +88,7 @@ export function ContactForm() {
       setSent(true);
     } catch {
       setError(
-        "Something went wrong sending your message. Please email us directly at kevin@kcfilmsmedia.com.",
+        "Something went wrong sending your message. Please email us directly at kevin@take3mediallc.com.",
       );
     } finally {
       setSending(false);
@@ -107,8 +107,8 @@ export function ContactForm() {
         <p className="text-ink-soft mx-auto mt-3 max-w-[420px] font-serif text-[17px] leading-[1.6]">
           We read every note and reply ourselves. You&apos;ll hear back personally from Kevin&apos;s
           team at{" "}
-          <a href="mailto:kevin@kcfilmsmedia.com" className="border-muted-warm border-b">
-            kevin@kcfilmsmedia.com
+          <a href="mailto:kevin@take3mediallc.com" className="border-muted-warm border-b">
+            kevin@take3mediallc.com
           </a>
           .
         </p>

@@ -66,7 +66,7 @@ export function EmailShell({ preview, children, unsubscribeUrl, mailingAddress, 
             <Hr style={{ borderColor: "#2c2a22", margin: "14px 0" }} />
             <Text style={{ margin: "0 0 10px", fontFamily: SERIF, fontSize: 13, fontStyle: "italic", lineHeight: 1.6, color: "#85806f" }}>
               The Silence Between Us · a Take 3 Media production · contributions administered by KC Films &amp; Media.<br />
-              Questions? <Link href="mailto:kevin@kcfilmsmedia.com" style={{ color: "#a59d8c" }}>kevin@kcfilmsmedia.com</Link>
+              Questions? <Link href="mailto:kevin@take3mediallc.com" style={{ color: "#a59d8c" }}>kevin@take3mediallc.com</Link>
             </Text>
             {unsubscribeUrl ? (
               <Text style={tiny}>

@@ -12,7 +12,7 @@ export const NAV_ITEMS: NavItem[] = [
 export const SITE = {
   name: "The Silence Between Us",
   tagline: "A feature film by Kevin Cameron",
-  email: "kevin@kcfilmsmedia.com",
+  email: "kevin@take3mediallc.com",
   production: "Take 3 Media",
   admin: "KC Films & Media",
 } as const;

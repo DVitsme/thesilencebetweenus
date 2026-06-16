@@ -46,7 +46,7 @@ export default function GlobalError({
               Try again →
             </button>
             <a
-              href="mailto:kevin@kcfilmsmedia.com"
+              href="mailto:kevin@take3mediallc.com"
               className="border-ink hover:bg-ink hover:text-paper inline-flex items-center justify-center gap-2 rounded-full border px-7 py-3 font-serif text-[17px] italic transition-colors"
             >
               Email us

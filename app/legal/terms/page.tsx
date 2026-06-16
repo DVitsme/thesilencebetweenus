@@ -136,7 +136,7 @@ export default function TermsPage() {
       <LegalSection id="contact" title="Contact us">
         <p>
           Questions about these terms? Email{" "}
-          <LegalLink href="mailto:kevin@kcfilmsmedia.com">kevin@kcfilmsmedia.com</LegalLink> or use
+          <LegalLink href="mailto:kevin@take3mediallc.com">kevin@take3mediallc.com</LegalLink> or use
           our <LegalLink href="/contact">contact page</LegalLink>.
         </p>
       </LegalSection>

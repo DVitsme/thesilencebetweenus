@@ -160,7 +160,7 @@ export async function sendRefundEmail(charge: Stripe.Charge): Promise<void> {
     // Real Stripe reference, never fabricated: the latest refund id if present, else the charge id.
     refundRef: charge.refunds?.data?.[0]?.id ?? charge.id,
     // Public support inbox shown in the email (matches the contact page + auto-reply).
-    contactEmail: "kevin@kcfilmsmedia.com",
+    contactEmail: "kevin@take3mediallc.com",
   };
 
   const resend = new Resend(apiKey);

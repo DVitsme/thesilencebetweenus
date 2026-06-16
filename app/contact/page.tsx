@@ -69,17 +69,8 @@ export default function ContactPage() {
                   {SITE.email}
                 </a>
               </ContactItem>
-              {/* TODO(contact-confirm): 216-308-4427 came from the original form's Zelle number —
-                  confirm Kevin is OK publishing it as a public phone line, or replace it. */}
-              <ContactItem k="Phone">
-                <a href="tel:+12163084427" className="border-muted-warm border-b">
-                  216&#8209;308&#8209;4427
-                </a>
-              </ContactItem>
-              {/* TODO(contact-confirm): the persona has Kevin now Tampa-based; the mockup shows
-                  Cleveland. Decide which production location to show publicly. */}
               <ContactItem k="Production" last>
-                {SITE.production} · Cleveland, Ohio
+                {SITE.production}
               </ContactItem>
             </div>
 

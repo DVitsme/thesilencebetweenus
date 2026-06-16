@@ -133,8 +133,8 @@ export default function CanceledPage() {
               <Link href="/contact" className={`${OUTLINE_BTN} w-full`}>
                 Contact us
               </Link>
-              <a href="mailto:kevin@kcfilmsmedia.com" className={`${OUTLINE_BTN} w-full`}>
-                Email kevin@kcfilmsmedia.com
+              <a href="mailto:kevin@take3mediallc.com" className={`${OUTLINE_BTN} w-full`}>
+                Email kevin@take3mediallc.com
               </a>
             </div>
           </div>

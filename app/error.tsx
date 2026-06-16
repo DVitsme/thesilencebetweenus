@@ -63,8 +63,8 @@ export default function Error({
           Get in touch
         </Link>{" "}
         or email{" "}
-        <a href="mailto:kevin@kcfilmsmedia.com" className="border-muted-warm border-b not-italic">
-          kevin@kcfilmsmedia.com
+        <a href="mailto:kevin@take3mediallc.com" className="border-muted-warm border-b not-italic">
+          kevin@take3mediallc.com
         </a>{" "}
         and we&apos;ll help personally.
       </p>

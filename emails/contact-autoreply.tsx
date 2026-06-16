@@ -65,7 +65,7 @@ export default function ContactAutoReply(p: ContactAutoReplyProps) {
 ContactAutoReply.PreviewProps = {
   firstName: "Derrick",
   inquiryLabel: "Partner / Patron interest ",
-  contactEmail: "kevin@kcfilmsmedia.com",
+  contactEmail: "kevin@take3mediallc.com",
   messageQuote:
     "Hi, I'd love to learn more about becoming a Patron and what the producer credit involves. Could we set up a quick call?",
 } satisfies ContactAutoReplyProps;
