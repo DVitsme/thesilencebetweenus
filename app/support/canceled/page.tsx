@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { RotateCcw } from "lucide-react";
 import { Eyebrow, Rule } from "@/components/site/primitives";
+import { MoreWaysToGive } from "@/components/site/more-ways-to-give";
 
 export const metadata: Metadata = {
   title: "Payment not completed",
@@ -138,6 +139,11 @@ export default function CanceledPage() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* If the card itself is the problem, these rails work without one. */}
+      <section className="px-[28px] pb-[58px]">
+        <MoreWaysToGive />
       </section>
     </>
   );

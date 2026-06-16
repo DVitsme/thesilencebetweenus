@@ -5,7 +5,7 @@ import Link from "next/link";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { Check, Lock, RotateCcw, Star } from "lucide-react";
-import { TIERS, type Tier } from "@/content/tiers";
+import { TIERS, PAYPAL_DONATE_URL, type Tier } from "@/content/tiers";
 import { CURRENCY } from "@/lib/stripe/tiers";
 
 type TierId = Tier["id"];
@@ -418,6 +418,24 @@ export function GiveForm({
                 onCustom={setCustomDollars}
               />
             ))}
+          </div>
+
+          {/* PayPal alternative — leaves for PayPal's hosted page; those gifts are fulfilled manually. */}
+          <div className="border-line bg-tint mt-3 flex flex-wrap items-center justify-between gap-3 rounded-[8px] border px-5 py-4">
+            <span>
+              <span className="font-serif text-[19px]">Prefer PayPal?</span>
+              <span className="text-muted-warm mt-0.5 block font-serif text-[14.5px] italic">
+                Give securely through your PayPal account instead
+              </span>
+            </span>
+            <a
+              href={PAYPAL_DONATE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border-ink text-ink hover:bg-ink hover:text-paper inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-serif text-[15.5px] italic transition-colors"
+            >
+              Pay with PayPal →
+            </a>
           </div>
         </div>
 

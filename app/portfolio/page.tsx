@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 const PROOF = [
   { big: "Prime", cap: "A feature streaming on Amazon today" },
-  { big: "9–10", cap: "Cities on the premiere tour, US & Canada" },
+  { big: "11", cap: "Cities on the premiere tour, US & Canada" },
   { big: "400+", cap: "At the sold-out Toronto premiere" },
   { big: "500+", cap: "Films produced for brands & nonprofits" },
 ];
@@ -31,12 +31,6 @@ const BIO_CHIPS = [
   "Take 3 Media",
   "Seventh-day Adventist filmmaker",
   "Teaches the craft",
-];
-
-const GALLERY = [
-  { src: "/portfolio/press/reno-screening-preshow.jpg", label: "Red carpet / preshow" },
-  { src: "/portfolio/press/reno-screening-qanda.jpg", label: "Q&A with the director" },
-  { src: "/images/kevin-in-director-shirt-working-on-shoot.jpg", label: "The director working" },
 ];
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -150,20 +144,20 @@ export default function PortfolioPage() {
               </p>
               <div className="flex flex-wrap gap-3">
                 <a
-                  href={featuredFilm.trailerUrl}
+                  href={featuredFilm.streamUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-gold text-ink hover:bg-gold-deep inline-flex items-center gap-2 rounded-full border border-gold px-6 py-3 font-serif text-[16.5px] italic transition-colors hover:border-gold-deep hover:text-white"
                 >
-                  ▶ Watch the trailer
+                  ▶ Watch on Prime
                 </a>
                 <a
-                  href={featuredFilm.streamUrl}
+                  href={featuredFilm.tubiUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-on-dark hover:bg-on-dark hover:text-dark inline-flex items-center gap-2 rounded-full border border-[#6a6151] px-6 py-3 font-serif text-[16.5px] italic transition-colors"
                 >
-                  Watch on Prime
+                  Watch free on Tubi
                 </a>
               </div>
             </div>
@@ -192,7 +186,7 @@ export default function PortfolioPage() {
             <Eyebrow>The tour</Eyebrow>
             <SectionHeading>From Toronto to sold-out rooms across the country.</SectionHeading>
             <p className="text-ink-soft mx-auto mt-2 max-w-[560px] font-serif text-[18px]">
-              <em>For His Name&apos;s Sake</em> didn&apos;t just get made — it traveled, city to
+              <em>For His Name Sake</em> didn&apos;t just get made — it traveled, city to
               city, to audiences who showed up dressed up.
             </p>
           </div>
@@ -205,13 +199,14 @@ export default function PortfolioPage() {
               >
                 <div className="font-serif text-[23px]">
                   {s.city}
-                  <em className="text-muted-warm mt-0.5 block font-serif text-[14px] italic">
-                    {s.venue} · {fmtDate(s.date)}
-                  </em>
+                  {(s.venue || s.date) && (
+                    <em className="text-muted-warm mt-0.5 block font-serif text-[14px] italic">
+                      {[s.venue, s.date ? fmtDate(s.date) : null].filter(Boolean).join(" · ")}
+                    </em>
+                  )}
                 </div>
-                <div className="text-ink-soft font-serif text-[16px]">
-                  {s.note ?? "A stop on the multi-city premiere tour."}
-                </div>
+                {/* Second column is left blank for stops whose details are still pending. */}
+                <div className="text-ink-soft font-serif text-[16px]">{s.note}</div>
               </div>
             ))}
           </div>
@@ -273,7 +268,7 @@ export default function PortfolioPage() {
         <div className="mx-auto grid max-w-[1080px] grid-cols-1 items-center gap-10 md:grid-cols-[200px_1fr]">
           <div className="border-line relative mx-auto h-[200px] w-[200px] overflow-hidden rounded-full border">
             <Image
-              src="/portfolio/team/kevin-cameron-headshot.jpg"
+              src="/images/kevin-gray-scale.jpg"
               alt="Kevin Cameron"
               fill
               sizes="200px"
@@ -281,7 +276,6 @@ export default function PortfolioPage() {
             />
           </div>
           <div>
-            <Eyebrow>Who&apos;s behind the camera</Eyebrow>
             <p className="mb-3.5 font-serif text-[27px] leading-[1.34] tracking-[-0.2px] italic">
               He&apos;s been telling stories his whole life — long before independent film was
               something people talked about.
@@ -306,47 +300,6 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      {/* From the room */}
-      <section className="px-[34px] py-[60px]">
-        <div className="mx-auto max-w-[1080px]">
-          <div className="text-center">
-            <Eyebrow>From the room</Eyebrow>
-            <SectionHeading>What it looks like when the work lands.</SectionHeading>
-          </div>
-          <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
-            {GALLERY.map((g) => (
-              <div
-                key={g.label}
-                title={g.label}
-                className="border-line relative aspect-[4/3] overflow-hidden rounded-[5px] border"
-              >
-                <Image
-                  src={g.src}
-                  alt={g.label}
-                  fill
-                  sizes="(max-width: 820px) 50vw, 25vw"
-                  className="object-cover"
-                />
-              </div>
-            ))}
-            <div
-              title="Toronto premiere"
-              className="border-line relative aspect-[4/3] overflow-hidden rounded-[5px] border"
-            >
-              <Image
-                src="/images/shooting-client-on-set.jpg"
-                alt="shooting client on set"
-                fill
-                sizes="(max-width: 820px) 50vw, 25vw"
-                className="object-cover"
-              />
-            </div>
-          </div>
-          <p className="text-muted-warm mt-4 text-center font-serif text-[15px] italic">
-            Screening photos from the premiere tour.
-          </p>
-        </div>
-      </section>
 
       {/* Bridge CTA → support */}
       <section className="bg-dark text-on-dark px-[34px] py-10 text-center sm:py-[72px]">

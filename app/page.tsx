@@ -1,4 +1,5 @@
 import { Hero } from "@/components/site/home/hero";
+import { NowStreaming } from "@/components/site/home/now-streaming";
 import { FilmStill } from "@/components/site/home/film-still";
 import { FilmStory } from "@/components/site/home/film-story";
 import { PullQuote } from "@/components/site/home/pull-quote";
@@ -14,6 +15,7 @@ export default function HomePage() {
     <>
       <Hero />
       <FilmStill />
+      <NowStreaming />
       <FilmStory />
       <PullQuote />
       <TeacherSplit />

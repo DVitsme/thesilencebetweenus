@@ -23,15 +23,31 @@ foundation mirrored from `digitaldog-site-starter` (new-york shadcn + Shadcn Stu
 **Built so far:**
 - `/` (`app/page.tsx`) — the real **warm-literary designed home page**, built from the design handoff
   in `The-Silence-Between-Us/handoff/` (Newsreader font, brand tokens in `app/globals.css`). Composed
-  from `components/site/home/*` (hero → film still (a looping muted `<BackgroundVideo>`) → story w/ drop cap → pull quote → teacher split →
+  from `components/site/home/*` (hero → **now-streaming** (Prime Video/Tubi wordmarks from
+  `public/images/streaming/` + trailer link; added 2026-06-12) → film still (a looping muted `<BackgroundVideo>`) → story w/ drop cap → pull quote → teacher split →
   filmmaker → dark proof band → endorsements → tiers → gold final CTA). **Hero 30 was deleted.**
+  **Kevin's content round (2026-06-12):** filmmaker section got his new quote + chips (Former Principal /
+  KC Films & Media / Director / Take 3 Media) + `kevin-chosen-image.jpg`; his prior film is titled
+  **"For His Name Sake"** (NO apostrophe — per poster/Amazon/trailer/Kevin) and was swept site-wide;
+  the now-streaming logos and a portfolio-spotlight "Watch free on Tubi" button link to the film's
+  listings (`featuredFilm.{streamUrl,tubiUrl}` in `content/portfolio.ts`). **Donate UI (same round):**
+  "Most popular" moved Supporter→**Partner $500** (`popular` flag, `content/tiers.ts`); "Prefer PayPal?"
+  rows on the home table + /give (`PAYPAL_DONATE_URL` in `content/tiers.ts`); shared
+  `components/site/more-ways-to-give.tsx` (Cash App QR tile cropped from Kevin's share card in
+  `public/images/payment-qr-codes/` + linked cashtag `cash.app/$kcfilmsmedia` + **Zelle 216-308-4427**)
+  mounted under home tiers, /give, and /support/canceled. ⚠️ PayPal/Cash App/Zelle gifts **bypass
+  Stripe** — no webhook, wall row, or receipt email; fulfilled manually (footnote asks givers to include
+  name+email). ⚠️ Zelle number is the same one as `TODO(contact-confirm)`; Partner price still flagged
+  illustrative despite the popular badge.
   Real imagery now (2026-06-04, all via `next/image`): home film-still **video** (`<BackgroundVideo>`),
-  filmmaker portrait (`kevin-speaking.jpg`), teacher still (`teacher-at-school.jpg`), the partner-logo wall
+  filmmaker portrait (`kevin-chosen-image.jpg`), teacher still (`teacher-at-school.jpg`), the partner-logo wall
   (`content/proof.ts` → `public/images/partners-logos/`, real `<Image>` on light chips; brand logos held back
   for portfolio); **about** (portrait `kevin-good-waistup-shot.jpg` + classroom `teacher-at-school.jpg`);
-  **portfolio** (premiere-tour gallery cell). **Only placeholder left site-wide: endorsement avatars**
-  (`TODO(endorsements)` — never attach invented quotes to real faces; real quotes pending the Sacramento
-  screening transcript). Partner/Patron prices stay illustrative (only **$175** confirmed).
+  **portfolio** (premiere-tour gallery cell). **Endorsements are REAL now (2026-06-12):** two embedded
+  YouTube Shorts video testimonials (Dr. Sandra Doran, Educator · Dr. Astian Ayoola, Psychiatrist — both
+  from Kevin's channel, privacy-enhanced `youtube-nocookie` player, 9:16 frames) replaced the placeholder
+  quotes + avatars, resolving `TODO(endorsements)` — **no placeholders left site-wide.** Partner/Patron
+  prices stay illustrative (only **$175** confirmed).
 - `app/layout.tsx` — real chrome now: `<SiteHeader>` (sticky nav + Support CTA), `<SiteFooter>`
   (**988** line), Newsreader, metadata/OG (`components/site/*`). No longer the scaffold.
 - `/about` (`app/about/page.tsx`) — the designed **About Kevin** page (warm-literary; reuses the home

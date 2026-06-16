@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { connection } from "next/server";
 import { Lock } from "lucide-react";
 import { Eyebrow } from "@/components/site/primitives";
+import { MoreWaysToGive } from "@/components/site/more-ways-to-give";
 import { stripePublishableKey } from "@/lib/stripe/server";
 import { GiveForm } from "@/components/site/give/give-form";
 import type { Tier } from "@/content/tiers";
@@ -45,6 +46,7 @@ export default async function GivePage({
 
       <div className="mx-auto max-w-[1080px] px-7 pt-10 pb-[70px]">
         <GiveForm publishableKey={publishableKey} initialTier={normalizeTier(tier)} />
+        <MoreWaysToGive className="mt-16" />
       </div>
     </>
   );

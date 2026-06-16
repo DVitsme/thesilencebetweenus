@@ -1,6 +1,7 @@
 import { Eyebrow, SectionHeading } from "../primitives";
 import { SupportButton } from "../support-button";
-import { TIERS } from "@/content/tiers";
+import { MoreWaysToGive } from "../more-ways-to-give";
+import { TIERS, PAYPAL_DONATE_URL } from "@/content/tiers";
 
 export function Tiers() {
   return (
@@ -42,11 +43,31 @@ export function Tiers() {
               </SupportButton>
             </div>
           ))}
+
+          {/* PayPal alternative — external hosted button (PayPal gifts are fulfilled manually). */}
+          <div className="bg-tint grid grid-cols-1 gap-3 px-6 py-5.5 sm:grid-cols-[1fr_auto] sm:items-center sm:gap-5">
+            <div>
+              <div className="font-serif text-[23px]">Prefer PayPal?</div>
+              <div className="text-muted-warm mt-1 font-serif text-[14.5px] italic">
+                Give securely through your PayPal account instead
+              </div>
+            </div>
+            <a
+              href={PAYPAL_DONATE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border-ink text-ink hover:bg-ink hover:text-paper inline-flex w-full items-center justify-center gap-2 rounded-full border bg-transparent px-7 py-3 font-serif text-[17px] italic transition-colors sm:w-auto"
+            >
+              Pay with PayPal →
+            </a>
+          </div>
         </div>
 
-        <p className="text-muted-warm mt-4.5 text-center font-serif text-[15px] italic">
-          Secure checkout via Stripe · administered by KC Films &amp; Media. Partner &amp; Patron
-          pricing illustrative.
+        <MoreWaysToGive className="mt-10" />
+
+        <p className="text-muted-warm mt-6 text-center font-serif text-[15px] italic">
+          Secure checkout via Stripe or PayPal · administered by KC Films &amp; Media. Partner &amp;
+          Patron pricing illustrative.
         </p>
       </div>
     </section>

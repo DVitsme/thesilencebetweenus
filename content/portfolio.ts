@@ -53,8 +53,8 @@ export interface Partner {
 
 export interface TourStop {
   city: string;
-  date: string;
-  venue: string;
+  date?: string;
+  venue?: string;
   note?: string;
 }
 
@@ -70,7 +70,7 @@ export interface Credential {
 
 /** Hero spotlight — the strongest single proof point. */
 export const featuredFilm = {
-  title: "For His Name's Sake",
+  title: "For His Name Sake",
   year: "2024",
   logline:
     "An intense family drama about faith, courage, and the power of reconciliation.",
@@ -80,11 +80,12 @@ export const featuredFilm = {
   image: "/portfolio/works/for-his-name-sake-trailer.jpg",
   trailerUrl: "https://www.youtube.com/watch?v=8vIWZzd8h1o",
   streamUrl: "https://www.amazon.com/dp/B0H33GHDD2",
+  tubiUrl: "https://tubitv.com/movies/100056771/for-his-name-sake",
   distributor: "Pisgarie Entertainment",
   badges: [
     "Now streaming on Amazon Prime Video",
     "Sold-out Toronto premiere (400+)",
-    "9–10 city premiere tour",
+    "11-city premiere tour",
   ],
   cast: [
     {
@@ -102,7 +103,7 @@ export const featuredFilm = {
 export const works: Work[] = [
   {
     slug: "for-his-name-sake",
-    title: "For His Name's Sake",
+    title: "For His Name Sake",
     category: "feature",
     year: "2024",
     role: "Director, Co-writer",
@@ -126,13 +127,13 @@ export const works: Work[] = [
   {
     slug: "forevers-a-long-time",
     title: "Forever's a Long Time",
-    category: "in-development",
+    category: "tv",
     role: "Director, Producer",
     blurb:
-      "A relationship dramedy on love, marriage, and divorce — currently in development (scenes & table reads released).",
+      "A relationship dramedy on love, marriage, and divorce. A pilot, with early scenes and table reads released.",
     image: "/portfolio/works/forevers-a-long-time-trailer.jpg",
     videoUrl: "https://www.youtube.com/watch?v=nuz-nmlUk8Y",
-    badges: ["Feature / series"],
+    badges: ["Pilot"],
   },
   {
     slug: "the-calling",
@@ -158,18 +159,6 @@ export const works: Work[] = [
     badges: ["Documentary", "Mental health & community"],
   },
   {
-    slug: "murtis-taylor",
-    title: "Murtis Taylor Human Services",
-    category: "documentary",
-    year: "2012",
-    role: "Director, Producer",
-    blurb:
-      "Story and event films for a Cleveland mental-health & human-services system.",
-    image: "/portfolio/works/murtis-taylor-my-story.jpg",
-    videoUrl: "https://www.youtube.com/watch?v=B4yUVLG1Ix0",
-    badges: ["Documentary", "Mental health & community"],
-  },
-  {
     slug: "naprim-naturals",
     title: "NAPRIM Naturals",
     category: "documentary",
@@ -179,40 +168,6 @@ export const works: Work[] = [
     image: "/portfolio/works/naprim-naturals-documentary.jpg",
     videoUrl: "https://www.youtube.com/watch?v=GkWxXyV20-k",
     badges: ["Brand documentary"],
-  },
-  {
-    slug: "the-watkins",
-    title: '"105 and Watkins" (TV Pilot)',
-    category: "tv",
-    year: "2012",
-    role: "Writer, Producer",
-    blurb:
-      "An original TV pilot he wrote, cast, and produced — premiered to a packed house. He now teaches the craft as a course.",
-    image: "/portfolio/works/the-watkins-pilot-trailer.jpg",
-    videoUrl: "https://www.youtube.com/watch?v=JpocmgrOVGs",
-    badges: ["TV pilot"],
-  },
-  {
-    slug: "anthony-brown-i-got-that",
-    title: 'Anthony Brown — "I Got That"',
-    category: "music-video",
-    year: "2023",
-    role: "Director, Editor",
-    blurb: "Gospel music video — his most-watched release.",
-    image: "/portfolio/works/anthony-brown-i-got-that.jpg",
-    videoUrl: "https://www.youtube.com/watch?v=g3FCgWIlzM8",
-    badges: ["Music video"],
-  },
-  {
-    slug: "commercials-brand-films",
-    title: "Commercials & Brand Films",
-    category: "commercial",
-    role: "Director, Editor",
-    blurb:
-      "500+ commercials, promos, and product videos for businesses and institutions over 7+ years.",
-    image: "/portfolio/works/beard-oil-commercial.jpg",
-    videoUrl: "https://www.youtube.com/@KevinCameronFilms",
-    badges: ["500+ produced"],
   },
 ];
 
@@ -295,36 +250,43 @@ export const partners: Partner[] = [
   },
 ];
 
-/** "For His Name's Sake" premiere tour — proof the work is in demand. */
+/** "For His Name Sake" premiere tour — proof the work is in demand. */
+// Order follows Kevin's screening list (2026-06-16). Stops with only a `city` are confirmed
+// screenings whose venue/date/details are still pending from Kevin — they render city-only with
+// a blank second column until he fills them in.
 export const tour: TourStop[] = [
-  { city: "Toronto, ON", date: "2024-10-12", venue: "Premiere", note: "Sold out, 400+" },
+  { city: "Toronto, CAN", date: "2024-10-12", venue: "Premiere", note: "Sold out, 400+" },
   { city: "Orlando, FL", date: "2024-12-07", venue: "Church screening" },
+  { city: "Asheville, NC" },
   {
     city: "Huntsville, AL",
     date: "2025-02-01",
     venue: "Oakwood University Church",
     note: "Fundraiser for Oakwood Academy",
   },
-  { city: "North Bronx, NY", date: "2025-03-01", venue: "North Bronx SDA Church" },
+  { city: "Bronx, NY", date: "2025-03-01", venue: "North Bronx SDA Church" },
   {
     city: "Atlanta, GA",
     date: "2025-04-12",
     venue: "Silverspot Cinema @ The Battery",
     note: "with Revision Church ATL",
   },
-  { city: "Euclid, OH", date: "2025-06-01", venue: "Grace Community SDA Church" },
+  { city: "Cleveland, OH", date: "2025-06-01", venue: "Grace Community SDA Church" },
+  { city: "Tampa, FL" },
   {
     city: "Reno, NV",
     date: "2025-06-07",
     venue: "Riverview SDA Church",
     note: "Nevada-Utah Conference",
   },
+  { city: "Sacramento, CA" },
+  { city: "South Bend, IN" },
 ];
 
 /** Stat bar for instant credibility. */
 export const proofStats: ProofStat[] = [
   { value: "Prime", label: "Feature streaming on Amazon Prime Video" },
-  { value: "9–10", label: "cities on the premiere tour (US & Canada)" },
+  { value: "11", label: "cities on the premiere tour (US & Canada)" },
   { value: "400+", label: "at the sold-out Toronto premiere" },
   { value: "500+", label: "videos produced for brands & businesses" },
 ];

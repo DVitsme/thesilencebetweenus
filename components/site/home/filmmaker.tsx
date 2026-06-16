@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Eyebrow, SectionHeading } from "../primitives";
 
-const CHIPS = ["Former school principal", "Oakwood University", "500+ films produced", "Take 3 Media"];
+const CHIPS = ["Former Principal", "KC Films & Media", "Director", "Take 3 Media"];
 
 export function Filmmaker() {
   return (
@@ -11,8 +11,8 @@ export function Filmmaker() {
         {/* aspect box gives the fill image a real height inside the items-center grid */}
         <div className="border-line relative mx-auto aspect-[4/5] w-full max-w-[260px] overflow-hidden rounded-[4px] border">
           <Image
-            src="/images/happy-kevin.jpg"
-            alt="Kevin Cameron, writer and director"
+            src="/images/kevin-chosen-image.jpg"
+            alt="Kevin Cameron, writer and director, speaking on stage"
             fill
             sizes="260px"
             className="object-cover"
@@ -22,9 +22,9 @@ export function Filmmaker() {
           <Eyebrow>Meet the filmmaker</Eyebrow>
           <SectionHeading className="mb-3.5">This story is in careful hands.</SectionHeading>
           <p className="mb-4 font-serif text-[21px] leading-[1.7]">
-            &ldquo;Before film, I worked in education myself, so these young people are not strangers
-            to me. My last feature is streaming on Amazon Prime today — but no story has mattered to
-            me more than this one.&rdquo;
+            &ldquo;Before becoming a filmmaker, I spent almost two decades in education. Working
+            closely with teenagers gave me a firsthand understanding of the challenges they face, the
+            pressures they carry, and the conversations they often struggle to have.&rdquo;
           </p>
           <div className="mb-5 flex flex-wrap gap-2.5">
             {CHIPS.map((c) => (

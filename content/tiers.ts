@@ -11,6 +11,13 @@ export type Tier = {
   illustrative?: boolean; // TODO(tiers): true = price NOT confirmed by Kevin
 };
 
+/**
+ * Hosted PayPal donate button (Kevin's account) — the alternative to the Stripe /give flow.
+ * ⚠️ PayPal gifts bypass Stripe entirely: no webhook, no Supporters-wall row, no receipt
+ * email, and no credit-name capture. Those are fulfilled manually from the PayPal dashboard.
+ */
+export const PAYPAL_DONATE_URL = "https://www.paypal.com/donate/?hosted_button_id=EKZZN8ES99D4J";
+
 // ⚠️ Only $175 (Supporter) is confirmed. Partner/Patron amounts are ILLUSTRATIVE placeholders.
 export const TIERS: Tier[] = [
   {
@@ -18,7 +25,6 @@ export const TIERS: Tier[] = [
     name: "Supporter",
     amount: 175,
     amountLabel: "$175",
-    popular: true,
     blurb: "On-screen credit · meet & greet · wall listing",
     benefits: [
       { text: `On-screen "Supporter" credit in the film` },
@@ -33,6 +39,7 @@ export const TIERS: Tier[] = [
     name: "Partner",
     amount: 500,
     amountLabel: "$500",
+    popular: true,
     illustrative: true,
     blurb: "Everything in Supporter, plus premiere access",
     benefits: [

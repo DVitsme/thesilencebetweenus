@@ -1,6 +1,6 @@
 export const PROOF_STATS = [
   { big: "Amazon", cap: "A feature of his streaming on Prime today" },
-  { big: "9–10", cap: "Cities on the premiere tour, US & Canada" },
+  { big: "11", cap: "Cities on the premiere tour, US & Canada" },
   { big: "400+", cap: "At the sold-out Toronto premiere" },
   { big: "500+", cap: "Films produced for brands & nonprofits" },
 ];

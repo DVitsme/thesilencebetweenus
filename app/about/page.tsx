@@ -14,13 +14,13 @@ export const metadata: Metadata = {
 const RECORD_STATS = [
   { big: "500+", cap: "Films produced for brands, churches & nonprofits" },
   { big: "400+", cap: "At the sold-out Toronto premiere" },
-  { big: "9–10", cap: "Cities on the premiere tour, US & Canada" },
+  { big: "11", cap: "Cities on the premiere tour, US & Canada" },
   { big: "Amazon", cap: "A feature of his streaming on Prime today" },
 ];
 
 const SIGNATURE_WORK = [
   {
-    title: "For His Name's Sake",
+    title: "For His Name Sake",
     note: "Feature film · premiered Toronto, 2024 · multi-city tour",
     year: "2024",
   },
@@ -116,7 +116,7 @@ export default function AboutPage() {
             his craft on other people&apos;s stories until he knew it was time to tell his own.
           </p>
           <p className="mb-5">
-            His feature <em>For His Name&apos;s Sake</em> was first conceived in Cleveland back in
+            His feature <em>For His Name Sake</em> was first conceived in Cleveland back in
             2013 &mdash; cast, table-read, ready to go. Then the funding fell through, and it sat on a
             shelf for nearly a decade. Most people would have let it die there. In December 2023,
             rather than wait any longer for permission or funding, Kevin and his creative partner Roma

@@ -1,18 +1,10 @@
-import { Eyebrow, SectionHeading, Placeholder } from "../primitives";
+import { Eyebrow, SectionHeading } from "../primitives";
 
-// ⚠️ PLACEHOLDER endorsements. Do NOT attribute invented quotes to real people.
-// Replace with real, attributed endorsements when Kevin provides them. TODO(endorsements).
+// Real video testimonials from Kevin's channel (@KevinCameronFilms), embedded with
+// YouTube's privacy-enhanced player. They are vertical Shorts, hence the 9:16 frames.
 const ITEMS = [
-  {
-    q: "it was a great story line a little plot twist I was like wait a minute have me on the edge of my seat so definitely a watch go and see for his name's sake.",
-    name: "From Movie Screening in Sacramento",
-    role: "Title · organization",
-  },
-  {
-    q: "Okay I was really impressed by quite a few things in the movie it looks very expensive and it is a family friendly movie I hope to see more from you and that be praised.",
-    name: "From Movie Screening in Sacramento",
-    role: "Mental-health partner",
-  },
+  { id: "MK396rY7krY", name: "Dr. Sandra Doran", role: "Educator" },
+  { id: "6KaM1fShcpE", name: "Dr. Astian Ayoola", role: "Psychiatrist" },
 ];
 
 export function Endorsements() {
@@ -20,26 +12,30 @@ export function Endorsements() {
     <section className="py-10 sm:py-[72px]">
       <div className="mx-auto max-w-[1120px] px-[34px]">
         <Eyebrow className="text-center">Early word</Eyebrow>
-        <SectionHeading className="text-center">What people say about Kevin&apos;s Past works.</SectionHeading>
-        <div className="mx-auto mt-8 grid max-w-[980px] grid-cols-1 gap-6 md:grid-cols-2">
-          {ITEMS.map((it, i) => (
-            <figure key={i} className="border-line bg-card-paper rounded-[10px] border p-8">
-              <blockquote className="mb-4.5 font-serif text-[21px] leading-[1.55] italic">
-                &ldquo;{it.q}&rdquo;
-              </blockquote>
-              <figcaption className="flex items-center gap-3.5">
-                <Placeholder label="" className="h-11 w-11 rounded-full" />
-                <div>
-                  <div className="font-serif text-[16px]">{it.name}</div>
-                  <div className="text-muted-warm font-serif text-[14px] italic">{it.role}</div>
-                </div>
+        <SectionHeading className="text-center">
+          What people say about Kevin&apos;s past works.
+        </SectionHeading>
+        <div className="mx-auto mt-9 grid max-w-[720px] grid-cols-1 gap-9 sm:grid-cols-2 sm:gap-6">
+          {ITEMS.map((it) => (
+            <figure key={it.id} className="mx-auto w-full max-w-[320px]">
+              <div className="border-line aspect-[9/16] overflow-hidden rounded-[10px] border bg-black">
+                <iframe
+                  src={`https://www.youtube-nocookie.com/embed/${it.id}`}
+                  title={`${it.name} — video testimonial`}
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  className="size-full"
+                />
+              </div>
+              <figcaption className="mt-3.5 text-center">
+                <div className="font-serif text-[17px]">{it.name}</div>
+                <div className="text-muted-warm font-serif text-[14.5px] italic">{it.role}</div>
               </figcaption>
             </figure>
           ))}
         </div>
-        <p className="text-muted-warm mt-4.5 text-center font-serif text-[15px] italic">
-          Endorsements to be confirmed — placeholders shown.
-        </p>
       </div>
     </section>
   );
