@@ -56,9 +56,9 @@ export function MoreWaysToGive({ className = "" }: { className?: string }) {
               className="h-[88px] w-auto rounded-[12px]"
             />
           </span>
-          <div className="mt-4 font-serif text-[21px]">216&#8209;308&#8209;4427</div>
+          <div className="mt-4 font-serif text-[19px] break-all">kevin@take3mediallc.com</div>
           <p className="text-muted-warm mt-1 font-serif text-[14.5px] leading-[1.5] italic">
-            In your banking app, choose &ldquo;Send with Zelle&rdquo; and use this number
+            In your banking app, choose &ldquo;Send with Zelle&rdquo; and use this email
           </p>
         </div>
       </div>
