@@ -147,16 +147,25 @@ cover planning + Phase 0, the warm-literary retrofit + new-york UI foundation, a
   secrets go in Cloudflare (dashboard / `wrangler secret put`). Env var names: `.env.example`.
 - Build artifacts `.open-next/` and `.wrangler/` are gitignored. Run `pnpm cf-typegen` after changing
   `wrangler.jsonc` bindings.
-- **▶ STAGING DEPLOY — LIVE (2026-06-05):** `https://silence-between-us.derrick-2fd.workers.dev` (Stripe
-  **test** mode). Deploy with **`pnpm run deploy`** (NOT `pnpm deploy` — pnpm's built-in `deploy` shadows
+- **▶ PRODUCTION — LIVE on `https://thesilencebetweenus.film` (custom domain attached to the Worker).**
+  **Stripe is now LIVE mode (flipped 2026-06-20):** `STRIPE_MODE=live`, live keys + a **live** webhook
+  (`we_1TkGtB…` → `…/api/stripe/webhook`, `payment_intent.succeeded` + `charge.refunded`) set as Worker
+  secrets. `/give` serves `pk_live`; **real cards are charged** to Kevin's **KC Films Media** account
+  (`acct_1TjRKn1Q4VOvut35`, verified `charges_enabled`). Test keys + test webhook remain as unused secrets.
+  Roll back if needed: `wrangler secret put STRIPE_MODE` → `test`. Repo pushed to GitHub
+  `DVitsme/thesilencebetweenus` (work on `setup/foundation`). The old workers.dev URL
+  `https://silence-between-us.derrick-2fd.workers.dev` still resolves. Deploy with **`pnpm run deploy`** (NOT `pnpm deploy` — pnpm's built-in `deploy` shadows
   the script). ⚠️ Auth: `.env.local`'s `CLOUDFLARE_API_TOKEN` is under-scoped, wrangler auto-loads it, and
   it shadows OAuth — so it's **commented out**, and wrangler uses the `wrangler login` OAuth (super-admin).
   Re-scope it (Workers Scripts + D1) + un-comment for CI later. Remote **D1** `silence-between-us-db` created
   (`database_id` in `wrangler.jsonc`), schema applied, wall **seeded** (47 `seed:` rows — clear at launch).
-  Worker **secrets set** (test): `STRIPE_MODE=test` + `STRIPE_TEST_{SECRET,PUBLISHABLE}_KEY` + `RESEND_API_KEY`
-  + `CONTACT_{FROM,TO}_EMAIL` + `TURNSTILE_SECRET_KEY`. **Pending for the demo:** set the real Cloudflare
-  Turnstile keys for the domain (dev/staging uses the always-pass test keys); add a Stripe **test** webhook →
-  `…/api/stripe/webhook` (`payment_intent.succeeded` + `charge.refunded`) → set `STRIPE_WEBHOOK_SECRET`.
+  Worker **secrets set**: `STRIPE_MODE=live` + `STRIPE_LIVE_{SECRET,PUBLISHABLE}_KEY` + `STRIPE_LIVE_WEBHOOK_SECRET`
+  + the test equivalents (unused) + `RESEND_API_KEY` + `CONTACT_{FROM,TO}_EMAIL` + `TURNSTILE_SECRET_KEY`
+  (real Cloudflare Turnstile keys, live). ⚠️ **Pre-launch readiness still open:** `CONTACT_FROM_EMAIL` is
+  still the test sender **`hello@digitaldog.io`** (needs a verified take3mediallc.com sender in Resend);
+  confirm `CONTACT_TO_EMAIL` points to Kevin; **Partner $500 / Patron $1,500 prices were "illustrative"**
+  (only $175 confirmed) yet are now live-chargeable — confirm with Kevin; legal pages still show the
+  "Draft for review" banner + Florida governing-law default.
   **Video force-autoplays (2026-06-05):** the deployed no-autoplay was just `prefers-reduced-motion` on the
   test machine — `<BackgroundVideo>`'s reduced-motion gate was **removed** per request, so the muted,
   decorative loop autoplays for everyone (debug logging stripped). The video loads fine (`readyState 3`);
