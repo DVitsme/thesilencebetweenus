@@ -94,15 +94,17 @@ export async function POST(req: Request) {
   }
 
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.CONTACT_FROM_EMAIL; // verified Resend sender (hello@…)
-  // TODO(launch): CONTACT_TO_EMAIL is derrick@digitaldog.io while testing so delivery is
-  // verifiable. Flip it to kevin@take3mediallc.com before go-live (final phase) — set it as
-  // a Cloudflare secret in prod (and in .dev.vars for `pnpm preview`).
+  const fromEmail = process.env.CONTACT_FROM_EMAIL; // verified Resend sender address
+  // TODO(launch): set CONTACT_TO_EMAIL to Kevin's inbox before go-live (currently a test
+  // address) — as a Cloudflare secret in prod (and in .dev.vars for `pnpm preview`).
   const to = process.env.CONTACT_TO_EMAIL;
-  if (!apiKey || !from || !to) {
+  if (!apiKey || !fromEmail || !to) {
     console.error("[contact] missing RESEND_API_KEY / CONTACT_FROM_EMAIL / CONTACT_TO_EMAIL");
     return Response.json({ error: "not_configured" }, { status: 500 });
   }
+  // Named sender ("The Silence Between Us <…>") — matches the webhook emails (lib/email/notify)
+  // and reads as a recognizable brand, which helps inbox placement and trust.
+  const from = `The Silence Between Us <${fromEmail}>`;
 
   const label = INQUIRY_LABELS[inquiry] ?? "General inquiry";
   const name = `${first} ${last}`.trim() || email;
