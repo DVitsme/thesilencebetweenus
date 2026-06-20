@@ -351,7 +351,16 @@ export function GiveForm({
   publishableKey: string;
   initialTier: TierId;
 }) {
-  const stripePromise = useMemo(() => loadStripe(publishableKey), [publishableKey]);
+  const stripePromise = useMemo(
+    () =>
+      // Hide Stripe's test-mode "developer tools" testing assistant (the floating bottom-right
+      // widget). It only renders with test keys, so this is a no-op once we're in live mode.
+      // `developerTools` isn't in the @stripe/stripe-js@9.7 types yet — assert to the options type.
+      loadStripe(publishableKey, {
+        developerTools: { assistant: { enabled: false } },
+      } as Parameters<typeof loadStripe>[1]),
+    [publishableKey],
+  );
 
   const [tier, setTier] = useState<TierId>(initialTier);
   const [customDollars, setCustomDollars] = useState("");
