@@ -66,8 +66,7 @@ export function Tiers() {
         <MoreWaysToGive className="mt-10" />
 
         <p className="text-muted-warm mt-6 text-center font-serif text-[15px] italic">
-          Secure checkout via Stripe or PayPal · administered by KC Films &amp; Media. Partner &amp;
-          Patron pricing illustrative.
+          Secure checkout via Stripe or PayPal · administered by KC Films &amp; Media.
         </p>
       </div>
     </section>

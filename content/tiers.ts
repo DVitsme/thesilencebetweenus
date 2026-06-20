@@ -8,7 +8,6 @@ export type Tier = {
   blurb: string; // one-line description (home tier table + /give tier card)
   benefits: Benefit[]; // order-summary "what you'll receive" list (/give, handoff doc 08)
   popular?: boolean;
-  illustrative?: boolean; // TODO(tiers): true = price NOT confirmed by Kevin
 };
 
 /**
@@ -18,7 +17,7 @@ export type Tier = {
  */
 export const PAYPAL_DONATE_URL = "https://www.paypal.com/donate/?hosted_button_id=EKZZN8ES99D4J";
 
-// ⚠️ Only $175 (Supporter) is confirmed. Partner/Patron amounts are ILLUSTRATIVE placeholders.
+// Tier amounts confirmed by Kevin (2026-06-20). Single source for the home table, /give, and legal.
 export const TIERS: Tier[] = [
   {
     id: "supporter",
@@ -40,7 +39,6 @@ export const TIERS: Tier[] = [
     amount: 500,
     amountLabel: "$500",
     popular: true,
-    illustrative: true,
     blurb: "Everything in Supporter, plus premiere access",
     benefits: [
       { text: "Everything in Supporter, plus —" },
@@ -54,7 +52,6 @@ export const TIERS: Tier[] = [
     name: "Patron",
     amount: 1500,
     amountLabel: "$1,500",
-    illustrative: true,
     blurb: "Everything in Partner, plus a producer credit",
     benefits: [
       { text: "Everything in Partner, plus —" },

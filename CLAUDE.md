@@ -37,8 +37,7 @@ foundation mirrored from `digitaldog-site-starter` (new-york shadcn + Shadcn Stu
   `public/images/payment-qr-codes/` + linked cashtag `cash.app/$kcfilmsmedia` + **Zelle 216-308-4427**)
   mounted under home tiers, /give, and /support/canceled. ⚠️ PayPal/Cash App/Zelle gifts **bypass
   Stripe** — no webhook, wall row, or receipt email; fulfilled manually (footnote asks givers to include
-  name+email). ⚠️ Zelle number is the same one as `TODO(contact-confirm)`; Partner price still flagged
-  illustrative despite the popular badge.
+  name+email). Zelle now shows the email **kevin@take3mediallc.com** (phone number removed site-wide).
   Real imagery now (2026-06-04, all via `next/image`): home film-still **video** (`<BackgroundVideo>`),
   filmmaker portrait (`kevin-chosen-image.jpg`), teacher still (`teacher-at-school.jpg`), the partner-logo wall
   (`content/proof.ts` → `public/images/partners-logos/`, real `<Image>` on light chips; brand logos held back
@@ -46,8 +45,8 @@ foundation mirrored from `digitaldog-site-starter` (new-york shadcn + Shadcn Stu
   **portfolio** (premiere-tour gallery cell). **Endorsements are REAL now (2026-06-12):** two embedded
   YouTube Shorts video testimonials (Dr. Sandra Doran, Educator · Dr. Astian Ayoola, Psychiatrist — both
   from Kevin's channel, privacy-enhanced `youtube-nocookie` player, 9:16 frames) replaced the placeholder
-  quotes + avatars, resolving `TODO(endorsements)` — **no placeholders left site-wide.** Partner/Patron
-  prices stay illustrative (only **$175** confirmed).
+  quotes + avatars, resolving `TODO(endorsements)` — **no placeholders left site-wide.** **All tier amounts
+  confirmed by Kevin (2026-06-20):** $175 / $500 / $1,500 (illustrative flags + UI disclaimers removed).
 - `app/layout.tsx` — real chrome now: `<SiteHeader>` (sticky nav + Support CTA), `<SiteFooter>`
   (**988** line), Newsreader, metadata/OG (`components/site/*`). No longer the scaffold.
 - `/about` (`app/about/page.tsx`) — the designed **About Kevin** page (warm-literary; reuses the home
@@ -111,14 +110,14 @@ email; **Cloudflare Turnstile** on contact (switched off Google reCAPTCHA 2026-0
 movie about a teacher") in a **serious sales register — no spoken catchphrases** ("true to this", "what
 are we waiting for", "yes sir" are for social/video, not the site). Voice source: `docs/persona-kevin-cameron.md`.
 
-**Still needed from Kevin:** full **tier ladder + amounts** (only Tier 1 = **$175** confirmed);
-**release window**; **fundraising goal** (progress bar); verified **Resend sending domain**; faith dial
-(currently crossover); trailer/pitch video.
+**Still needed from Kevin:** **release window**; **fundraising goal** (progress bar, optional); faith dial
+(currently crossover); trailer/pitch video; a real Facebook URL. *(Tier amounts ✅ confirmed 2026-06-20;
+Resend domain ✅ verified; legal review ✅ declined — left as-is.)*
 **Full prioritized list of Kevin-gated decisions:** `docs/decisions-for-kevin.md`.
 
-**Git:** branch **`setup/foundation`** (off `main`; `main` = initial commit only). Committed checkpoints
-cover planning + Phase 0, the warm-literary retrofit + new-york UI foundation, and the `/about` +
-`/portfolio` designed pages. Commit only when asked.
+**Git:** trunk is **`main`** (2026-06-20 — `setup/foundation` was fast-forwarded into `main`, then deleted).
+Pushed to GitHub **`DVitsme/thesilencebetweenus`** (SSH remote; `main` is the default + working branch).
+Commit only when asked.
 
 ## Commands
 
@@ -161,11 +160,12 @@ cover planning + Phase 0, the warm-literary retrofit + new-york UI foundation, a
   (`database_id` in `wrangler.jsonc`), schema applied, wall **seeded** (47 `seed:` rows — clear at launch).
   Worker **secrets set**: `STRIPE_MODE=live` + `STRIPE_LIVE_{SECRET,PUBLISHABLE}_KEY` + `STRIPE_LIVE_WEBHOOK_SECRET`
   + the test equivalents (unused) + `RESEND_API_KEY` + `CONTACT_{FROM,TO}_EMAIL` + `TURNSTILE_SECRET_KEY`
-  (real Cloudflare Turnstile keys, live). ⚠️ **Pre-launch readiness still open:** `CONTACT_FROM_EMAIL` is
-  still the test sender **`hello@digitaldog.io`** (needs a verified take3mediallc.com sender in Resend);
-  confirm `CONTACT_TO_EMAIL` points to Kevin; **Partner $500 / Patron $1,500 prices were "illustrative"**
-  (only $175 confirmed) yet are now live-chargeable — confirm with Kevin; legal pages still show the
-  "Draft for review" banner + Florida governing-law default.
+  (real Cloudflare Turnstile keys, live). **Email (2026-06-20):** `CONTACT_FROM_EMAIL` = `noreply@thesilencebetweenus.film`
+  (domain verified in Resend; deliverability confirmed; contact + webhook emails use a named sender). ⚠️ `CONTACT_TO_EMAIL`
+  is still a test address (`derrick@digitaldog.io`) — swap to Kevin's inbox before active promotion. **Tier prices
+  confirmed by Kevin (2026-06-20):** $175 / $500 / $1,500 (illustrative flags removed). **Legal: Kevin declined a
+  counsel review (2026-06-20) — pages left as-is by his choice; the "Draft for review" banner + Florida default stand.**
+  Remaining open: a real Facebook URL (`#`); the footer/admin "Donations…" wording.
   **Video force-autoplays (2026-06-05):** the deployed no-autoplay was just `prefers-reduced-motion` on the
   test machine — `<BackgroundVideo>`'s reduced-motion gate was **removed** per request, so the muted,
   decorative loop autoplays for everyone (debug logging stripped). The video loads fine (`readyState 3`);

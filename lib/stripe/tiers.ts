@@ -8,8 +8,7 @@ import { TIERS } from "@/content/tiers";
  * safe to import from client code too (no server-only deps) — e.g. the GiveForm
  * reads CURRENCY here.
  *
- * ⚠️ Only $175 (Supporter) is confirmed. Partner/Patron are illustrative until
- * Kevin confirms — see TODO(tiers) in content/tiers.ts.
+ * Tier amounts are confirmed (the single source is content/tiers.ts).
  */
 
 export const CURRENCY = "usd";
