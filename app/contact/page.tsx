@@ -12,8 +12,7 @@ export const metadata: Metadata = {
 const SOCIALS = [
   { label: "Instagram", href: "https://www.instagram.com/kcfilmsmedia" },
   { label: "YouTube", href: "https://www.youtube.com/@KevinCameronFilms" },
-  // TODO(contact-confirm): real Facebook URL — the mockup left socials unlinked.
-  { label: "Facebook", href: "#" },
+  { label: "Facebook", href: "https://www.facebook.com/kcfilmsmedia" },
 ];
 
 function ContactItem({
