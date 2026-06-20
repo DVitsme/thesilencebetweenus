@@ -11,7 +11,7 @@ type Body = {
   last?: string;
   email?: string;
   message?: string;
-  recaptchaToken?: string;
+  turnstileToken?: string;
 };
 
 // Inquiry id -> label for the subject line (mirrors the contact-form chips).
@@ -24,30 +24,32 @@ const INQUIRY_LABELS: Record<string, string> = {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-/** reCAPTCHA v3 token check via Google siteverify. Requires success + score >= 0.5. */
-async function verifyRecaptcha(token: string, secret: string): Promise<boolean> {
+/** Cloudflare Turnstile token check via siteverify. Pass/fail (no score, unlike reCAPTCHA v3). */
+async function verifyTurnstile(token: string, secret: string, remoteip?: string): Promise<boolean> {
   if (!token) return false;
   try {
-    const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+    const form = new URLSearchParams({ secret, response: token });
+    if (remoteip) form.set("remoteip", remoteip);
+    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
       method: "POST",
       headers: { "content-type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ secret, response: token }),
+      body: form,
     });
     const data = (await res.json()) as {
       success?: boolean;
-      score?: number;
       hostname?: string;
+      action?: string;
       "error-codes"?: string[];
     };
-    console.log("[contact] reCAPTCHA verify:", {
+    console.log("[contact] Turnstile verify:", {
       success: data.success,
-      score: data.score,
       hostname: data.hostname,
+      action: data.action,
       errors: data["error-codes"],
     });
-    return Boolean(data.success) && (data.score ?? 0) >= 0.5;
+    return Boolean(data.success);
   } catch (e) {
-    console.error("[contact] reCAPTCHA verify error:", e);
+    console.error("[contact] Turnstile verify error:", e);
     return false;
   }
 }
@@ -77,17 +79,17 @@ export async function POST(req: Request) {
     return Response.json({ error: "message_too_long" }, { status: 400 });
   }
 
-  // reCAPTCHA v3: verify before sending. Strict in production; in dev we log + allow
-  // through so the contact flow stays testable even if localhost isn't registered for
-  // the site key.
-  const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
-  if (recaptchaSecret) {
-    const ok = await verifyRecaptcha((body.recaptchaToken ?? "").trim(), recaptchaSecret);
+  // Cloudflare Turnstile: verify before sending. Strict in production; in dev we log + allow
+  // through so the contact flow stays testable even if the widget/secret isn't fully set up.
+  const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+  if (turnstileSecret) {
+    const remoteip = req.headers.get("CF-Connecting-IP") ?? undefined;
+    const ok = await verifyTurnstile((body.turnstileToken ?? "").trim(), turnstileSecret, remoteip);
     if (!ok) {
       if (process.env.NODE_ENV === "production") {
-        return Response.json({ error: "recaptcha_failed" }, { status: 400 });
+        return Response.json({ error: "turnstile_failed" }, { status: 400 });
       }
-      console.warn("[contact] reCAPTCHA failed — allowing through (dev only)");
+      console.warn("[contact] Turnstile failed — allowing through (dev only)");
     }
   }
 

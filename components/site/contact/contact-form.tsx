@@ -1,33 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Script from "next/script";
 import { Check } from "lucide-react";
 
-// reCAPTCHA v3 site key (public). The matching secret verifies the token in /api/contact.
-const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+// Cloudflare Turnstile site key (public). The matching secret verifies the token in /api/contact.
+// Cloudflare-native CAPTCHA — no Google account needed. Dev test key always passes.
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
+type TurnstileRenderOptions = {
+  sitekey: string;
+  action?: string;
+  theme?: "light" | "dark" | "auto";
+  callback?: (token: string) => void;
+  "expired-callback"?: () => void;
+  "error-callback"?: () => void;
+};
 declare global {
   interface Window {
-    grecaptcha?: {
-      ready: (cb: () => void) => void;
-      execute: (siteKey: string, opts: { action: string }) => Promise<string>;
+    turnstile?: {
+      render: (el: HTMLElement, opts: TurnstileRenderOptions) => string;
+      reset: (widgetId?: string) => void;
+      remove: (widgetId?: string) => void;
     };
-  }
-}
-
-/** Run reCAPTCHA v3 for the "contact" action; returns a token ("" if unavailable). */
-async function getRecaptchaToken(): Promise<string> {
-  const grecaptcha = typeof window !== "undefined" ? window.grecaptcha : undefined;
-  if (!RECAPTCHA_SITE_KEY || !grecaptcha) return "";
-  try {
-    return await new Promise<string>((resolve, reject) => {
-      grecaptcha.ready(() => {
-        grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: "contact" }).then(resolve, reject);
-      });
-    });
-  } catch {
-    return "";
   }
 }
 
@@ -52,6 +47,36 @@ export function ContactForm() {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Turnstile: render the widget once its script is ready and the form is on screen.
+  const [scriptReady, setScriptReady] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState("");
+  const widgetEl = useRef<HTMLDivElement>(null);
+  const widgetId = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!TURNSTILE_SITE_KEY || !scriptReady || sent) return;
+    const el = widgetEl.current;
+    if (!window.turnstile || !el || widgetId.current) return;
+    const id = window.turnstile.render(el, {
+      sitekey: TURNSTILE_SITE_KEY,
+      action: "contact",
+      theme: "light",
+      callback: (t) => setCaptchaToken(t),
+      "expired-callback": () => setCaptchaToken(""),
+      "error-callback": () => setCaptchaToken(""),
+    });
+    widgetId.current = id;
+    // Cleanup lets the widget re-render cleanly after "Send another message" (and under StrictMode).
+    return () => {
+      try {
+        window.turnstile?.remove(id);
+      } catch {
+        /* widget DOM already gone */
+      }
+      widgetId.current = null;
+    };
+  }, [scriptReady, sent]);
+
   function update<K extends keyof typeof form>(key: K, value: string) {
     setForm((f) => ({ ...f, [key]: value }));
   }
@@ -60,6 +85,7 @@ export function ContactForm() {
     setForm({ first: "", last: "", email: "", message: "" });
     setInquiry("general");
     setError(null);
+    setCaptchaToken("");
     setSent(false);
   }
 
@@ -75,14 +101,17 @@ export function ContactForm() {
       setError("That email address doesn't look right. Mind double-checking it?");
       return;
     }
+    if (TURNSTILE_SITE_KEY && !captchaToken) {
+      setError("Please complete the verification just below, then send.");
+      return;
+    }
 
     setSending(true);
     try {
-      const recaptchaToken = await getRecaptchaToken();
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ inquiry, ...form, recaptchaToken }),
+        body: JSON.stringify({ inquiry, ...form, turnstileToken: captchaToken }),
       });
       if (!res.ok) throw new Error("send_failed");
       setSent(true);
@@ -90,6 +119,9 @@ export function ContactForm() {
       setError(
         "Something went wrong sending your message. Please email us directly at kevin@take3mediallc.com.",
       );
+      // The token is single-use — reset the widget so a retry gets a fresh one.
+      if (widgetId.current) window.turnstile?.reset(widgetId.current);
+      setCaptchaToken("");
     } finally {
       setSending(false);
     }
@@ -132,10 +164,11 @@ export function ContactForm() {
 
   return (
     <>
-      {RECAPTCHA_SITE_KEY && (
+      {TURNSTILE_SITE_KEY && (
         <Script
-          src={`https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`}
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
           strategy="afterInteractive"
+          onLoad={() => setScriptReady(true)}
         />
       )}
       <form onSubmit={onSubmit} noValidate>
@@ -215,6 +248,9 @@ export function ContactForm() {
         />
       </div>
 
+      {/* Cloudflare Turnstile widget — renders here once the script loads. */}
+      {TURNSTILE_SITE_KEY && <div ref={widgetEl} className="mb-5" />}
+
       {error && (
         <p role="alert" className="text-destructive mb-4 font-serif text-[15px] italic">
           {error}
@@ -231,27 +267,9 @@ export function ContactForm() {
       <p className="text-muted-warm mt-3.5 font-serif text-[14px] italic">
         We read every note and reply ourselves. Your details are never shared.
       </p>
-      {RECAPTCHA_SITE_KEY && (
-        <p className="text-muted-warm mt-2 font-serif text-[12.5px]">
-          This site is protected by reCAPTCHA and the Google{" "}
-          <a
-            href="https://policies.google.com/privacy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border-muted-warm border-b"
-          >
-            Privacy Policy
-          </a>{" "}
-          and{" "}
-          <a
-            href="https://policies.google.com/terms"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border-muted-warm border-b"
-          >
-            Terms of Service
-          </a>{" "}
-          apply.
+      {TURNSTILE_SITE_KEY && (
+        <p className="text-muted-warm mt-2 font-serif text-[12.5px] italic">
+          Protected by Cloudflare Turnstile.
         </p>
       )}
     </form>
