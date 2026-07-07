@@ -19,4 +19,5 @@ VALUES
   ('founding:0007', 'supporter', 'supporter', 'Angel Jeudin',           'Angel Jeudin',           17500, NULL, '2026-06-16T12:06:00.000Z'),
   ('founding:0008', 'supporter', 'supporter', 'Sandra Doran',           'Sandra Doran',           17500, NULL, '2026-06-16T12:07:00.000Z'),
   ('founding:0009', 'supporter', 'supporter', 'Kymone & Kerine Hinds',  'Kymone & Kerine Hinds',  17500, NULL, '2026-06-16T12:08:00.000Z'),
-  ('founding:0010', 'supporter', 'supporter', 'Richard and Danielle Cameron', 'Richard and Danielle Cameron', 17500, NULL, '2026-06-16T12:09:00.000Z');
+  ('founding:0010', 'supporter', 'supporter', 'Richard and Danielle Cameron', 'Richard and Danielle Cameron', 17500, NULL, '2026-06-16T12:09:00.000Z'),
+  ('founding:0011', 'supporter', 'supporter', 'Myrtle Robinson Kirlew',       'Myrtle Robinson Kirlew',       17500, NULL, '2026-06-16T12:10:00.000Z');
