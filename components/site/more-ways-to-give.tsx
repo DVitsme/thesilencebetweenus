@@ -5,7 +5,7 @@ import Image from "next/image";
  * checkout. These gifts arrive with no email or credit name attached, so the footnote
  * asks givers to include them; fulfillment is manual, like PayPal.
  * Assets live in public/images/payment-qr-codes/ (the QR tile is cropped from Kevin's
- * Cash App share card; the Zelle number is the original KC Films Zelle line).
+ * Cash App share card; the Zelle email is Kevin's KC Films address).
  */
 export function MoreWaysToGive({ className = "" }: { className?: string }) {
   return (
@@ -56,7 +56,7 @@ export function MoreWaysToGive({ className = "" }: { className?: string }) {
               className="h-[88px] w-auto rounded-[12px]"
             />
           </span>
-          <div className="mt-4 font-serif text-[19px] break-all">kevin@take3mediallc.com</div>
+          <div className="mt-4 font-serif text-[19px] break-all">kevin@kcfilmsmedia.com</div>
           <p className="text-muted-warm mt-1 font-serif text-[14.5px] leading-[1.5] italic">
             In your banking app, choose &ldquo;Send with Zelle&rdquo; and use this email
           </p>

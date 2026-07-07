@@ -95,8 +95,7 @@ export async function POST(req: Request) {
 
   const apiKey = process.env.RESEND_API_KEY;
   const fromEmail = process.env.CONTACT_FROM_EMAIL; // verified Resend sender address
-  // TODO(launch): set CONTACT_TO_EMAIL to Kevin's inbox before go-live (currently a test
-  // address) — as a Cloudflare secret in prod (and in .dev.vars for `pnpm preview`).
+  // CONTACT_TO_EMAIL is Kevin's inbox (kevin@kcfilmsmedia.com), set as a Cloudflare Worker secret.
   const to = process.env.CONTACT_TO_EMAIL;
   if (!apiKey || !fromEmail || !to) {
     console.error("[contact] missing RESEND_API_KEY / CONTACT_FROM_EMAIL / CONTACT_TO_EMAIL");
