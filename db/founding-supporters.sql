@@ -10,8 +10,8 @@
 INSERT OR IGNORE INTO supporters
   (stripe_payment_intent, display_tier, tier_id, credit_name, supporter_name, amount_cents, email, created_at)
 VALUES
-  ('founding:0001', 'partner',   'partner',   'Tanya Lea',              'Tanya Lea',              50000, NULL, '2026-06-16T12:00:00.000Z'),
-  ('founding:0002', 'supporter', 'supporter', 'Melanie Kinard',         'Melanie Kinard',         17500, NULL, '2026-06-16T12:01:00.000Z'),
+  ('founding:0001', 'partner',   'partner',   'Dr. Tanya Lea',             'Dr. Tanya Lea',             50000, NULL, '2026-06-16T12:00:00.000Z'),
+  ('founding:0002', 'supporter', 'supporter', 'Melanie and Kieron Kinard', 'Melanie and Kieron Kinard', 17500, NULL, '2026-06-16T12:01:00.000Z'),
   ('founding:0003', 'supporter', 'supporter', 'Harvey Robinson',        'Harvey Robinson',        17500, NULL, '2026-06-16T12:02:00.000Z'),
   ('founding:0004', 'supporter', 'supporter', 'Kira Somerville',        'Kira Somerville',        17500, NULL, '2026-06-16T12:03:00.000Z'),
   ('founding:0005', 'supporter', 'supporter', 'Heather McKenzie',       'Heather McKenzie',       17500, NULL, '2026-06-16T12:04:00.000Z'),
