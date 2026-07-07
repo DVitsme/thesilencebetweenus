@@ -145,7 +145,7 @@ export default function AboutPage() {
             Why you can trust the work
           </span>
           <h2 className="mx-auto mb-9 max-w-[620px] text-center font-serif text-[clamp(1.9rem,4vw,2.125rem)] leading-[1.12] tracking-[-0.3px] text-white">
-            This isn&apos;t a first-timer with a dream and a camera.
+            A track record of meaningful storytelling
           </h2>
 
           <div className="mx-auto mb-11 grid max-w-[840px] grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4">
