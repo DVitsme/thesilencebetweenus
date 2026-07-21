@@ -5,6 +5,7 @@ export function FilmStill() {
     <div className="border-line relative aspect-[2263/1080] overflow-hidden border-y lg:aspect-auto lg:h-[440px]">
       <BackgroundVideo
         src="/videos/Kid-With-Basketball-24.mp4"
+        poster="/images/thumbnail.png"
         priority
         className="absolute inset-0"
       />
