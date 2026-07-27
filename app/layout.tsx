@@ -26,6 +26,9 @@ export const metadata: Metadata = {
     siteName: "The Silence Between Us",
     title: "The Silence Between Us",
     description: "Some battles a teenager fights are completely silent. Help tell this story.",
+    // og:image / twitter:image come from the app/opengraph-image.jpg + app/twitter-image.jpg file
+    // conventions (Next auto-emits url/type/width/height). Those files take precedence over an
+    // `images` array declared here, so don't add one — it would be silently ignored.
   },
 };
 

@@ -82,7 +82,14 @@ boundary, v16 `unstable_retry`, "card was not charged" reassurance + `error.dige
 `app/global-error.tsx` (root-layout fallback; own `<html>`/`<body>`, Georgia serif fallback since the
 layout font is gone). **Phase 4 hardening is underway:** SEO (`app/sitemap.ts` + `app/robots.ts` +
 `metadataBase`, all env-driven via `lib/site.ts` `SITE_URL` from `NEXT_PUBLIC_SITE_URL`) ✅ and the FAQ
-rework ✅ are done; remaining = a default/OG image + an a11y/Lighthouse pass. **Site domain settled
+rework ✅ are done; the **default OG/share image ✅** (2026-07-27) — `app/opengraph-image.jpg` +
+`app/twitter-image.jpg` (1200x630 JPEG, ~86KB, center-cropped from `public/images/thumbnail.png`, the
+same still used as the home video poster). Before this there was **no `og:image` at all**, so iMessage and
+other scrapers fell back to grabbing the **Prime Video wordmark** off the now-streaming band. Next's file
+convention auto-emits url/type/width/height and upgrades `twitter:card` to `summary_large_image`;
+⚠️ these files **take precedence over an `openGraph.images` array in `app/layout.tsx`** (a declared array is
+silently ignored), and `opengraph-image.alt.txt` is a **no-op under Turbopack** (webpack-loader only), so
+there is no `og:image:alt`. Remaining = an a11y/Lighthouse pass. **Site domain settled
 (2026-06-19): `thesilencebetweenus.film`.** `NEXT_PUBLIC_SITE_URL` is now unset, so `lib/site.ts`
 uses its `FALLBACK = https://thesilencebetweenus.film` — the live deploy's sitemap/robots/canonical
 all confirm it. (Email is a **separate** domain: `kevin@take3mediallc.com` via Resend; `CONTACT_FROM_EMAIL`
