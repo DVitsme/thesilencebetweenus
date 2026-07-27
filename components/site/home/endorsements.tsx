@@ -13,7 +13,7 @@ export function Endorsements() {
       <div className="mx-auto max-w-[1120px] px-[34px]">
         <Eyebrow className="text-center">Early word</Eyebrow>
         <SectionHeading className="text-center">
-          What people say about Kevin&apos;s past works.
+          Why This Film Needs to Be Made: What the Professionals are Saying.
         </SectionHeading>
         <div className="mx-auto mt-9 grid max-w-[720px] grid-cols-1 gap-9 sm:grid-cols-2 sm:gap-6">
           {ITEMS.map((it) => (
