@@ -89,7 +89,31 @@ other scrapers fell back to grabbing the **Prime Video wordmark** off the now-st
 convention auto-emits url/type/width/height and upgrades `twitter:card` to `summary_large_image`;
 ⚠️ these files **take precedence over an `openGraph.images` array in `app/layout.tsx`** (a declared array is
 silently ignored), and `opengraph-image.alt.txt` is a **no-op under Turbopack** (webpack-loader only), so
-there is no `og:image:alt`. Remaining = an a11y/Lighthouse pass. **Site domain settled
+there is no `og:image:alt`. Remaining = an a11y/Lighthouse pass.
+
+**Contact/Turnstile hardening + email fixes (2026-08-06, all deployed & verified in prod):** an audit of
+the *already working* Turnstile integration (site key `0x4AAAAAADn6Q7YAAOL1Sb5f`, unchanged) closed three
+gaps in `app/api/contact/route.ts`: (1) **hostname binding** — siteverify reports the hostname that solved
+the challenge and it was logged but never checked; prod now requires `thesilencebetweenus.film` / `www.`,
+derived from `SITE_URL`. This is **load-bearing** because the widget's domain list now also allows
+`localhost` + `127.0.0.1` (added via the Turnstile dashboard) and the sitekey is public, so without the
+check anyone could solve on a local page and replay the token. (2) **fail closed on a missing secret** —
+the gate was `if (turnstileSecret)`, so an unset secret silently skipped verification; prod now 500s.
+(3) fail closed on a non-2xx from siteverify. Validate the secret any time with the canonical dummy-token
+probe: POST `secret` + `response=XXXX.DUMMY.TOKEN.XXXX` to siteverify — **`invalid-input-response` means the
+secret is VALID**; `invalid-input-secret` means it is wrong. A live 400 alone cannot tell the two apart, so
+read the real code from `npx wrangler tail` (the route logs `[contact] Turnstile verify:`).
+**Three contact auto-reply defects fixed** the same day: ⚠️ **react-email's renderer drops plain whitespace
+between a closing tag and the next text node** — `</strong> message` shipped as `interestmessage`; use an
+explicit `{" "}`. It escaped QA because the preview fixture carried a trailing space production never sends,
+so the dev preview looked right while real mail was broken — **preview fixtures must match production data
+exactly** (`emails/contact-autoreply.tsx` PreviewProps ↔ `INQUIRY_LABELS`). Also: `EmailShell` gained an
+optional `transactionalNote` prop (default = the contribution wording, correct only for receipts) because
+the footer told contact-form senders they had donated; and the auto-reply now sets `replyTo` to the public
+`kevin@take3mediallc.com` (**not** `CONTACT_TO_EMAIL`, so a temporary inbox override never leaks into reply
+routing) — it previously sent from `noreply@` with no reply-to, so replies vanished.
+⚠️ **DMARC is `v=DMARC1; p=none;` with no `rua=`** — enforcing nothing, collecting nothing. SPF + both DKIM
+signatures already pass, so stepping to `quarantine`/`reject` should not cost deliverability. Open item. **Site domain settled
 (2026-06-19): `thesilencebetweenus.film`.** `NEXT_PUBLIC_SITE_URL` is now unset, so `lib/site.ts`
 uses its `FALLBACK = https://thesilencebetweenus.film` — the live deploy's sitemap/robots/canonical
 all confirm it. (Email is a **separate** domain: `kevin@take3mediallc.com` via Resend; `CONTACT_FROM_EMAIL`
@@ -105,7 +129,7 @@ test-verified = `lib/stripe/{server,tiers}.ts` (lazy client + Fetch httpClient f
 reads the publishable key via `connection()`; per-tier benefits live in `content/tiers.ts`). **`SupportButton`
 links to `/give?tier=` site-wide** (#6 — the `/#support`/`/api/checkout` interims are retired), and **`/thank-you`
 renders the real PaymentIntent receipt** (#7 — read-only retrieve: tier + amount + ref; falls back gracefully).
-**#8 end-to-end ✅ verified 2026-06-04** (dev + workerd): `/give`→PI→`/thank-you` receipt; webhook→`recordSupporter` via `stripe listen` (all `[200]`); Stripe create/retrieve + amount-validation on the CF runtime; `pnpm build`+`pnpm preview` pass; `4000…0002` decline → **402** inline error, no redirect (runbook `docs/stripe-test-runbook.md`). **#12 supporters D1 ✅** (`DB` binding + `lib/db/supporters.ts`; webhook persists; `/supporters` reads D1, `force-dynamic`; v1 seed `db/seed-supporters.sql`; verified read-on-workerd + write-on-dev 2026-06-04; remote D1 `wrangler d1 create` = `TODO(d1)`). **Email program ✅** — 6 email-safe React Email templates (`emails/*` + `emails/components/shell.tsx`, claude.ai-designed, QA-approved), dev preview route `/api/dev/email-preview` + `docs/email-qa-runbook.md`. **#1 ✅** payment-confirmation emails wired into the webhook (`lib/email/notify.tsx` → supporter-confirmation + internal-new-contribution, best-effort). **#2 ✅** `/api/contact` auto-reply + **Cloudflare Turnstile** (`challenges.cloudflare.com/turnstile/v0/siteverify`; **switched from Google reCAPTCHA 2026-06-19** — client `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + secret `TURNSTILE_SECRET_KEY`; dev uses Turnstile **test keys** that always pass, real keys from Cloudflare → Turnstile; pass/fail, no score; dev still falls through if unset). **Next work = the ordered table in `docs/build-plan.md` ("Recommended order — Phase 2 + 3") → #6 broadcasts** (`production-update` + `trailer-first-look` via Resend Broadcasts; gated on Kevin's mailing address + a verified marketing subdomain). (**#3 ✅** `/support/canceled`, **#4 ✅** refund email (full refunds only; ⚠️ prod endpoint must enable `charge.refunded`), **#5 ✅** legal trio — all built 2026-06-04. #5 = shared `components/site/legal/legal-layout.tsx` (+ `legal.module.css`) + 3 static pages; "Draft for review" banner; $175 benefits from `content/tiers.ts`; em-dashes scrubbed; ⚠️ governing law defaulted **Florida**, `TODO(legal-confirm)`.) Local test workflow: see the `local-dev-test-loop` memory. ⚠️ test webhook secret env is `STRIPE_WEBHOOK_SECRET` (no
+**#8 end-to-end ✅ verified 2026-06-04** (dev + workerd): `/give`→PI→`/thank-you` receipt; webhook→`recordSupporter` via `stripe listen` (all `[200]`); Stripe create/retrieve + amount-validation on the CF runtime; `pnpm build`+`pnpm preview` pass; `4000…0002` decline → **402** inline error, no redirect (runbook `docs/stripe-test-runbook.md`). **#12 supporters D1 ✅** (`DB` binding + `lib/db/supporters.ts`; webhook persists; `/supporters` reads D1, `force-dynamic`; v1 seed `db/seed-supporters.sql`; verified read-on-workerd + write-on-dev 2026-06-04; remote D1 `wrangler d1 create` = `TODO(d1)`). **Email program ✅** — 6 email-safe React Email templates (`emails/*` + `emails/components/shell.tsx`, claude.ai-designed, QA-approved), dev preview route `/api/dev/email-preview` + `docs/email-qa-runbook.md`. **#1 ✅** payment-confirmation emails wired into the webhook (`lib/email/notify.tsx` → supporter-confirmation + internal-new-contribution, best-effort). **#2 ✅** `/api/contact` auto-reply + **Cloudflare Turnstile** (`challenges.cloudflare.com/turnstile/v0/siteverify`; **switched from Google reCAPTCHA 2026-06-19** — client `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + secret `TURNSTILE_SECRET` (**renamed from `TURNSTILE_SECRET_KEY` 2026-08-06**; old Worker secret deleted); dev uses Turnstile **test keys** that always pass, real keys from Cloudflare → Turnstile; pass/fail, no score; dev still falls through if unset). **Next work = the ordered table in `docs/build-plan.md` ("Recommended order — Phase 2 + 3") → #6 broadcasts** (`production-update` + `trailer-first-look` via Resend Broadcasts; gated on Kevin's mailing address + a verified marketing subdomain). (**#3 ✅** `/support/canceled`, **#4 ✅** refund email (full refunds only; ⚠️ prod endpoint must enable `charge.refunded`), **#5 ✅** legal trio — all built 2026-06-04. #5 = shared `components/site/legal/legal-layout.tsx` (+ `legal.module.css`) + 3 static pages; "Draft for review" banner; $175 benefits from `content/tiers.ts`; em-dashes scrubbed; ⚠️ governing law defaulted **Florida**, `TODO(legal-confirm)`.) Local test workflow: see the `local-dev-test-loop` memory. ⚠️ test webhook secret env is `STRIPE_WEBHOOK_SECRET` (no
 `_TEST_`); live is `STRIPE_LIVE_WEBHOOK_SECRET`.
 **Design system** (warm-literary): `The-Silence-Between-Us/handoff/01-DESIGN-SYSTEM.md`.
 
@@ -166,7 +190,7 @@ Commit only when asked.
   Re-scope it (Workers Scripts + D1) + un-comment for CI later. Remote **D1** `silence-between-us-db` created
   (`database_id` in `wrangler.jsonc`), schema applied, wall **seeded** (47 `seed:` rows — clear at launch).
   Worker **secrets set**: `STRIPE_MODE=live` + `STRIPE_LIVE_{SECRET,PUBLISHABLE}_KEY` + `STRIPE_LIVE_WEBHOOK_SECRET`
-  + the test equivalents (unused) + `RESEND_API_KEY` + `CONTACT_{FROM,TO}_EMAIL` + `TURNSTILE_SECRET_KEY`
+  + the test equivalents (unused) + `RESEND_API_KEY` + `CONTACT_{FROM,TO}_EMAIL` + `TURNSTILE_SECRET`
   (real Cloudflare Turnstile keys, live). **Email (2026-06-20):** `CONTACT_FROM_EMAIL` = `noreply@thesilencebetweenus.film`
   (domain verified in Resend; deliverability confirmed; contact + webhook emails use a named sender). **`CONTACT_TO_EMAIL`
   is now `kevin@kcfilmsmedia.com`** (2026-07-07); the Zelle line uses kcfilmsmedia too; the displayed/reply email stays `kevin@take3mediallc.com`. **Tier prices
