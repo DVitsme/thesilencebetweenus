@@ -115,16 +115,16 @@ export async function POST(req: Request) {
 
   // Cloudflare Turnstile: verify before sending. Strict in production; in dev we log + allow
   // through so the contact flow stays testable even if the widget/secret isn't fully set up.
-  const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+  const turnstileSecret = process.env.TURNSTILE_SECRET;
   const isProd = process.env.NODE_ENV === "production";
   if (!turnstileSecret) {
     // Fail closed. A missing secret in production used to skip verification entirely, which
     // silently dropped all bot protection on a live form. Refuse instead of accepting unverified mail.
     if (isProd) {
-      console.error("[contact] TURNSTILE_SECRET_KEY is not set — refusing unverified submissions");
+      console.error("[contact] TURNSTILE_SECRET is not set — refusing unverified submissions");
       return Response.json({ error: "not_configured" }, { status: 500 });
     }
-    console.warn("[contact] TURNSTILE_SECRET_KEY unset — skipping verification (dev only)");
+    console.warn("[contact] TURNSTILE_SECRET unset — skipping verification (dev only)");
   } else {
     const remoteip = req.headers.get("CF-Connecting-IP") ?? undefined;
     const ok = await verifyTurnstile((body.turnstileToken ?? "").trim(), turnstileSecret, remoteip);
