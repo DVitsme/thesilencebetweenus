@@ -25,6 +25,9 @@ const INQUIRY_LABELS: Record<string, string> = {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+/** The address shown to the public and used for replies. Separate from CONTACT_TO_EMAIL (delivery). */
+const PUBLIC_CONTACT_EMAIL = "kevin@take3mediallc.com";
+
 /**
  * Hostnames a Turnstile token may legitimately have been solved on.
  *
@@ -168,12 +171,16 @@ export async function POST(req: Request) {
     const autoReplyProps = {
       firstName: first,
       inquiryLabel: label,
-      contactEmail: "kevin@take3mediallc.com",
+      contactEmail: PUBLIC_CONTACT_EMAIL,
       messageQuote: message,
     };
     await resend.emails.send({
       from,
       to: email,
+      // Without this, replies go to the noreply@ sender and vanish, while the body promises a real
+      // person will write back. Point them at the same public address the body advertises, NOT at
+      // CONTACT_TO_EMAIL, so a temporary override of the delivery inbox never leaks into reply routing.
+      replyTo: PUBLIC_CONTACT_EMAIL,
       subject: autoReplySubject(autoReplyProps),
       react: createElement(ContactAutoReply, autoReplyProps),
     });

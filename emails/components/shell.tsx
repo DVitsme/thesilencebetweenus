@@ -21,13 +21,27 @@ type ShellProps = {
   /** Broadcast emails pass these → renders unsubscribe (else a transactional note). */
   unsubscribeUrl?: string;
   mailingAddress?: string;
+  /**
+   * Why this email landed in the recipient's inbox. Defaults to the contribution wording, which is
+   * only true for the receipt emails. Anything sent to a non-contributor (the contact auto-reply,
+   * the internal team alert) must override it rather than tell a stranger they donated.
+   */
+  transactionalNote?: string;
   /** Dark variant for the cinematic trailer email. */
   variant?: "light" | "dark";
   /** Optional second line under the wordmark (e.g. broadcast "Dispatch No. 02 · from production"). */
   mastheadSubline?: string;
 };
 
-export function EmailShell({ preview, children, unsubscribeUrl, mailingAddress, variant = "light", mastheadSubline }: ShellProps) {
+export function EmailShell({
+  preview,
+  children,
+  unsubscribeUrl,
+  mailingAddress,
+  variant = "light",
+  mastheadSubline,
+  transactionalNote = "You're receiving this because you contributed to The Silence Between Us. This is a one-time transactional confirmation.",
+}: ShellProps) {
   const onDarkBg = variant === "dark";
   const year = new Date().getFullYear();
   const tiny = { margin: "0 0 10px", fontFamily: SERIF, fontSize: 12, fontStyle: "italic" as const, color: "#6f6a5c" };
@@ -74,9 +88,7 @@ export function EmailShell({ preview, children, unsubscribeUrl, mailingAddress, 
                 <Link href={unsubscribeUrl} style={{ color: "#a59d8c" }}>Unsubscribe</Link>
               </Text>
             ) : (
-              <Text style={tiny}>
-                You&apos;re receiving this because you contributed to The Silence Between Us. This is a one-time transactional confirmation.
-              </Text>
+              <Text style={tiny}>{transactionalNote}</Text>
             )}
             <Text style={{ margin: 0, fontFamily: SERIF, fontSize: 12, fontStyle: "italic", lineHeight: 1.5, color: "#6f6a5c" }}>
               {mailingAddress ? `${mailingAddress} · ` : ""}© {year} Take 3 Media

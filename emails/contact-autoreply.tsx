@@ -15,7 +15,10 @@ const para = { margin: "0 0 16px", fontFamily: SERIF, fontSize: 18, lineHeight: 
 
 export default function ContactAutoReply(p: ContactAutoReplyProps) {
   return (
-    <EmailShell preview={`Thanks, ${p.firstName}. We read every note and reply personally.`}>
+    <EmailShell
+      preview={`Thanks, ${p.firstName}. We read every note and reply personally.`}
+      transactionalNote="You're receiving this because you sent a message through thesilencebetweenus.film. This is a one-time reply."
+    >
       {/* hero */}
       <Section style={{ padding: "46px 48px 8px" }}>
         <Text style={eyebrow}>Your message is in good hands</Text>
@@ -27,7 +30,9 @@ export default function ContactAutoReply(p: ContactAutoReplyProps) {
       {/* body */}
       <Section style={{ padding: "18px 48px 6px" }}>
         <Text style={para}>
-          {" "}Your <strong style={{ fontWeight: 500 }}>{p.inquiryLabel}</strong> message reached us, and we don&apos;t take that lightly. We&apos;re a small team, and we read every note ourselves, so this isn&apos;t an automated dead end. A real person will write you back, usually within a few days.
+          {/* The space after </strong> must be an explicit {" "} expression: react-email's renderer
+              drops plain whitespace sitting between a closing tag and the next text node. */}
+          {" "}Your <strong style={{ fontWeight: 500 }}>{p.inquiryLabel}</strong>{" "}message reached us, and we don&apos;t take that lightly. We&apos;re a small team, and we read every note ourselves, so this isn&apos;t an automated dead end. A real person will write you back, usually within a few days.
         </Text>
         <Text style={{ ...para, margin: 0 }}>
           If it&apos;s time sensitive, you can reach us directly at{" "}
@@ -64,7 +69,9 @@ export default function ContactAutoReply(p: ContactAutoReplyProps) {
 
 ContactAutoReply.PreviewProps = {
   firstName: "Derrick",
-  inquiryLabel: "Partner / Patron interest ",
+  // Must match INQUIRY_LABELS in app/api/contact/route.ts exactly. A trailing space here once
+  // masked a missing-space bug in the body copy, so the preview looked right while real mail was not.
+  inquiryLabel: "Partner / Patron interest",
   contactEmail: "kevin@take3mediallc.com",
   messageQuote:
     "Hi, I'd love to learn more about becoming a Patron and what the producer credit involves. Could we set up a quick call?",
