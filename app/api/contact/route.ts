@@ -1,6 +1,7 @@
 import { createElement } from "react";
 import { Resend } from "resend";
 import ContactAutoReply, { subject as autoReplySubject } from "@/emails/contact-autoreply";
+import { SITE_URL } from "@/lib/site";
 
 // Resend SDK + reading secrets need the server runtime (workerd + nodejs_compat).
 export const runtime = "nodejs";
@@ -24,6 +25,22 @@ const INQUIRY_LABELS: Record<string, string> = {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+/**
+ * Hostnames a Turnstile token may legitimately have been solved on.
+ *
+ * siteverify reports the hostname of the page that solved the challenge. The widget's domain list
+ * also allows localhost/127.0.0.1 so local dev can exercise real verification — which means
+ * production must reject tokens minted there. The sitekey is public, so without this check anyone
+ * could serve a page on their own localhost, solve the challenge, and replay the token against
+ * production. Derived from SITE_URL so it follows the domain instead of drifting from it.
+ */
+const PROD_HOSTNAMES: ReadonlySet<string> = (() => {
+  const host = new URL(SITE_URL).hostname;
+  const bare = host.startsWith("www.") ? host.slice(4) : host;
+  return new Set([bare, `www.${bare}`]);
+})();
+const DEV_HOSTNAMES: ReadonlySet<string> = new Set(["localhost", "127.0.0.1"]);
+
 /** Cloudflare Turnstile token check via siteverify. Pass/fail (no score, unlike reCAPTCHA v3). */
 async function verifyTurnstile(token: string, secret: string, remoteip?: string): Promise<boolean> {
   if (!token) return false;
@@ -35,6 +52,9 @@ async function verifyTurnstile(token: string, secret: string, remoteip?: string)
       headers: { "content-type": "application/x-www-form-urlencoded" },
       body: form,
     });
+    // Non-2xx means we never got a verdict. Throw into the catch below so we fail closed
+    // rather than reading `success` off an error body (which would be undefined anyway).
+    if (!res.ok) throw new Error(`siteverify ${res.status}`);
     const data = (await res.json()) as {
       success?: boolean;
       hostname?: string;
@@ -47,7 +67,18 @@ async function verifyTurnstile(token: string, secret: string, remoteip?: string)
       action: data.action,
       errors: data["error-codes"],
     });
-    return Boolean(data.success);
+    if (!data.success) return false;
+
+    // Bind the token to a hostname we actually serve. In dev the localhost pair is allowed too.
+    const allowed =
+      process.env.NODE_ENV === "production"
+        ? PROD_HOSTNAMES
+        : new Set([...PROD_HOSTNAMES, ...DEV_HOSTNAMES]);
+    if (!data.hostname || !allowed.has(data.hostname)) {
+      console.warn("[contact] Turnstile hostname rejected:", data.hostname);
+      return false;
+    }
+    return true;
   } catch (e) {
     console.error("[contact] Turnstile verify error:", e);
     return false;
@@ -82,11 +113,20 @@ export async function POST(req: Request) {
   // Cloudflare Turnstile: verify before sending. Strict in production; in dev we log + allow
   // through so the contact flow stays testable even if the widget/secret isn't fully set up.
   const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
-  if (turnstileSecret) {
+  const isProd = process.env.NODE_ENV === "production";
+  if (!turnstileSecret) {
+    // Fail closed. A missing secret in production used to skip verification entirely, which
+    // silently dropped all bot protection on a live form. Refuse instead of accepting unverified mail.
+    if (isProd) {
+      console.error("[contact] TURNSTILE_SECRET_KEY is not set — refusing unverified submissions");
+      return Response.json({ error: "not_configured" }, { status: 500 });
+    }
+    console.warn("[contact] TURNSTILE_SECRET_KEY unset — skipping verification (dev only)");
+  } else {
     const remoteip = req.headers.get("CF-Connecting-IP") ?? undefined;
     const ok = await verifyTurnstile((body.turnstileToken ?? "").trim(), turnstileSecret, remoteip);
     if (!ok) {
-      if (process.env.NODE_ENV === "production") {
+      if (isProd) {
         return Response.json({ error: "turnstile_failed" }, { status: 400 });
       }
       console.warn("[contact] Turnstile failed — allowing through (dev only)");
